@@ -1,0 +1,42 @@
+# ═══════════════════════════════════════════════════════════════
+#  EXORISERVICE · NIGHTBOT — SCRIPT DE COMANDOS (v4)
+#  Comandos oficiais do canal: APENAS estes 8
+#  !service · !coins · !intermedio · !wpp · !horario · !regras · !setup · !site
+# ═══════════════════════════════════════════════════════════════
+#  Como usar: cole as linhas abaixo, UMA POR UNE, no chat da sua
+#  live (logado como exoriservice). O Nightbot confirma cada uma.
+#
+#  ⚠️ SE JÁ CRIOU VERSÕES ANTERIORES, use as linhas de limpeza no
+#  fim do arquivo para remover comandos antigos/duplicados.
+# ═══════════════════════════════════════════════════════════════
+
+!commands add !service ⚔️ SERVICES NO RUBINOT: leveling · quests · hunts · boss · intermediação de trades 💰 Rubini Coins: 1k = R$ 90,00 📝 Quer contratar ou cadastrar seu personagem? Escreva aqui no chat que eu te chamo!
+
+!commands add !coins 💰 RUBINI COINS: 1k = R$ 90,00 — entrega rápida e segura 📝 Para comprar: chama no chat ou use !wpp
+
+!commands add !intermedio 🤝 INTERMÉDIO de itens no RubinOT: rapidez, segurança e preço justo 📝 Para contratar: chama no chat ou use !wpp
+
+!commands add !wpp 💬 Fale direto comigo no WhatsApp: https://wa.me/55[DDD+NUMERO]?text=Oi!%20Vi%20na%20live%20do%20exoriservice%20e%20quero%20negociar
+
+!commands add !horario 📅 Agenda das lives: SEG a SÁB das 08h às 22h · domingo é folga ⏰ Ativa as notificações pra não perder!
+
+!commands add !regras 📜 Regras do chat: 1️⃣ Respeito sempre 2️⃣ Sem spam e sem divulgação 3️⃣ Sem toxicidade 4️⃣ Links só com permissão 5️⃣ Bom senso acima de tudo ✅
+
+!commands add !setup 🖥️ Setup do stream: [PREENCHER — envie a lista do seu PC/periféricos]
+
+!commands add !site 🖥️ Site oficial: [LINK EM BREVE]
+
+# ═══════════════════════════════════════════════════════════════
+#  LIMPEZA (se tiver criado versões antigas):
+#  !commands delete !discord
+#  !commands delete !instagram
+#  !commands delete !social
+#  !commands delete !apoiar
+#  !commands delete !jogo
+#  !commands delete !vods
+#
+#  EDIÇÃO FUTURA:
+#  !commands edit !wpp 💬 WhatsApp: https://wa.me/5531999999999?text=Oi!%20Vi%20na%20live%20do%20exoriservice%20e%20quero%20negociar
+#  !commands edit !coins 💰 RUBINI COINS: 1k = R$ 85,00 — ... (novos preços aqui)
+#  !commands edit !site 🖥️ Site oficial: https://seusite.com
+# ═══════════════════════════════════════════════════════════════

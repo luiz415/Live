@@ -1,0 +1,2026 @@
+{
+  "__NOTE__": "Gerarado pelo projeto exoriservice — remover esta linha ao importar não é necessário",
+  "ActiveDuplicateSources": false,
+  "DuplicateSources": false,
+  "name": "EXORISERVICE",
+  "current_scene": "01 · STARTING",
+  "current_program_scene": "01 · STARTING",
+  "scene_order": [
+    "01 · STARTING",
+    "02 · GAMEPLAY",
+    "03 · JUST CHATTING",
+    "04 · BRB",
+    "05 · ENCERRAMENTO",
+    "06 · TELA"
+  ],
+  "current_transition": "⚡ STINGER EXORI",
+  "transitions": [
+    {
+      "name": "Corte",
+      "duration": 300
+    },
+    {
+      "name": "Fade",
+      "duration": 300
+    },
+    {
+      "name": "⚡ STINGER EXORI",
+      "duration": 500,
+      "id": "stinger_transition",
+      "settings": {
+        "transition_point_type": 0,
+        "transition_point": 50,
+        "media_file": "C:/twitch/exoriservice/assets/stinger/stinger-transicao.webm",
+        "looping": false,
+        "switch_point": 50,
+        "audio_fade_style": 0,
+        "video_fade_style": 0,
+        "hw_decode": true
+      }
+    }
+  ],
+  "sources": [
+    {
+      "prev_ver": 503316480,
+      "name": "💤 TELAS · Starting Soon",
+      "uuid": "04d4c9ac-dc47-4434-be71-64f5831b9cf3",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": true,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/assets/telas/starting-soon.html?t=10"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "⏸ TELAS · BRB",
+      "uuid": "b73c12bd-6dd8-44b1-b963-eb1954ab741b",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": true,
+        "local_file": "C:/twitch/exoriservice/assets/telas/brb.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🏁 TELAS · Encerramento",
+      "uuid": "5b91e91e-9065-42f6-a4a7-7e978f1f9c31",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": true,
+        "local_file": "C:/twitch/exoriservice/assets/telas/encerramento.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🕹 OVERLAY · Gameplay",
+      "uuid": "f0aca42c-24f3-473d-a6a5-dc9533efde13",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": true,
+        "local_file": "C:/twitch/exoriservice/assets/overlay/overlay-gameplay.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🐺 WIDGET · Party Tracker",
+      "uuid": "866999ad-02aa-450e-93f5-c522c8d7f29d",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": true,
+        "local_file": "C:/twitch/exoriservice/assets/overlay/party-tracker.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "📣 WIDGET · Carrossel Serviços",
+      "uuid": "46e568f3-2435-43d5-a4f5-91773f42a2e3",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": true,
+        "local_file": "C:/twitch/exoriservice/assets/overlay/carrossel-servicos.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🔔 ALERTAS · StreamElements ⚠️ TROCAR URL",
+      "uuid": "31582c40-a529-4f34-aecd-51f3eaed5d83",
+      "mixers": 1,
+      "sync": 0,
+      "flags": 0,
+      "volume": 0.7,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 880,
+        "height": 600,
+        "reroute_audio": true,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": false,
+        "url": "https://streamelements.com/embed/overlay/TROCAR/TROCAR"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "💬 CHAT · StreamElements ⚠️ TROCAR URL",
+      "uuid": "490a54ba-b895-448d-a977-9cf6dafbe2a1",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 560,
+        "height": 920,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": false,
+        "url": "https://streamelements.com/embed/chat/TROCAR/TROCAR"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
+      "uuid": "85879b46-c7cf-49d8-b222-a4a35744a373",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": {
+        "capture_mode": "window",
+        "window": "",
+        "priority": 1,
+        "capture_cursor": true,
+        "allow_transparency": false,
+        "srgb": false,
+        "force_sdr": false
+      },
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": "game_capture",
+      "id": "game_capture"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🖼 BG · Just Chatting",
+      "uuid": "abc74f94-0768-488e-87bd-2a02beec72ed",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": {
+        "file": "C:/twitch/exoriservice/assets/extras/justchatting-1920x1080.png"
+      },
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": "image_source",
+      "id": "image_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🛡 COBERTURA · Chat do Jogo",
+      "uuid": "290343b5-611c-4f91-8f71-fe8cc3c37c86",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 700,
+        "height": 300,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": true,
+        "local_file": "C:/twitch/exoriservice/assets/overlay/cobertura-chat.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🖥 CAPTURA · Monitor ⚠️ SELECIONAR",
+      "uuid": "b85f98f2-4b94-4fdd-a73e-00da3edf6180",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": {
+        "display": 0,
+        "method": "auto",
+        "show_cursor": true,
+        "srgb": false,
+        "force_sdr": false
+      },
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": "display_capture",
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🖼 MOLDURA · Monitor",
+      "uuid": "145ba9c5-9f3f-4c34-adac-800fe01daf62",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": true,
+        "local_file": "C:/twitch/exoriservice/assets/overlay/moldura-monitor.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🖼 MOLDURA · Jogo (mini)",
+      "uuid": "f2961a4b-0abf-4859-b17d-f06dec33762c",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 480,
+        "height": 270,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": true,
+        "local_file": "C:/twitch/exoriservice/assets/overlay/moldura-jogo.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🖼 MOLDURA · Just Chatting",
+      "uuid": "17ac2dfe-5aa0-4888-9648-c31ae37fe3cd",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": true,
+        "local_file": "C:/twitch/exoriservice/assets/overlay/moldura-jc.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "📨 TICKER · Comandos",
+      "uuid": "a62dd2ad-5afd-4bb7-b97b-b0fe7906c791",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 72,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": true,
+        "local_file": "C:/twitch/exoriservice/assets/overlay/ticker.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "01 · STARTING",
+      "uuid": "76c35aa3-fc73-4ee8-a6bb-34a451249a7b",
+      "id": "scene",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "hotkeys": {},
+      "monitoring_type": 0,
+      "private_settings": {},
+      "settings": {
+        "custom_size": false,
+        "id_counter": 9,
+        "items": [
+          {
+            "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
+            "source_uuid": "85879b46-c7cf-49d8-b222-a4a35744a373",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 1,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "💤 TELAS · Starting Soon",
+            "source_uuid": "04d4c9ac-dc47-4434-be71-64f5831b9cf3",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 2,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "📣 WIDGET · Carrossel Serviços",
+            "source_uuid": "46e568f3-2435-43d5-a4f5-91773f42a2e3",
+            "visible": true,
+            "locked": true,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 3,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "📨 TICKER · Comandos",
+            "source_uuid": "a62dd2ad-5afd-4bb7-b97b-b0fe7906c791",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0,
+              "y": 1008
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 4,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          }
+        ]
+      }
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "02 · GAMEPLAY",
+      "uuid": "6bdc8e9d-27fa-4fab-a871-60966febcbcd",
+      "id": "scene",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "hotkeys": {},
+      "monitoring_type": 0,
+      "private_settings": {},
+      "settings": {
+        "custom_size": false,
+        "id_counter": 12,
+        "items": [
+          {
+            "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
+            "source_uuid": "85879b46-c7cf-49d8-b222-a4a35744a373",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 1,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🛡 COBERTURA · Chat do Jogo",
+            "source_uuid": "290343b5-611c-4f91-8f71-fe8cc3c37c86",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0,
+              "y": 780
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 2,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🕹 OVERLAY · Gameplay",
+            "source_uuid": "f0aca42c-24f3-473d-a6a5-dc9533efde13",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 3,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🐺 WIDGET · Party Tracker",
+            "source_uuid": "866999ad-02aa-450e-93f5-c522c8d7f29d",
+            "visible": true,
+            "locked": true,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 4,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "📣 WIDGET · Carrossel Serviços",
+            "source_uuid": "46e568f3-2435-43d5-a4f5-91773f42a2e3",
+            "visible": true,
+            "locked": true,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 5,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🔔 ALERTAS · StreamElements ⚠️ TROCAR URL",
+            "source_uuid": "31582c40-a529-4f34-aecd-51f3eaed5d83",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 520,
+              "y": 36
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 6,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "📨 TICKER · Comandos",
+            "source_uuid": "a62dd2ad-5afd-4bb7-b97b-b0fe7906c791",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0,
+              "y": 1008
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 7,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          }
+        ]
+      }
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "03 · JUST CHATTING",
+      "uuid": "fb1286ee-7ed0-4c31-8682-0f048a6946de",
+      "id": "scene",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "hotkeys": {},
+      "monitoring_type": 0,
+      "private_settings": {},
+      "settings": {
+        "custom_size": false,
+        "id_counter": 13,
+        "items": [
+          {
+            "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
+            "source_uuid": "85879b46-c7cf-49d8-b222-a4a35744a373",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 1,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🖼 BG · Just Chatting",
+            "source_uuid": "abc74f94-0768-488e-87bd-2a02beec72ed",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 2,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🕹 OVERLAY · Gameplay",
+            "source_uuid": "f0aca42c-24f3-473d-a6a5-dc9533efde13",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 3,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🖼 MOLDURA · Just Chatting",
+            "source_uuid": "17ac2dfe-5aa0-4888-9648-c31ae37fe3cd",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 4,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "💬 CHAT · StreamElements ⚠️ TROCAR URL",
+            "source_uuid": "490a54ba-b895-448d-a977-9cf6dafbe2a1",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 1330,
+              "y": 80
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 5,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🔔 ALERTAS · StreamElements ⚠️ TROCAR URL",
+            "source_uuid": "31582c40-a529-4f34-aecd-51f3eaed5d83",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 520,
+              "y": 36
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 6,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "📣 WIDGET · Carrossel Serviços",
+            "source_uuid": "46e568f3-2435-43d5-a4f5-91773f42a2e3",
+            "visible": true,
+            "locked": true,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 7,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "📨 TICKER · Comandos",
+            "source_uuid": "a62dd2ad-5afd-4bb7-b97b-b0fe7906c791",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0,
+              "y": 1008
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 8,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          }
+        ]
+      }
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "04 · BRB",
+      "uuid": "338159fe-135a-4bb2-bf05-5af51a307a54",
+      "id": "scene",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "hotkeys": {},
+      "monitoring_type": 0,
+      "private_settings": {},
+      "settings": {
+        "custom_size": false,
+        "id_counter": 9,
+        "items": [
+          {
+            "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
+            "source_uuid": "85879b46-c7cf-49d8-b222-a4a35744a373",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 1,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "⏸ TELAS · BRB",
+            "source_uuid": "b73c12bd-6dd8-44b1-b963-eb1954ab741b",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 2,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "📣 WIDGET · Carrossel Serviços",
+            "source_uuid": "46e568f3-2435-43d5-a4f5-91773f42a2e3",
+            "visible": true,
+            "locked": true,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 3,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "📨 TICKER · Comandos",
+            "source_uuid": "a62dd2ad-5afd-4bb7-b97b-b0fe7906c791",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0,
+              "y": 1008
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 4,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          }
+        ]
+      }
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "05 · ENCERRAMENTO",
+      "uuid": "ecc23779-9f57-41bc-9acc-689d896e2b6a",
+      "id": "scene",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "hotkeys": {},
+      "monitoring_type": 0,
+      "private_settings": {},
+      "settings": {
+        "custom_size": false,
+        "id_counter": 9,
+        "items": [
+          {
+            "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
+            "source_uuid": "85879b46-c7cf-49d8-b222-a4a35744a373",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 1,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🏁 TELAS · Encerramento",
+            "source_uuid": "5b91e91e-9065-42f6-a4a7-7e978f1f9c31",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 2,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "📣 WIDGET · Carrossel Serviços",
+            "source_uuid": "46e568f3-2435-43d5-a4f5-91773f42a2e3",
+            "visible": true,
+            "locked": true,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 3,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "📨 TICKER · Comandos",
+            "source_uuid": "a62dd2ad-5afd-4bb7-b97b-b0fe7906c791",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0,
+              "y": 1008
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 4,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          }
+        ]
+      }
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "06 · TELA",
+      "uuid": "23fba0e1-26f5-45b3-98cb-719c925c3707",
+      "id": "scene",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "hotkeys": {},
+      "monitoring_type": 0,
+      "private_settings": {},
+      "settings": {
+        "custom_size": false,
+        "id_counter": 12,
+        "items": [
+          {
+            "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
+            "source_uuid": "85879b46-c7cf-49d8-b222-a4a35744a373",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 1,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🖥 CAPTURA · Monitor ⚠️ SELECIONAR",
+            "source_uuid": "b85f98f2-4b94-4fdd-a73e-00da3edf6180",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 2,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
+            "source_uuid": "85879b46-c7cf-49d8-b222-a4a35744a373",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 32,
+              "y": 738
+            },
+            "scale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 3,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🖼 MOLDURA · Monitor",
+            "source_uuid": "145ba9c5-9f3f-4c34-adac-800fe01daf62",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 4,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🖼 MOLDURA · Jogo (mini)",
+            "source_uuid": "f2961a4b-0abf-4859-b17d-f06dec33762c",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 32,
+              "y": 738
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 5,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "🔔 ALERTAS · StreamElements ⚠️ TROCAR URL",
+            "source_uuid": "31582c40-a529-4f34-aecd-51f3eaed5d83",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 520,
+              "y": 36
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 6,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          },
+          {
+            "name": "📨 TICKER · Comandos",
+            "source_uuid": "a62dd2ad-5afd-4bb7-b97b-b0fe7906c791",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0,
+              "y": 1008
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 7,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input"
+          }
+        ]
+      }
+    }
+  ]
+}
