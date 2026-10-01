@@ -1,0 +1,60 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<title>Moldura · Webcam — exoriservice</title>
+<style>
+/* ---------- MOLDURA TRANSPARENTE PARA WEBCAM ----------
+   - Fundo 100% transparente: só o aro verde-ácido, o tag "LIVE" e os "cantos" aparecem.
+   - A câmera do OBS é desenhada ATRÁS desta moldura, na cena "WEB CAMERA" (aninhada), na cena 02.
+   - Dimensões LxA 480x270 (16:9). Se você redimensionar a fonte da câmera no OBS, esta
+     moldura não acompanha — quem dimensiona é a cena aninhada inteira (ver snapshots 002+).
+----------------------------------------------------- */
+:root{--acid:#B4FF00;--toxic:#5C9900;--bg:#060806}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:"Chakra Petch",Chakra,monospace}
+.f{position:fixed;inset:0;pointer-events:none}
+
+/* aro principal: gradiente conic ácido — mesma família do "comet" do Party Tracker */
+.ring{position:absolute;inset:0;padding:2px;
+ background:conic-gradient(from 210deg,transparent 0deg 295deg,rgba(187,255,0,.25) 295deg,
+  rgba(187,255,0,.95) 340deg,#F4FFD0 348deg,rgba(187,255,0,.95) 352deg,transparent 360deg);
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+ mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+ -webkit-mask-composite:xor;mask-composite:exclude;
+ filter:drop-shadow(0 0 6px rgba(180,255,0,.55));
+ animation:porbit 12s linear infinite}
+@keyframes porbit{to{--pa:360deg}}
+@property --pa{syntax:'<angle>';initial-value:0deg;inherits:false}
+
+/* canto hexagonal: só 4, deixa a moldura viva mas não poluída */
+.b{position:absolute;width:14%;height:20%;border:2px solid var(--acid);
+ filter:drop-shadow(0 0 6px rgba(180,255,0,.6));animation:bpulse 2.4s ease-in-out infinite}
+.b1{left:-1px;top:-1px;border-right:0;border-bottom:0}
+.b2{right:-1px;top:-1px;border-left:0;border-bottom:0;animation-delay:.3s}
+.b3{left:-1px;bottom:-1px;border-right:0;border-top:0;animation-delay:.6s}
+.b4{right:-1px;bottom:-1px;border-left:0;border-top:0;animation-delay:.9s}
+@keyframes bpulse{50%{opacity:.4;transform:scale(.92)}}
+
+/* tag LIVE no canto superior esquerdo */
+.tag{position:absolute;top:-14px;left:8px;display:flex;align-items:center;gap:6px;
+ background:var(--acid);color:var(--bg);font:600 9px/1 Chakra,monospace;
+ letter-spacing:.26em;padding:5px 9px 5px calc(9px + .26em);white-space:nowrap;
+ clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+ box-shadow:0 0 10px rgba(180,255,0,.45)}
+.dot{width:6px;height:6px;background:var(--bg);border-radius:50%;animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+
+/* etiqueta "WEBCAM" no canto inferior direito — discreta, com glow verde */
+.label{position:absolute;bottom:-14px;right:8px;display:flex;align-items:center;gap:6px;
+ color:var(--acid);font:600 9px/1 Orbitron,monospace;letter-spacing:.28em;
+ padding:4px 8px;border:1px solid rgba(180,255,0,.45);background:rgba(6,8,6,.55);
+ text-shadow:0 0 8px rgba(180,255,0,.5);
+ clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.label::before{content:"";width:4px;height:4px;background:var(--acid);border-radius:50%;
+ box-shadow:0 0 6px var(--acid)}
+</style></head><body>
+<div class="f">
+  <div class="ring"></div>
+  <div class="b b1"></div><div class="b b2"></div><div class="b b3"></div><div class="b b4"></div>
+  <div class="tag"><span class="dot"></span>LIVE</div>
+  <div class="label">WEBCAM</div>
+</div>
+</body></html>

@@ -55,10 +55,6 @@ N_MIC = "Meu Mic"
 N_NAV = "Navegador"
 N_SPOTIFY = "Spotify"
 N_LIVEPIX = "WIDGET - LivePix ⚠️ TROCAR URL"
-N_WEBCAM = "🎥 WEBCAM · Câmera"
-N_MOLD_WEB = "🖼 MOLDURA · Webcam"
-N_CONTADOR = "📈 CONTADOR · Twitch"
-N_GRP_WEB = "🎬 GRUPO · Webcam (mover junto)"
 
 CENAS = ["01 · STARTING", "02 · GAMEPLAY", "04 · BRB", "05 · ENCERRAMENTO", "06 · TELA"]
 ORDEM_NO_OBS = ["06 · TELA", "05 · ENCERRAMENTO", "04 · BRB", "02 · GAMEPLAY", "01 · STARTING"]
@@ -71,17 +67,6 @@ POS_MOLD_JOGO, ESC_MOLD_JOGO = (27.0, 727.0), (0.9729166626930237, 0.97407406568
 POS_TIBIA_MINI, ESC_TIBIA_MINI = (27.0, 728.0), (0.25, 0.25)
 POS_COBERTURA = (0.0, 884.0)                                                         # 1920×300 px
 POS_TICKER = (0.0, 1008.0)                                                           # 1920×72 px
-
-# ── webcam (formato DVCam): device/device_name em branco; escolher ao importar ──
-POS_WEB = (1380.0, 60.0)                                                             # 480×270 px
-ESC_WEB = (1.0, 1.0)
-POS_TW = (1404.0, 350.0)                                                             # 320×80 px abaixo do grupo
-ESC_TW = (1.0, 1.0)
-# carrossel no canto inferior esquerdo da cena 02 (versão menor do snapshot)
-POS_CAR_GP, ESC_CAR_GP = (40.0, 760.0), (1.0, 1.0)
-POS_CAR_GP_BRB = (40.0, 760.0)
-POS_CAR_GP_STAR = (40.0, 760.0)
-POS_CAR_GP_ENC = (40.0, 760.0)
 
 # ids físicos do hardware do canal (mic e monitor); em outro PC, selecionar de novo no OBS
 MIC_DEVICE_ID = "{0.0.1.00000000}.{f4c8d309-8b91-4372-8c18-b52634539a26}"
@@ -144,9 +129,7 @@ class Colecao:
     def item(self, nome, iid, pos=(0.0, 0.0), esc=(1.0, 1.0), travado=False):
         x, y, sx, sy = f32(pos[0]), f32(pos[1]), f32(esc[0]), f32(esc[1])
         dur = 300 if nome in self.nativas else 0
-        origem = self.fontes.get(nome) or self.cenas.get(nome)
-        assert origem is not None, f"item: nome {nome!r} não existe como fonte nem como cena/grupo"
-        return {"name": nome, "source_uuid": origem["uuid"], "visible": True,
+        return {"name": nome, "source_uuid": self.fontes[nome]["uuid"], "visible": True,
                 "locked": travado, "rot": 0.0, "scale_ref": {"x": float(W), "y": float(H)},
                 "align": 5, "bounds_type": 0, "bounds_align": 0, "bounds_crop": False,
                 "crop_left": 0, "crop_top": 0, "crop_right": 0, "crop_bottom": 0,
@@ -158,20 +141,7 @@ class Colecao:
                 "show_transition": {"duration": dur}, "hide_transition": {"duration": dur},
                 "private_settings": {}}
 
-    def cena(self, nome, itens, id_counter, custom_size=False, grupo=False):
-        if grupo:
-            # grupo do OBS 32: private_settings.is_group=True e custom_size=True;
-            # não tem hotkeys nem canvas (os itens do grupo são sub-fontes, não navegação).
-            self.cenas[nome] = {
-                "prev_ver": OBS_VER, "name": nome, "uuid": uid("cena", nome), "id": "scene",
-                "versioned_id": "scene",
-                "settings": {"custom_size": True, "id_counter": id_counter, "items": itens},
-                "mixers": 0, "sync": 0, "flags": 0, "volume": 1.0, "balance": 0.5, "enabled": True,
-                "muted": False, "push-to-mute": False, "push-to-mute-delay": 0,
-                "push-to-talk": False, "push-to-talk-delay": 0, "hotkeys": {},
-                "deinterlace_mode": 0, "deinterlace_field_order": 0, "monitoring_type": 0,
-                "private_settings": {"is_group": True}}
-            return
+    def cena(self, nome, itens, id_counter):
         hotkeys = {"OBSBasic.SelectScene": []}
         for it in itens:
             hotkeys[f"libobs.show_scene_item.{it['id']}"] = []
@@ -179,7 +149,7 @@ class Colecao:
         self.cenas[nome] = {
             "prev_ver": OBS_VER, "name": nome, "uuid": uid("cena", nome), "id": "scene",
             "versioned_id": "scene",
-            "settings": {"custom_size": custom_size, "id_counter": id_counter, "items": itens},
+            "settings": {"custom_size": False, "id_counter": id_counter, "items": itens},
             "mixers": 0, "sync": 0, "flags": 0, "volume": 1.0, "balance": 0.5, "enabled": True,
             "muted": False, "push-to-mute": False, "push-to-mute-delay": 0,
             "push-to-talk": False, "push-to-talk-delay": 0, "hotkeys": hotkeys,
@@ -213,30 +183,6 @@ class Colecao:
         self.pagina(N_MOLD_JOGO, "overlay/moldura-jogo.html", w=492, h=260)
         self.pagina(N_MOLD_MON, "overlay/moldura-monitor.html")
         self.pagina(N_COBERTURA, "overlay/cobertura-chat.html", h=300)
-
-        # ── DVCam (Webcam via DirectShow): device e device_name vazios para escolher
-        # ── no OBS após importar; res_type=0 força captura MJPG (a webcam do canal é
-        # ── USB2; sem isso o OBS pode tentar YUY2 e cair para 5 fps).
-        self.fonte(N_WEBCAM, "dshow_input",
-                   {"device": URL_PENDENTE, "device_name": URL_PENDENTE, "res_type": 0,
-                    "resolution": "640x480", "fps": 30, "video_format": "any",
-                    "audio_device": URL_PENDENTE, "audio_device_name": URL_PENDENTE,
-                    "activate": False, "deactivate_when_not_showing": False,
-                    "preview_only": False, "use_custom_audio_device": False},
-                   hotkeys=HK_AUDIO)
-
-        # ── moldura transparente sobreposta à webcam (mesma resolução visual)
-        self.pagina(N_MOLD_WEB, "overlay/moldura-webcam.html", w=480, h=270)
-
-        # ── contador da Twitch (browser_source 320×80, polling no proxy local)
-        self.fonte(N_CONTADOR, "browser_source",
-                   {"is_local_file": True,
-                    "local_file": f"{self.A}/overlay/contador-twitch.html",
-                    "url": URL_PENDENTE, "visibility": "always",
-                    "width": 320, "height": 80, "fps": 30,
-                    "shutdown": False, "restart_when_active": False,
-                    "webpage_control_level": 1, "css": CSS, "reroute_audio": False},
-                   hotkeys=HK_NAV, privado={"mixer_hidden": True})
 
     def montar_fontes_nativas(self):
         """Fontes criadas direto no OBS 32 (captura de tela, áudio e widget LivePix)."""
@@ -274,25 +220,16 @@ class Colecao:
     # ── cenas (ordem do array = fundo -> topo) ──────────────────────────────
     def montar_cenas(self):
         i = self.item
-        # ── GRUPO: webcam+moldura sempre se movem juntas. Criado ANTES da cena 02
-        # ── para que o id do item do grupo (12) seja referência válida em cena 02.
-        self.cena(N_GRP_WEB, [
-            i(N_WEBCAM, 1),
-            i(N_MOLD_WEB, 2)], id_counter=3, grupo=True)
-
         self.cena("01 · STARTING", [
             i(N_GAME, 1), i(N_STARTING, 2), i(N_CARROSSEL, 3, travado=True),
             i(N_TICKER, 4, POS_TICKER), i(N_ALERTAS, 10, POS_ALERTA, ESC_ALERTA),
             i(N_SPOTIFY, 11)], id_counter=11)
         self.cena("02 · GAMEPLAY", [
-            i(N_GAME, 1, travado=True), i(N_COBERTURA, 2, POS_COBERTURA),
-            i(N_OVERLAY, 3), i(N_PARTY, 4),
-            i(N_CARROSSEL, 5, POS_CAR_GP, ESC_CAR_GP, travado=True),
-            i(N_LIVEPIX, 6, POS_LIVEPIX_GP, ESC_LIVEPIX_GP),
-            i(N_GRP_WEB, 12, POS_WEB, ESC_WEB),
-            i(N_CONTADOR, 13, POS_TW, ESC_TW),
+            i(N_GAME, 1, travado=True), i(N_COBERTURA, 2, POS_COBERTURA), i(N_OVERLAY, 3),
+            i(N_PARTY, 4), i(N_CARROSSEL, 5, travado=True),
             i(N_ALERTAS, 14, POS_ALERTA, ESC_ALERTA), i(N_TICKER, 7, POS_TICKER),
-            i(N_SPOTIFY, 15), i(N_DISCORD, 16), i(N_MIC, 17)], id_counter=17)
+            i(N_SPOTIFY, 15), i(N_DISCORD, 16), i(N_MIC, 17),
+            i(N_LIVEPIX, 19, POS_LIVEPIX_GP, ESC_LIVEPIX_GP)], id_counter=19)
         self.cena("04 · BRB", [
             i(N_GAME, 1, travado=True), i(N_BRB, 2), i(N_CARROSSEL, 3, travado=True),
             i(N_TICKER, 4, POS_TICKER), i(N_ALERTAS, 10, POS_ALERTA, ESC_ALERTA),
@@ -313,9 +250,7 @@ class Colecao:
         self.montar_fontes_nativas()
         self.montar_cenas()
         todas = list(self.fontes.values())
-        grupos = [c for n, c in self.cenas.items()
-                  if c.get("private_settings", {}).get("is_group")]
-        sources = todas[:n_base] + [self.cenas[n] for n in CENAS] + todas[n_base:] + grupos
+        sources = todas[:n_base] + [self.cenas[n] for n in CENAS] + todas[n_base:]
         return {
             "name": "EXORISERVICE",
             "groups": [],
@@ -371,9 +306,7 @@ def validar(col):
     assert len(uuids) == len(set(uuids)), "UUIDs duplicados"
     por_uuid = {s["uuid"]: s for s in fontes}
     cenas = [s for s in fontes if s["id"] == "scene"]
-    # grupo do OBS tem id "scene" mas não é uma cena navegável: excluir do scene_order
-    nomes_cenas = {c["name"] for c in cenas
-                   if not c.get("private_settings", {}).get("is_group")}
+    nomes_cenas = {c["name"] for c in cenas}
     assert {o["name"] for o in col["scene_order"]} == nomes_cenas, "scene_order != cenas"
     assert col["current_scene"] in nomes_cenas and col["current_program_scene"] in nomes_cenas
     assert col["current_transition"] in {t["name"] for t in col["transitions"]} | {"Corte", "Fade"}
@@ -383,6 +316,9 @@ def validar(col):
         ids = [it["id"] for it in its]
         assert len(ids) == len(set(ids)), f"{c['name']}: ids de item repetidos"
         assert c["settings"]["id_counter"] >= max(ids), f"{c['name']}: id_counter baixo"
+        esperado = {"OBSBasic.SelectScene"} | {f"libobs.{a}_scene_item.{n}" for n in ids
+                                               for a in ("show", "hide")}
+        assert set(c["hotkeys"]) == esperado, f"{c['name']}: hotkeys incoerentes"
         for it in its:
             src = por_uuid.get(it["source_uuid"])
             assert src is not None, f"{c['name']}: item órfão {it['name']}"
@@ -390,13 +326,6 @@ def validar(col):
         usados = [it["source_uuid"] for it in its]
         if len(usados) != len(set(usados)):
             avisos.append(f"{c['name']}: a mesma fonte aparece mais de uma vez na cena")
-        if c.get("private_settings", {}).get("is_group"):
-            # grupo não tem hotkeys de navegação (cena -> SelectScene, item -> show/hide)
-            assert c["hotkeys"] == {}, f"{c['name']}: grupo não deve ter hotkeys"
-            continue
-        esperado = {"OBSBasic.SelectScene"} | {f"libobs.{a}_scene_item.{n}" for n in ids
-                                               for a in ("show", "hide")}
-        assert set(c["hotkeys"]) == esperado, f"{c['name']}: hotkeys incoerentes"
     for s in fontes:
         st = s["settings"]
         assert isinstance(st, dict), f"{s['name']}: settings deve ser objeto (era string?)"

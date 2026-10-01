@@ -604,137 +604,6 @@
         },
         {
             "prev_ver": 537001986,
-            "name": "🎥 WEBCAM · Câmera",
-            "uuid": "53ad86fc-912d-5694-a337-80fd5b1e4470",
-            "id": "dshow_input",
-            "versioned_id": "dshow_input",
-            "settings": {
-                "device": "about:blank",
-                "device_name": "about:blank",
-                "res_type": 0,
-                "resolution": "640x480",
-                "fps": 30,
-                "video_format": "any",
-                "audio_device": "about:blank",
-                "audio_device_name": "about:blank",
-                "activate": false,
-                "deactivate_when_not_showing": false,
-                "preview_only": false,
-                "use_custom_audio_device": false
-            },
-            "mixers": 0,
-            "sync": 0,
-            "flags": 0,
-            "volume": 1.0,
-            "balance": 0.5,
-            "enabled": true,
-            "muted": false,
-            "push-to-mute": false,
-            "push-to-mute-delay": 0,
-            "push-to-talk": false,
-            "push-to-talk-delay": 0,
-            "hotkeys": {
-                "libobs.mute": [],
-                "libobs.unmute": [],
-                "libobs.push-to-mute": [],
-                "libobs.push-to-talk": []
-            },
-            "deinterlace_mode": 0,
-            "deinterlace_field_order": 0,
-            "monitoring_type": 0,
-            "private_settings": {}
-        },
-        {
-            "prev_ver": 537001986,
-            "name": "🖼 MOLDURA · Webcam",
-            "uuid": "d66d968e-d4ba-538b-a596-d19642dcc81b",
-            "id": "browser_source",
-            "versioned_id": "browser_source",
-            "settings": {
-                "is_local_file": true,
-                "local_file": "C:/twitch/exoriservice/assets/overlay/moldura-webcam.html",
-                "visibility": "always",
-                "width": 480,
-                "height": 270,
-                "fps": 60,
-                "shutdown": true,
-                "restart_when_active": false,
-                "webpage_control_level": 1,
-                "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
-                "reroute_audio": false
-            },
-            "mixers": 0,
-            "sync": 0,
-            "flags": 0,
-            "volume": 1.0,
-            "balance": 0.5,
-            "enabled": true,
-            "muted": false,
-            "push-to-mute": false,
-            "push-to-mute-delay": 0,
-            "push-to-talk": false,
-            "push-to-talk-delay": 0,
-            "hotkeys": {
-                "libobs.mute": [],
-                "libobs.unmute": [],
-                "libobs.push-to-mute": [],
-                "libobs.push-to-talk": [],
-                "ObsBrowser.Refresh": []
-            },
-            "deinterlace_mode": 0,
-            "deinterlace_field_order": 0,
-            "monitoring_type": 0,
-            "private_settings": {
-                "mixer_hidden": true
-            }
-        },
-        {
-            "prev_ver": 537001986,
-            "name": "📈 CONTADOR · Twitch",
-            "uuid": "2c6a787b-754d-5b5c-8682-a0d1c83ce1ad",
-            "id": "browser_source",
-            "versioned_id": "browser_source",
-            "settings": {
-                "is_local_file": true,
-                "local_file": "C:/twitch/exoriservice/assets/overlay/contador-twitch.html",
-                "url": "about:blank",
-                "visibility": "always",
-                "width": 320,
-                "height": 80,
-                "fps": 30,
-                "shutdown": false,
-                "restart_when_active": false,
-                "webpage_control_level": 1,
-                "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
-                "reroute_audio": false
-            },
-            "mixers": 0,
-            "sync": 0,
-            "flags": 0,
-            "volume": 1.0,
-            "balance": 0.5,
-            "enabled": true,
-            "muted": false,
-            "push-to-mute": false,
-            "push-to-mute-delay": 0,
-            "push-to-talk": false,
-            "push-to-talk-delay": 0,
-            "hotkeys": {
-                "libobs.mute": [],
-                "libobs.unmute": [],
-                "libobs.push-to-mute": [],
-                "libobs.push-to-talk": [],
-                "ObsBrowser.Refresh": []
-            },
-            "deinterlace_mode": 0,
-            "deinterlace_field_order": 0,
-            "monitoring_type": 0,
-            "private_settings": {
-                "mixer_hidden": true
-            }
-        },
-        {
-            "prev_ver": 537001986,
             "name": "01 · STARTING",
             "uuid": "f70a6e62-f154-57c3-ab88-5fff95ccde2f",
             "id": "scene",
@@ -1115,7 +984,7 @@
             "versioned_id": "scene",
             "settings": {
                 "custom_size": false,
-                "id_counter": 17,
+                "id_counter": 19,
                 "items": [
                     {
                         "name": "🎮 CAPTURA · Tibia",
@@ -1358,177 +1227,12 @@
                         "id": 5,
                         "group_item_backup": false,
                         "pos": {
-                            "x": 40.0,
-                            "y": 760.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "pos_rel": {
-                            "x": -1.703703761100769,
-                            "y": 0.40740740299224854
-                        },
-                        "scale": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "scale_rel": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "scale_filter": "disable",
-                        "blend_method": "default",
-                        "blend_type": "normal",
-                        "show_transition": {
-                            "duration": 0
-                        },
-                        "hide_transition": {
-                            "duration": 0
-                        },
-                        "private_settings": {}
-                    },
-                    {
-                        "name": "WIDGET - LivePix ⚠️ TROCAR URL",
-                        "source_uuid": "31b9e4ba-16f1-5fe9-84d7-2cd232139b92",
-                        "visible": true,
-                        "locked": false,
-                        "rot": 0.0,
-                        "scale_ref": {
-                            "x": 1920.0,
-                            "y": 1080.0
-                        },
-                        "align": 5,
-                        "bounds_type": 0,
-                        "bounds_align": 0,
-                        "bounds_crop": false,
-                        "crop_left": 0,
-                        "crop_top": 0,
-                        "crop_right": 0,
-                        "crop_bottom": 0,
-                        "id": 6,
-                        "group_item_backup": false,
-                        "pos": {
-                            "x": 2.0,
-                            "y": 578.0
-                        },
-                        "pos_rel": {
-                            "x": -1.7740740776062012,
-                            "y": 0.07037031650543213
-                        },
-                        "scale": {
-                            "x": 0.6166666746139526,
-                            "y": 0.6156250238418579
-                        },
-                        "scale_rel": {
-                            "x": 0.6166666746139526,
-                            "y": 0.6156250238418579
-                        },
-                        "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "scale_filter": "disable",
-                        "blend_method": "default",
-                        "blend_type": "normal",
-                        "show_transition": {
-                            "duration": 300
-                        },
-                        "hide_transition": {
-                            "duration": 300
-                        },
-                        "private_settings": {}
-                    },
-                    {
-                        "name": "🎬 GRUPO · Webcam (mover junto)",
-                        "source_uuid": "8b968454-6619-59f2-a4e6-7a6dc1575440",
-                        "visible": true,
-                        "locked": false,
-                        "rot": 0.0,
-                        "scale_ref": {
-                            "x": 1920.0,
-                            "y": 1080.0
-                        },
-                        "align": 5,
-                        "bounds_type": 0,
-                        "bounds_align": 0,
-                        "bounds_crop": false,
-                        "crop_left": 0,
-                        "crop_top": 0,
-                        "crop_right": 0,
-                        "crop_bottom": 0,
-                        "id": 12,
-                        "group_item_backup": false,
-                        "pos": {
-                            "x": 1380.0,
-                            "y": 60.0
-                        },
-                        "pos_rel": {
-                            "x": 0.7777777910232544,
-                            "y": -0.8888888955116272
-                        },
-                        "scale": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "scale_rel": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "scale_filter": "disable",
-                        "blend_method": "default",
-                        "blend_type": "normal",
-                        "show_transition": {
-                            "duration": 0
-                        },
-                        "hide_transition": {
-                            "duration": 0
-                        },
-                        "private_settings": {}
-                    },
-                    {
-                        "name": "📈 CONTADOR · Twitch",
-                        "source_uuid": "2c6a787b-754d-5b5c-8682-a0d1c83ce1ad",
-                        "visible": true,
-                        "locked": false,
-                        "rot": 0.0,
-                        "scale_ref": {
-                            "x": 1920.0,
-                            "y": 1080.0
-                        },
-                        "align": 5,
-                        "bounds_type": 0,
-                        "bounds_align": 0,
-                        "bounds_crop": false,
-                        "crop_left": 0,
-                        "crop_top": 0,
-                        "crop_right": 0,
-                        "crop_bottom": 0,
-                        "id": 13,
-                        "group_item_backup": false,
-                        "pos": {
-                            "x": 1404.0,
-                            "y": 350.0
-                        },
-                        "pos_rel": {
-                            "x": 0.8222222328186035,
-                            "y": -0.3518518805503845
+                            "x": -1.7777777910232544,
+                            "y": -1.0
                         },
                         "scale": {
                             "x": 1.0,
@@ -1831,6 +1535,61 @@
                             "duration": 300
                         },
                         "private_settings": {}
+                    },
+                    {
+                        "name": "WIDGET - LivePix ⚠️ TROCAR URL",
+                        "source_uuid": "31b9e4ba-16f1-5fe9-84d7-2cd232139b92",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 19,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 2.0,
+                            "y": 578.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7740740776062012,
+                            "y": 0.07037031650543213
+                        },
+                        "scale": {
+                            "x": 0.6166666746139526,
+                            "y": 0.6156250238418579
+                        },
+                        "scale_rel": {
+                            "x": 0.6166666746139526,
+                            "y": 0.6156250238418579
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
                     }
                 ]
             },
@@ -1857,12 +1616,6 @@
                 "libobs.hide_scene_item.4": [],
                 "libobs.show_scene_item.5": [],
                 "libobs.hide_scene_item.5": [],
-                "libobs.show_scene_item.6": [],
-                "libobs.hide_scene_item.6": [],
-                "libobs.show_scene_item.12": [],
-                "libobs.hide_scene_item.12": [],
-                "libobs.show_scene_item.13": [],
-                "libobs.hide_scene_item.13": [],
                 "libobs.show_scene_item.14": [],
                 "libobs.hide_scene_item.14": [],
                 "libobs.show_scene_item.7": [],
@@ -1872,7 +1625,9 @@
                 "libobs.show_scene_item.16": [],
                 "libobs.hide_scene_item.16": [],
                 "libobs.show_scene_item.17": [],
-                "libobs.hide_scene_item.17": []
+                "libobs.hide_scene_item.17": [],
+                "libobs.show_scene_item.19": [],
+                "libobs.hide_scene_item.19": []
             },
             "deinterlace_mode": 0,
             "deinterlace_field_order": 0,
@@ -3664,147 +3419,6 @@
             "deinterlace_field_order": 0,
             "monitoring_type": 0,
             "private_settings": {}
-        },
-        {
-            "prev_ver": 537001986,
-            "name": "🎬 GRUPO · Webcam (mover junto)",
-            "uuid": "8b968454-6619-59f2-a4e6-7a6dc1575440",
-            "id": "scene",
-            "versioned_id": "scene",
-            "settings": {
-                "custom_size": true,
-                "id_counter": 3,
-                "items": [
-                    {
-                        "name": "🎥 WEBCAM · Câmera",
-                        "source_uuid": "53ad86fc-912d-5694-a337-80fd5b1e4470",
-                        "visible": true,
-                        "locked": false,
-                        "rot": 0.0,
-                        "scale_ref": {
-                            "x": 1920.0,
-                            "y": 1080.0
-                        },
-                        "align": 5,
-                        "bounds_type": 0,
-                        "bounds_align": 0,
-                        "bounds_crop": false,
-                        "crop_left": 0,
-                        "crop_top": 0,
-                        "crop_right": 0,
-                        "crop_bottom": 0,
-                        "id": 1,
-                        "group_item_backup": false,
-                        "pos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "pos_rel": {
-                            "x": -1.7777777910232544,
-                            "y": -1.0
-                        },
-                        "scale": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "scale_rel": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "scale_filter": "disable",
-                        "blend_method": "default",
-                        "blend_type": "normal",
-                        "show_transition": {
-                            "duration": 0
-                        },
-                        "hide_transition": {
-                            "duration": 0
-                        },
-                        "private_settings": {}
-                    },
-                    {
-                        "name": "🖼 MOLDURA · Webcam",
-                        "source_uuid": "d66d968e-d4ba-538b-a596-d19642dcc81b",
-                        "visible": true,
-                        "locked": false,
-                        "rot": 0.0,
-                        "scale_ref": {
-                            "x": 1920.0,
-                            "y": 1080.0
-                        },
-                        "align": 5,
-                        "bounds_type": 0,
-                        "bounds_align": 0,
-                        "bounds_crop": false,
-                        "crop_left": 0,
-                        "crop_top": 0,
-                        "crop_right": 0,
-                        "crop_bottom": 0,
-                        "id": 2,
-                        "group_item_backup": false,
-                        "pos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "pos_rel": {
-                            "x": -1.7777777910232544,
-                            "y": -1.0
-                        },
-                        "scale": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "scale_rel": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "scale_filter": "disable",
-                        "blend_method": "default",
-                        "blend_type": "normal",
-                        "show_transition": {
-                            "duration": 0
-                        },
-                        "hide_transition": {
-                            "duration": 0
-                        },
-                        "private_settings": {}
-                    }
-                ]
-            },
-            "mixers": 0,
-            "sync": 0,
-            "flags": 0,
-            "volume": 1.0,
-            "balance": 0.5,
-            "enabled": true,
-            "muted": false,
-            "push-to-mute": false,
-            "push-to-mute-delay": 0,
-            "push-to-talk": false,
-            "push-to-talk-delay": 0,
-            "hotkeys": {},
-            "deinterlace_mode": 0,
-            "deinterlace_field_order": 0,
-            "monitoring_type": 0,
-            "private_settings": {
-                "is_group": true
-            }
         }
     ]
 }
