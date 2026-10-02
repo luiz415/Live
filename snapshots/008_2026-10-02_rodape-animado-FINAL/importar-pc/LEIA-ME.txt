@@ -1,0 +1,245 @@
+================================================================================
+EXORISERVICE — PACOTE PARA IMPORTAR NO OBS (snapshot 007)
+================================================================================
+
+Esta pasta tem TUDO o que você precisa copiar para o PC e importar no OBS.
+Foi montada para que você baixe 1 ZIP, descompacte, copie para C:\twitch\
+exoriservice, importe 1 arquivo no OBS e ajuste 2 URLs.
+
+
+--------------------------------------------------------------------------------
+1. BAIXAR A PASTA PELO GITHUB (1 clique)
+--------------------------------------------------------------------------------
+
+a) Abra no navegador:
+
+      https://github.com/luiz415/Live/tree/arena/01a0f5a4-live/importar-pc
+
+b) Clique no botão verde "<> Code" (canto superior direito da lista
+   de arquivos).
+
+c) Escolha "Download ZIP".
+
+   O GitHub vai baixar um arquivo chamado
+   Live-arena-01a0f5a4-live.zip (alguns MB).
+
+d) Quando terminar, clique no .zip e "Extrair tudo…". O Windows cria
+   uma pasta com o mesmo nome. Abra a pasta extraída e entre em
+   "importar-pc".
+
+   Você verá exatamente esta mesma estrutura:
+
+      importar-pc\
+         LEIA-ME.txt                     (este arquivo)
+         exoriservice-cenas.json         (coleção para importar no OBS)
+         assets\
+            overlay\   telas\   stinger\
+            extras\    fonts\   paineis\
+            carrossel\ alertas\
+         integracoes\
+            twitch-contador-server.js
+            twitch-contador.md
+
+
+--------------------------------------------------------------------------------
+2. COPIAR PARA O PC
+--------------------------------------------------------------------------------
+
+Crie (se ainda não existir) a pasta:
+
+      C:\twitch\exoriservice\
+
+Da pasta extraída "importar-pc", copie TUDO para dentro de
+C:\twitch\exoriservice. Resultado esperado:
+
+      C:\twitch\exoriservice\LEIA-ME.txt
+      C:\twitch\exoriservice\exoriservice-cenas.json
+      C:\twitch\exoriservice\assets\...
+      C:\twitch\exoriservice\integracoes\...
+
+
+--------------------------------------------------------------------------------
+3. IMPORTAR A COLEÇÃO NO OBS
+--------------------------------------------------------------------------------
+
+a) Abra o OBS 32.2.2 ou superior.
+
+b) Menu "Coleção de Cenas" → "Importar".
+
+c) Selecione:
+
+      C:\twitch\exoriservice\exoriservice-cenas.json
+
+d) Dê um nome NOVO (ex: "EXORISERVICE-v3"). Assim a sua coleção
+   anterior fica guardada como reserva; se algo não gostar, é só
+   voltar.
+
+e) O OBS vai importar 5 cenas, ~18 fontes e 1 grupo (webcam+moldura).
+   Pode aparecer um aviso sobre o "Grupo Webcam": é normal, ele
+   serve para webcam e moldura se moverem juntas.
+
+
+--------------------------------------------------------------------------------
+4. AJUSTES FINAIS NO OBS (somente 3 coisas)
+--------------------------------------------------------------------------------
+
+  4.1) URL DOS ALERTAS (StreamElements)
+        Cena 02 (Gameplay) → fonte "🔔 ALERTAS · StreamElements
+        ⚠️ TROCAR URL" → duplo-clique → cole a URL do seu overlay do
+        StreamElements → OK.
+
+  4.2) URL DO LIVEPIX
+        Cena 02 → fonte "WIDGET - LivePix ⚠️ TROCAR URL" → duplo-clique
+        → cole a URL do seu widget do LivePix → OK.
+
+  4.3) WEBCAM
+        Cena 02 → fonte "🎥 WEBCAM · Câmera" → duplo-clique
+        → "Dispositivo" → escolha a sua câmera
+        → "Resolução" 640x480, "FPS" 30 → OK.
+        A moldura verde-ácido já vem por cima da câmera. Mova a webcam
+        segurando o grupo "🎬 GRUPO · Webcam (mover junto)" — webcam
+        e moldura andam juntas.
+
+        Se a sua câmera for USB 2.0 (DV cam), mantenha "Formato de vídeo"
+        em "MJPG"; em "YUY2" o OBS pode cair para 5 fps.
+
+
+--------------------------------------------------------------------------------
+5. PARTY TRACKER — COMO EDITAR (PELO INTERAGIR DO OBS, TECLA E)
+--------------------------------------------------------------------------------
+
+  O editor é embutido na própria fonte 🐺 WIDGET · Party Tracker. Não
+  precisa de navegador separado nem de servidor para editar.
+
+  5.1) Na cena 02, selecione a fonte "🐺 WIDGET · Party Tracker".
+  5.2) Botão direito na fonte -> "Interagir". Abre uma janelinha com o widget.
+  5.3) Clique DENTRO da janela Interagir para dar foco.
+  5.4) Aperte a tecla "E" para abrir o painel de edição. Edite TÍTULO, VISÃO,
+        QUEST e os 5 jogadores (VOC + LV).
+        - auto-salva após 4 s de inatividade, ou clique em SALVAR.
+        - aperte E de novo ou Esc para SAIR e voltar ao widget limpo.
+  5.5) Feche a janela Interagir. O público vê o widget atualizado.
+
+  ⚠ AVISO: enquanto o painel estiver aberto, ele aparece por cima do widget.
+  Se a cena 02 estiver no ar, o público VÊ o painel. Saia do modo edição
+  (E/Esc) antes de deixar a cena ativa. Para editar "escondido", use a
+  cena BRB ou Starting Soon antes de abrir Interagir.
+
+  Atalhos:
+    E     -> abre/fecha o painel
+    Esc   -> fecha o painel (salva)
+
+  5.6) Detalhes completos em:
+        C:\twitch\exoriservice\assets\overlay\party-tracker-PAINEL-OBS.md
+
+--------------------------------------------------------------------------------
+6. RODAPÉ ANIMADO (antigo TICKER de Comandos)
+--------------------------------------------------------------------------------
+
+A tarja verde do rodapé (1920×72 px, posição 0,1008) agora se chama
+"📨 RODAPÉ ANIMADO" e está presente nas cenas 01, 02, 04, 05 e 06.
+Você pode escolher entre 6 efeitos de animação, editar a lista de
+mensagens, ajustar velocidade/permanência/intervalo/direção — tudo
+sem sair do OBS.
+
+  6.1) Vá para qualquer cena com o rodapé (02 · GAMEPLAY é o mais
+       comum) e selecione a fonte "📨 RODAPÉ ANIMADO".
+
+  6.2) Botão direito → "Interagir". Abre uma janelinha mostrando o
+       rodapé rodando ao vivo.
+
+  6.3) Clique DENTRO da janela Interagir para dar foco.
+
+  6.4) Aperte a tecla "E" para abrir o painel de administração. Você
+       verá:
+         · EFEITO (1 a 6):
+             1 · Rolagem contínua     (o ticker clássico, rola sem parar)
+             2 · Desliza por msg      (cada msg entra, fica, sai)
+             3 · Fade (dissolve)      (crossfade entre mensagens)
+             4 · Deslizamento lateral (entra a próxima enquanto a atual sai)
+             5 · Máquina de escrever  (digita letra por letra)
+             6 · Estático             (sem animação; troca a cada X s)
+         · VELOCIDADE (px/s ou cps no typer)
+         · PERMANÊNCIA (s que cada msg fica)
+         · INTERVALO (s entre msgs)
+         · DIREÇÃO (apenas scroll/deslizamento)
+         · Lista de MENSAGENS (editar, adicionar, reordenar ↑/↓, remover X)
+
+       Tags HTML permitidas em cada mensagem: <b>, <i>, <em>, <strong>.
+
+  6.5) Aperte "E" de novo ou "Esc" (ou o botão SAIR) para fechar o
+       painel.
+
+  ⚠ ENQUANTO O PAINEL ESTIVER ABERTO, ELE VAI APARECER NO STREAM.
+    Isso é uma limitação do modo Interagir do OBS (a janela usa o
+    mesmo DOM do preview). Saia SEMPRE (E/Esc) antes de deixar a
+    cena no ar.
+
+  💾 Configurações e mensagens são salvas automaticamente no
+     localStorage do perfil do OBS (chave exoRodapeV1), mesmo perfil,
+     mesma fonte.
+
+
+--------------------------------------------------------------------------------
+7. CONTADOR DE ESPECTADORES DA TWITCH
+--------------------------------------------------------------------------------
+
+A fonte "📈 CONTADOR · Twitch" já está adicionada nas cenas 02. Para
+o número aparecer de verdade, você precisa de um proxy local em
+Node.js. Passo a passo:
+
+  7.1) Crie um app em https://dev.twitch.tv/console/apps
+        (categoria "Other"). Anote o CLIENT_ID e gere um
+        CLIENT_SECRET.
+
+  7.2) Abra o bloco de notas e salve um arquivo .env na sua pasta
+        integracoes com:
+
+            PORT=7777
+            CLIENT_ID=coloque_seu_client_id_aqui
+            CLIENT_SECRET=coloque_seu_client_secret_aqui
+            TWITCH_LOGIN=exoriservice
+
+        Caminho final: C:\twitch\exoriservice\integracoes\.env
+
+  7.3) Abra o terminal (cmd) na pasta integracoes e rode:
+
+            node twitch-contador-server.js
+
+        Você deve ver "twitch-contador-server ouvindo em
+        http://127.0.0.1:7777 — canal: exoriservice".
+
+  7.4) Mantenha esse terminal aberto enquanto estiver ao vivo. O OBS
+        consulta o número a cada 30 s.
+
+  7.5) Teste rápido no navegador:
+        http://127.0.0.1:7777/twitch-viewers
+        Deve retornar JSON com "online: true/false" e "viewers".
+
+Detalhes completos em:
+      C:\twitch\exoriservice\integracoes\twitch-contador.md
+
+
+--------------------------------------------------------------------------------
+8. ATALHOS / SCENES SWITCHER
+--------------------------------------------------------------------------------
+
+A coleção não tem atalhos atribuídos. Recomendo configurar no OBS
+em "Configurações" → "Atalhos" (Ctrl+1..5, Ctrl+M para mutar o mic).
+
+
+--------------------------------------------------------------------------------
+9. CHECKLIST RÁPIDO PRA TRANS
+--------------------------------------------------------------------------------
+
+[ ] C:\twitch\exoriservice\LEVA-ME.txt                    ← este arquivo
+[ ] C:\twitch\exoriservice\exoriservice-cenas.json       ← importar
+[ ] C:\twitch\exoriservice\assets\...
+[ ] C:\twitch\exoriservice\integracoes\...
+[ ] App da Twitch criado + .env preenchido
+[ ] node twitch-contador-server.js rodando
+[ ] URL dos alertas do StreamElements colada
+[ ] URL do LivePix colada
+[ ] Webcam selecionada no OBS
+
+Tudo certo? É só iniciar a transmissão.
