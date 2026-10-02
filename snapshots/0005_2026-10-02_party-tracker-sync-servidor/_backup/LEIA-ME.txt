@@ -105,31 +105,42 @@ e) O OBS vai importar 5 cenas, ~18 fontes e 1 grupo (webcam+moldura).
 
 
 --------------------------------------------------------------------------------
-5. PARTY TRACKER — COMO EDITAR (PELO INTERAGIR DO OBS, TECLA E)
+5. PARTY TRACKER — COMO EDITAR SEM MOSTRAR OS CONTROLES (TEMPO REAL)
 --------------------------------------------------------------------------------
 
-  O editor é embutido na própria fonte 🐺 WIDGET · Party Tracker. Não
-  precisa de navegador separado nem de servidor para editar.
+  O Party Tracker atualiza SOZINHO em até 2 segundos, sem clicar
+  "Atualizar" nem copiar a URL. Isso é feito pelo MESMO servidor local
+  do contador da Twitch (item 6 abaixo). Mantenha esse terminal aberto.
 
-  5.1) Na cena 02, selecione a fonte "🐺 WIDGET · Party Tracker".
-  5.2) Botão direito na fonte -> "Interagir". Abre uma janelinha com o widget.
-  5.3) Clique DENTRO da janela Interagir para dar foco.
-  5.4) Aperte a tecla "E" para abrir o painel de edição. Edite TÍTULO, VISÃO,
-        QUEST e os 5 jogadores (VOC + LV).
-        - auto-salva após 4 s de inatividade, ou clique em SALVAR.
-        - aperte E de novo ou Esc para SAIR e voltar ao widget limpo.
-  5.5) Feche a janela Interagir. O público vê o widget atualizado.
+  5.1) Ligue o servidor local (se ainda não ligou para o contador):
+        Abra o cmd na pasta integracoes e rode:
+            node twitch-contador-server.js
+        Deixe esse terminal aberto durante a live.
 
-  ⚠ AVISO: enquanto o painel estiver aberto, ele aparece por cima do widget.
-  Se a cena 02 estiver no ar, o público VÊ o painel. Saia do modo edição
-  (E/Esc) antes de deixar a cena ativa. Para editar "escondido", use a
-  cena BRB ou Starting Soon antes de abrir Interagir.
+  5.2) No OBS: menu "Visualizar" -> "Painéis" -> "Custom Browser Docks…"
+        -> "+" (Add a new dock).
 
-  Atalhos:
-    E     -> abre/fecha o painel
-    Esc   -> fecha o painel (salva)
+          Nome do painel: Party Tracker Admin
+          URL: file:///C:/twitch/exoriservice/assets/overlay/party-tracker-admin.html
+               (se você extraiu o ZIP em outro lugar, ajuste o caminho
+               até o arquivo party-tracker-admin.html no seu PC)
+          "Refresh browser when scene becomes active": DESMARCADO
 
-  5.6) Detalhes completos em:
+        Uma nova aba "Party Tracker Admin" aparece nos painéis do OBS.
+        Arraste-a para o lado que preferir.
+
+  5.3) Edite TÍTULO, VISÃO, QUEST e os 5 jogadores (VOC + LV) na aba
+        do painel. O salvamento é automático após 4 s (ou clique SALVAR).
+        A widget da cena 02 atualiza em até 2 s, em tempo real.
+
+        No alto do painel aparece "servidor: conectado" se tudo está OK.
+        Se aparecer "servidor: offline", verifique o terminal do item 5.1.
+
+  5.4) Contingência: se o servidor não estiver rodando, o botão COPIAR LINK
+        gera uma URL com os dados atuais. Você cola essa URL no campo
+        "URL" da fonte "🐺 WIDGET · Party Tracker" (duplo-clique na fonte).
+
+  5.5) Detalhes completos em:
         C:\twitch\exoriservice\assets\overlay\party-tracker-PAINEL-OBS.md
 
 --------------------------------------------------------------------------------
