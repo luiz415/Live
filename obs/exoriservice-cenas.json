@@ -342,13 +342,13 @@
     },
     {
       "prev_ver": 537001986,
-      "name": "📨 TICKER · Comandos",
+      "name": "📨 RODAPÉ ANIMADO",
       "uuid": "7a875e63-5bea-5fb7-aeb1-fb60104fcd4c",
       "id": "browser_source",
       "versioned_id": "browser_source",
       "settings": {
         "is_local_file": true,
-        "local_file": "C:/twitch/exoriservice/assets/overlay/ticker.html",
+        "local_file": "C:/twitch/exoriservice/assets/overlay/rodape.html",
         "visibility": "always",
         "width": 1920,
         "height": 72,
@@ -909,7 +909,7 @@
             "private_settings": {}
           },
           {
-            "name": "📨 TICKER · Comandos",
+            "name": "📨 RODAPÉ ANIMADO",
             "source_uuid": "7a875e63-5bea-5fb7-aeb1-fb60104fcd4c",
             "visible": true,
             "locked": false,
@@ -1613,7 +1613,7 @@
             "private_settings": {}
           },
           {
-            "name": "📨 TICKER · Comandos",
+            "name": "📨 RODAPÉ ANIMADO",
             "source_uuid": "7a875e63-5bea-5fb7-aeb1-fb60104fcd4c",
             "visible": true,
             "locked": false,
@@ -2056,7 +2056,7 @@
             "private_settings": {}
           },
           {
-            "name": "📨 TICKER · Comandos",
+            "name": "📨 RODAPÉ ANIMADO",
             "source_uuid": "7a875e63-5bea-5fb7-aeb1-fb60104fcd4c",
             "visible": true,
             "locked": false,
@@ -2544,7 +2544,7 @@
             "private_settings": {}
           },
           {
-            "name": "📨 TICKER · Comandos",
+            "name": "📨 RODAPÉ ANIMADO",
             "source_uuid": "7a875e63-5bea-5fb7-aeb1-fb60104fcd4c",
             "visible": true,
             "locked": false,
@@ -2971,7 +2971,7 @@
             "private_settings": {}
           },
           {
-            "name": "📨 TICKER · Comandos",
+            "name": "📨 RODAPÉ ANIMADO",
             "source_uuid": "7a875e63-5bea-5fb7-aeb1-fb60104fcd4c",
             "visible": true,
             "locked": false,
