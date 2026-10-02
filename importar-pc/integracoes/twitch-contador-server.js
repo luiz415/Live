@@ -2,16 +2,20 @@
 /* ─────────────────────────────────────────────────────────────────────────────
  * twitch-contador-server.js
  *
- * Proxy local para o widget "Contador de Espectadores da Twitch".
- * Roda em localhost:porta. O OBS abre o widget como "Local file" e aponta
- * para este proxy (ou usa um servidor HTTP estático qualquer).
+ * Servidor local que faz DUAS coisas:
  *
- * Por que um proxy local?
- *   - A Twitch exige o "Client Credentials" (app access token), obtido por
- *     client_id + client_secret. Esse segredo NÃO PODE o nosso código
- *     público. O proxy local cuida disso.
- *   - O browser_source do OBS não pode fazer CORS para a Twitch direto
- *     (a Twitch não envia Access-Control-Allow-Origin para * em GETs da API).
+ *   A. Proxy da Twitch  (GET  /twitch-viewers)
+ *      - widget "Contador de Espectadores da Twitch" consome aqui.
+ *      - evita CORS e segredos no HTML público.
+ *
+ *   B. State-bus do Party Tracker  (GET|POST /party-data)
+ *      - painel admin (Custom Browser Dock) POSTa o JSON ao salvar.
+ *      - widget público da cena 02 GETa o JSON a cada 2 s.
+ *      - assim funciona MESMO quando o OBS roda browser-source e
+ *        custom-dock em processos CEF separados (o localStorage não
+ *        se compartilha).
+ *      - o estado é persistido em party-data.json ao lado deste script
+ *        para sobreviver a reinícios do servidor.
  *
  * Como usar:
  *   1. Criar app em https://dev.twitch.tv/console/apps  (categorização: "Other")
@@ -20,13 +24,14 @@
  *      (ou exportar como variáveis de ambiente antes de rodar).
  *   3. Editar TWITCH_LOGIN abaixo (default "exoriservice").
  *   4. Abrir este terminal e rodar:  node twitch-contador-server.js
- *   5. O widget consome http://127.0.0.1:7777/twitch-viewers (definido em
- *      assets/overlay/contador-twitch.html).
+ *   5. O widget do contador consome     http://127.0.0.1:7777/twitch-viewers
+ *      O widget do Party Tracker        http://127.0.0.1:7777/party-data  (GET)
+ *      O painel admin do Party Tracker  http://127.0.0.1:7777/party-data  (POST)
  *
  * Variáveis de ambiente (opcional, sobrescreve o .env):
  *   PORT         porta (default 7777)
- *   CLIENT_ID    obrigatório
- *   CLIENT_SECRET obrigatório
+ *   CLIENT_ID    obrigatório (Twitch)
+ *   CLIENT_SECRET obrigatório (Twitch)
  *   TWITCH_LOGIN login do canal (default exoriservice)
  *
  * O arquivo .env (OPCIONAL) deve ficar em /home/user/Live/integracoes/.env,
@@ -69,6 +74,22 @@ if (!CLIENT_ID || !CLIENT_SECRET) {
   process.exit(1);
 }
 
+/* ─── Estado do Party Tracker (persistido em disco) ─── */
+const PARTY_FILE = path.join(__dirname, "party-data.json");
+const PARTY_FALLBACK = { title: "PARTY", view: "", quest: "sw",
+  rows: [{v:"",l:""},{v:"",l:""},{v:"",l:""},{v:"",l:""},{v:"",l:""}] };
+let partyState = (() => {
+  try { const s = JSON.parse(fs.readFileSync(PARTY_FILE, "utf8"));
+    return s && s.rows ? s : JSON.parse(JSON.stringify(PARTY_FALLBACK));
+  } catch (_) { return JSON.parse(JSON.stringify(PARTY_FALLBACK)); }
+})();
+function savePartyToDisk() {
+  try { fs.writeFileSync(PARTY_FILE, JSON.stringify(partyState, null, 2)); }
+  catch (e) { console.error("falha ao gravar party-data.json:", e.message); }
+}
+/* ETag (monotônico) para o widget saber se mudou sem reenviar tudo */
+let partyEtag = 1;
+
 /* ─── cache do app access token (válido por 1h, renovamos quando expira) ─── */
 let tokenCache = { token: null, expiresAt: 0 };
 
@@ -105,30 +126,84 @@ async function fetchStream() {
   return payload;
 }
 
+/* ─── util: body do POST (leitura de JSON) ─── */
+function readBody(req, limit) {
+  return new Promise((resolve, reject) => {
+    let total = 0; const chunks = [];
+    req.on("data", c => { total += c.length; if (total > limit) return reject(new Error("body too big")); chunks.push(c); });
+    req.on("end", () => { try { resolve(Buffer.concat(chunks).toString("utf8")); } catch(e){ reject(e); } });
+    req.on("error", reject);
+  });
+}
+
 /* ─── HTTP server ─── */
-function json(res, code, obj) {
+function json(res, code, obj, extra) {
   const body = JSON.stringify(obj);
-  res.writeHead(code, {
+  const hdrs = {
     "Content-Type": "application/json; charset=utf-8",
     "Content-Length": Buffer.byteLength(body),
     "Access-Control-Allow-Origin": "*",
     "Cache-Control": "no-store",
-  });
+  };
+  if (extra) Object.assign(hdrs, extra);
+  res.writeHead(code, hdrs);
   res.end(body);
 }
 
+const CORS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, If-None-Match",
+};
+
 const server = http.createServer(async (req, res) => {
   try {
-    if (req.method === "OPTIONS") { res.writeHead(204, { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, OPTIONS" }); return res.end(); }
-    if (req.url === "/" || req.url === "/health") return json(res, 200, { ok: true, service: "twitch-viewers", login: TWITCH_LOGIN });
+    if (req.method === "OPTIONS") { res.writeHead(204, CORS); return res.end(); }
+
+    /* ─── health ─── */
+    if (req.url === "/" || req.url === "/health")
+      return json(res, 200, { ok: true, services: ["twitch-viewers", "party-data"], login: TWITCH_LOGIN });
+
+    /* ─── Twitch viewers ─── */
     if (req.url === "/twitch-viewers") {
       const p = await fetchStream();
       return json(res, 200, { ...p, fetched_at: new Date().toISOString() });
     }
-    return json(res, 404, { error: "not found" });
+
+    /* ─── Party Tracker: GET (widget polling) ─── */
+    if (req.url === "/party-data" && req.method === "GET") {
+      const inm = req.headers["if-none-match"];
+      const tag = '"p' + partyEtag + '"';
+      if (inm === tag) { res.writeHead(304, CORS); return res.end(); }
+      return json(res, 200, { ...partyState, etag: partyEtag, updated_at: new Date().toISOString() }, { ETag: tag });
+    }
+
+    /* ─── Party Tracker: POST (admin salva) ─── */
+    if (req.url === "/party-data" && req.method === "POST") {
+      const raw = await readBody(req, 64 * 1024);
+      let incoming; try { incoming = JSON.parse(raw); } catch (e) { return json(res, 400, { error: "invalid_json" }); }
+      /* validação mínima */
+      if (!incoming || !Array.isArray(incoming.rows) || incoming.rows.length !== 5)
+        return json(res, 400, { error: "bad_shape" });
+      const next = JSON.parse(JSON.stringify(PARTY_FALLBACK));
+      next.title  = String(incoming.title  || "PARTY").slice(0, 14).toUpperCase();
+      next.view   = String(incoming.view   || "").toUpperCase().replace(/[^A-Z]/g, "").slice(0, 2);
+      next.quest  = incoming.quest === "sa" ? "sa" : "sw";
+      for (let i = 0; i < 5; i++) {
+        const r = incoming.rows[i] || {};
+        next.rows[i].v = String(r.v || "").toUpperCase().replace(/[^A-Z]/g, "").slice(0, 2);
+        next.rows[i].l = String(r.l || "").replace(/[^0-9]/g, "").slice(0, 4);
+      }
+      partyState = next;
+      partyEtag += 1;
+      savePartyToDisk();
+      return json(res, 200, { ok: true, etag: partyEtag });
+    }
+
+    return json(res, 404, { error: "not found" }, CORS);
   } catch (e) {
     console.error(e.message || e);
-    return json(res, 502, { online: false, viewers: 0, error: "twitch_unreachable", message: String(e.message || e) });
+    return json(res, 502, { online: false, viewers: 0, error: "server_error", message: String(e.message || e) }, CORS);
   }
 });
 server.listen(PORT, "127.0.0.1", () => {

@@ -2,12 +2,15 @@
 <title>Party Tracker — Painel Administrativo (PRIVADO)</title>
 <meta name="referrer" content="no-referrer">
 <style>
-/* PAINEL ADMINISTRATIVO — abre no navegador, não vira fonte do OBS
-   Estilo coerente com a identidade (verde-ácido sobre preto) para combinar
-   com os outros widgets, mas com inputs grandes e botões utilizáveis.
-   Os dados são gravados em localStorage.chave 'exoriPartyV1' e o link
-   "Compartilhar" gera uma URL com ?v1..l5&view= que pode ser colada na
-   fonte do OBS (party-tracker.html) — útil se o OBS rodar em outro usuário. */
+/* PAINEL ADMINISTRATIVO — abre como Custom Browser Dock do OBS, NÃO é fonte
+   visível aos espectadores.
+   - Grava em localStorage.chave 'exoriPartyV1' (cópia local / fallback).
+   - POSTa cada salvamento para http://127.0.0.1:7777/party-data (mesmo
+     servidor do contador da Twitch). O widget público (party-tracker.html)
+     faz GET a cada 2 s e atualiza em tempo real, mesmo com o OBS rodando
+     Browser Source e Custom Dock em processos CEF separados.
+   - O botão "COPIAR LINK" gera uma URL ?v1..l5&view=… para colar na fonte
+     do OBS (fallback manual, se o servidor não estiver rodando). */
 :root{--acid:#B4FF00;--toxic:#5C9900;--bg:#060806;--txt:#F2FFE8;--txt2:#9AA69A}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;min-height:100%;background:var(--bg);color:var(--txt);
@@ -56,11 +59,12 @@ select.quest{min-width:160px;cursor:pointer}
 <div class="wrap">
   <h1>🎮 PARTY TRACKER — PAINEL ADMINISTRATIVO</h1>
   <div class="warn">
-    Esta página <b>não</b> entra no OBS. Abra-a no navegador (ou em uma janela anônima)
-    enquanto estiver ao vivo. As alterações são salvas no <code>localStorage</code>
-    do navegador e aplicadas automaticamente à fonte <code>party-tracker.html</code>
-    que está no OBS. Se o OBS e esta página rodarem em <b>usuários/perfis diferentes</b>
-    do navegador, use o botão <b>COPIAR LINK</b> e cole a URL na fonte do OBS.
+    Este painel é <b>seu</b> (Custom Browser Dock do OBS) — espectadores não veem.
+    Ao clicar <b>SALVAR</b> (ou após 4 s de inatividade) os dados são enviados ao
+    servidor local <code>http://127.0.0.1:7777/party-data</code> e a widget da
+    cena 02 atualiza sozinha em até 2 segundos. Mantenha o terminal com
+    <code>node twitch-contador-server.js</code> aberto (o mesmo do contador da Twitch).
+    <span id="srv" class="status">servidor: …</span>
   </div>
 
   <div class="card">
@@ -102,6 +106,7 @@ select.quest{min-width:160px;cursor:pointer}
 <script>
 "use strict";
 const KEY='exoriPartyV1';
+const SERVER='http://127.0.0.1:7777/party-data';
 const FALLBACK={title:'PARTY',view:'',quest:'sw',rows:[{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''}]};
 let DATA=JSON.parse(JSON.stringify(FALLBACK));
 try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s&&s.rows) DATA=Object.assign(DATA,s)}catch(e){}
@@ -111,7 +116,13 @@ const $=id=>document.getElementById(id);
 function pad2(s){return String(s||'').slice(0,2).toUpperCase().replace(/[^A-Z]/g,'')}
 function padLV(s){return String(s||'').replace(/[^0-9]/g,'').slice(0,4)}
 function flash(el){el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash')}
-function status(msg,ok){const s=$('status'); s.textContent=msg; s.className='status'+(ok?' ok':'')}
+function setStatus(msg,ok){const s=$('status'); s.textContent=msg; s.className='status'+(ok?' ok':'')}
+let serverOK=false; let serverBusy=false;
+function srvBadge(){
+  const el=$('srv'); if(!el) return;
+  el.className='status'+(serverOK?' ok':'');
+  el.textContent='servidor: '+(serverOK?'conectado ✓':'offline (inicie node twitch-contador-server.js)');
+}
 
 /* ─── monta linhas ─── */
 function buildRows(){
@@ -145,18 +156,50 @@ function fillForm(d){DATA=d;
   buildRows();
 }
 
-/* ─── grava + propaga ─── */
-function persist(){
-  DATA=readForm();
-  try{localStorage.setItem(KEY,JSON.stringify(DATA)); status('SALVO ✓',true)}
-  catch(e){status('ERRO AO SALVAR: '+e.message)}
-  buildShare();
-  flash($('save'));
-  // avisa a janela de preview embutida (mesma origem)
-  try{$('prev').contentWindow.dispatchEvent(new StorageEvent('storage',{key:KEY}))}catch(e){}
+/* ─── envio ao servidor ─── */
+async function pushServer(d){
+  if(serverBusy) return;
+  serverBusy=true;
+  try{
+    const r=await fetch(SERVER,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+    serverOK=r.ok;
+    if(!r.ok) serverOK=false;
+  }catch(e){serverOK=false;}
+  serverBusy=false;
+  srvBadge();
 }
 
-/* ─── link para colar na fonte do OBS ─── */
+/* ─── puxa estado do servidor ao abrir (se houver) ─── */
+async function pullServer(){
+  try{
+    const r=await fetch(SERVER,{cache:'no-store'});
+    if(!r.ok) return;
+    const j=await r.json();
+    if(!j||!j.rows) return;
+    const next={title:j.title||'PARTY',view:j.view||'',quest:j.quest==='sa'?'sa':'sw',rows:j.rows};
+    DATA=next;
+    try{localStorage.setItem(KEY,JSON.stringify(DATA));}catch(e){}
+    fillForm(DATA); buildShare();
+    serverOK=true;
+  }catch(e){serverOK=false;}
+  srvBadge();
+}
+
+/* ─── grava + propaga ─── */
+let saveSeq=0;
+function persist(){
+  DATA=readForm();
+  try{localStorage.setItem(KEY,JSON.stringify(DATA));}catch(e){}
+  buildShare();
+  flash($('save'));
+  /* avisa a janela de preview embutida (mesma origem — para a prévia instantânea) */
+  try{$('prev').contentWindow.dispatchEvent(new StorageEvent('storage',{key:KEY}))}catch(e){}
+  /* envia ao servidor em background (widget pega daí) */
+  saveSeq++; pushServer(DATA);
+  setStatus('SALVO ✓',true);
+}
+
+/* ─── link para colar na fonte do OBS (fallback manual) ─── */
 function buildShare(){
   const u=new URL('party-tracker.html', location.href);
   u.searchParams.set('title', DATA.title||'PARTY');
@@ -171,10 +214,10 @@ $('clear').onclick=function(){
   if(!confirm('Apagar todos os dados do Party Tracker?')) return;
   try{localStorage.removeItem(KEY)}catch(e){}
   DATA=JSON.parse(JSON.stringify(FALLBACK)); fillForm(DATA); buildShare();
-  status('LIMPO',true); persist();
+  persist();
 };
-$('share').onclick=function(){persist(); $('url').select(); try{document.execCommand('copy'); status('LINK COPIADO ✓',true)}catch(e){status('COPIE MANUALMENTE')}};
-$('copy').onclick=function(){$('url').select(); try{document.execCommand('copy'); status('LINK COPIADO ✓',true)}catch(e){status('COPIE MANUALMENTE')}};
+$('share').onclick=function(){persist(); $('url').select(); try{document.execCommand('copy'); setStatus('LINK COPIADO ✓',true)}catch(e){setStatus('COPIE MANUALMENTE',false)}};
+$('copy').onclick=function(){$('url').select(); try{document.execCommand('copy'); setStatus('LINK COPIADO ✓',true)}catch(e){setStatus('COPIE MANUALMENTE',false)}};
 
 /* salvamento automático a cada 4 s, se algo mudou */
 let lastJSON=JSON.stringify(DATA);
@@ -184,4 +227,7 @@ setInterval(()=>{
 },4000);
 
 fillForm(DATA); buildShare();
+pullServer();
+/* heartbeat para o servidor (saber se caiu) */
+setInterval(pullServer,10000);
 </script></body></html>

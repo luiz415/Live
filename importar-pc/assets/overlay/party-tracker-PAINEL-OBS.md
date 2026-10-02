@@ -1,53 +1,81 @@
-# Party Tracker — editar pelo próprio OBS (sem abrir navegador)
+# Party Tracker — editar pelo próprio OBS (em tempo real, sem copiar URL)
 
 Com o **Custom Browser Dock** do OBS você transforma a página administrativa
-(`party-tracker-admin.html`) em um painel fixo do OBS. Assim você edita os
-jogadores sem sair do OBS, sem abrir o Chrome, sem servidor e sem URL.
+(`party-tracker-admin.html`) em um painel fixo do OBS. As edições são enviadas
+ao **servidor local** (`twitch-contador-server.js` — o mesmo do contador da
+Twitch) e a widget da cena 02 atualiza **sozinha em até 2 segundos**, sem
+precisar clicar em "Atualizar" nem colar URL.
 
-A widget pública (`party-tracker.html`) que já está na cena 02 continua
-apenas leitura; ela lê a chave `exoriPartyV1` do `localStorage` a cada 5 s e
-atualiza sozinha.
+- Não precisa de janela do navegador aberta.
+- Não precisa clicar "Refresh cache" no OBS.
+- Não precisa copiar a URL de novo.
+- O painel não vai para a transmissão: é um Dock, não uma fonte.
 
-Requisito: **OBS 30 ou superior** (Custom Browser Docks é estável a partir do OBS 28,
-recomendado o 30+).
+Requisitos:
+- **OBS 30 ou superior** (Custom Browser Docks).
+- **Node.js** instalado (já é requisito para o contador da Twitch).
+- O terminal com `node twitch-contador-server.js` **aberto** durante a live
+  (o mesmo terminal do contador).
 
 ---
 
-## 1. Adicionar o painel uma única vez
+## 1. Configurar o painel uma única vez
+
+### 1.1 Ligar o servidor local (só na primeira sessão de live)
+
+1. Abra o terminal (cmd) na pasta `integracoes` (ex:
+   `C:\Users\lphil\OneDrive\Desktop\Nova pasta (4)\integracoes`).
+2. Rode:
+   ```
+   node twitch-contador-server.js
+   ```
+3. Deixe esse terminal aberto. Ele serve **tanto o contador da Twitch quanto
+   a sincronização do Party Tracker**.
+
+   Você deve ver algo como:
+   ```
+   twitch-contador-server ouvindo em http://127.0.0.1:7777 — canal: exoriservice
+   ```
+
+### 1.2 Adicionar o Custom Browser Dock no OBS
 
 1. No OBS, vá em **Visualizar → Painéis → Custom Browser Docks…**
    (em inglês: **View → Docks → Custom Browser Docks…**).
 
 2. Clique em **"+"** (Add a new dock).
 
-4. Preencha:
-   - **Dock Name:** `Party Tracker Admin` (é o nome que aparece na aba do OBS).
-   - **URL:** `file:///C:/twitch/exoriservice/assets/overlay/party-tracker-admin.html`
-   - **Refresh browser when scene becomes active:** deixe **desmarcado** (a página
-     não precisa recarregar).
+3. Preencha:
+   - **Dock Name:** `Party Tracker Admin`
+   - **URL:** `file:///C:/Users/lphil/OneDrive/Desktop/Nova%20pasta%20(4)/assets/overlay/party-tracker-admin.html`
 
-5. Confirme. Uma nova aba chamada **Party Tracker Admin** aparece nos
-   painéis do OBS. Arraste-a para o lado da sua tela onde preferir
-   (direita, embaixo, onde quiser).
+     (Se sua pasta estiver em outro lugar, substitua o caminho até
+     `party-tracker-admin.html`. Use `/` em vez de `\`, e espaços viram
+     `%20`. Você também pode usar **"Copiar como caminho"** no Explorador e
+     trocar as `\` por `/`.)
 
-Pronto. Agora é só clicar nessa aba para editar.
+   - **Refresh browser when scene becomes active:** deixe **desmarcado**.
+
+4. Confirme. Uma nova aba chamada **Party Tracker Admin** aparece nos
+   painéis do OBS. Arraste-a para o lado da sua tela onde preferir.
+
+Pronto.
 
 ---
 
-## 2. Como editar durante a live
+## 2. Editar durante a live (em tempo real)
 
 1. Clique na aba **Party Tracker Admin** dentro do OBS.
-
 2. Edite TÍTULO, VISÃO, QUEST e os 5 jogadores (VOC + LV).
+3. **Não precisa clicar em SALVAR**: o salvamento é automático depois de 4 s
+   de inatividade (ou clique **SALVAR** para aplicar na hora).
+4. Olhe o preview ou mude para a cena 02: a widget do Party Tracker
+   **já mostra os valores novos** em até 2 segundos.
 
-3. Clique em **SALVAR** (ou apenas espere 4 segundos — o salvamento
-   é automático).
+   O texto **"servidor: conectado ✓"** no alto do painel confirma que a
+   sincronização está funcionando. Se aparecer **"servidor: offline"**,
+   verifique se o `node twitch-contador-server.js` ainda está rodando.
 
-4. Mude para a aba **Cenas** ou olhe o preview: a widget do Party Tracker
-   já mostra os valores novos. **Sem Interact, sem clicar no widget, sem
-   sair do OBS.**
-
-Os espectadores só veem o resultado, nunca os campos de edição.
+Os espectadores só veem o resultado — nunca os campos de edição.
 
 ---
 
@@ -58,48 +86,58 @@ Os espectadores só veem o resultado, nunca os campos de edição.
 | Aba **Party Tracker Admin** (painel do OBS) | TÍTULO, VISÃO, QUEST, jogadores, botões | **não** — é só seu |
 | Cena 02 (fonte `🐺 WIDGET · Party Tracker`) | Só o resultado: `PARTY · DR320 / MA410 / …` | sim |
 
-A aba do painel não vai para a transmissão porque ela é um painel do OBS,
-não uma fonte.
-
 ---
 
 ## 4. Persistência
 
-Os dados ficam em `localStorage['exoriPartyV1']` no perfil do Chromium
-embutido do OBS. Sobrevivem a:
+- Os dados ficam gravados em `integracoes/party-data.json` (na mesma pasta do
+  servidor local). Sobrevivem a:
+  - trocar de cena e voltar;
+  - reiniciar o OBS;
+  - reiniciar o `node twitch-contador-server.js`.
+- Uma cópia extra fica no `localStorage` do perfil Chromium do OBS.
 
-- trocar de cena e voltar;
-- ocultar/mostrar a fonte do widget;
-- reiniciar o OBS.
-
-Se você quiser apagar tudo, clique em **LIMPAR TUDO** na aba.
-
----
-
-## 5. Quando você abrir o OBS em outro PC
-
-O `localStorage` é por perfil de navegador. Se você migrar a coleção para
-outro PC, o painel começa vazio. Para copiar os dados:
-
-1. Na aba do painel, **COPIAR LINK** gera uma URL com `?title=...&v1=...&l1=...`.
-
-2. No OBS novo: duplo-clique na fonte **🐺 WIDGET · Party Tracker** →
-   cole a URL no campo **URL** → OK.
-
-A widget lê os dados da URL quando ela abre; depois você pode editar pelo
-painel normalmente.
+Para apagar tudo, clique **LIMPAR TUDO** na aba do painel.
 
 ---
 
-## 6. Limitações conhecidas
+## 5. Abrir o OBS em outro PC
 
-- O Custom Browser Dock é uma janela do Chromium com `localStorage`
-  próprio. Em outros programas de stream (Streamlabs, vMix etc.) ele não
-  existe; aí use o método antigo (abrir a admin no navegador do sistema).
+O arquivo `integracoes/party-data.json` pode ser copiado manualmente para o
+novo PC (na mesma pasta do servidor). Alternativamente:
 
-- `<select>` (dropdown) e `<input type=color>` dentro de Custom Browser
-  Docks têm bugs conhecidos de foco no Chromium. Como a admin só usa
-  `<input type=text>`, `<input type=number>` e `<select>` simples,
-  isso não impede a edição. Se notar que o dropdown não abre, troque o
-  `<select>` por dois botões "SOUL WAR" / "SANGUINE" — me avise que eu
-  mando a versão.
+1. Na aba do painel, **COPIAR LINK** gera uma URL com
+   `?title=…&v1=…&l1=…`.
+2. No OBS novo: duplo-clique na fonte **🐺 WIDGET · Party Tracker** → cole a
+   URL no campo **URL** (se a fonte estiver em "Local file", troque para
+   "URL" ou cole o caminho do local file com os parâmetros).
+3. Quando o servidor local estiver rodando no PC novo, as edições seguintes
+   já sincronizam normalmente.
+
+---
+
+## 6. Se o servidor não estiver rodando (modo de contingência)
+
+Se por qualquer motivo `node twitch-contador-server.js` não estiver rodando:
+
+- O painel continua funcionando e salvando no `localStorage`.
+- A widget **não** vai atualizar em tempo real (ela tenta o servidor por
+  ~6 s e cai no `localStorage` — mas Browser Source e Custom Dock podem ter
+  perfis Chromium diferentes no OBS, então esse fallback é só "melhor
+  esforço").
+- Apertar **COPIAR LINK** e colar a URL na fonte do widget sempre funciona,
+  sem servidor.
+
+Recomendação: mantenha o terminal com o servidor aberto durante a live, é o
+modo confiável.
+
+---
+
+## 7. Solução de problemas
+
+| Sintoma | Causa | Correção |
+|---|---|---|
+| A widget não atualiza depois de editar | Servidor não está rodando | Verifique o terminal com `node twitch-contador-server.js` |
+| Painel diz "servidor: offline" | Mesmo motivo | Ligue o servidor; recarregue o painel (botão direito na aba → Recarregar) |
+| A widget pisca ao trocar de cena | `shutdown` está ligado | Na coleção de cenas, a fonte `🐺 WIDGET · Party Tracker` deve ter **"Shutdown source when not visible" DESMARCADO** (a coleção que acompanha o pacote já vem assim) |
+| "Falha ao conectar" no navegador | Firewall do Windows bloqueando 127.0.0.1 | Libere `node.exe` no firewall; o acesso é só local |

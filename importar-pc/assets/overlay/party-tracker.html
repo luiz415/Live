@@ -56,45 +56,100 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 </div>
 <script>
 "use strict";
-/* ─── COLEÇÃO DE DADOS (fonte única da verdade: localStorage + URL) ─── */
-const KEY='exoriPartyV1', FALLBACK={title:'PARTY',view:'',quest:'sw',rows:[{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''}]};
-function readLS(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');return s&&s.rows?s:null}catch(e){return null}}
-function load(){
-  const ls=readLS(); let d=JSON.parse(JSON.stringify(FALLBACK));
-  if(ls) d=Object.assign(d,ls);
+/* ─────────────────────────────────────────────────────────────────────────────
+   PARTY TRACKER (VISÃO DO ESPECTADOR — leitura apenas)
+   - Busca dados a cada 2 s em http://127.0.0.1:7777/party-data  (servidor local).
+     É o mesmo servidor do contador da Twitch (twitch-contador-server.js).
+     Assim funciona mesmo quando o OBS roda browser-source e custom-browser-dock
+     em processos CEF separados (localStorage não se compartilha).
+   - Fallback: localStorage chave 'exoriPartyV1' (se o servidor não estiver rodando
+     e o painel admin foi aberto no mesmo perfil de navegador).
+   - Fallback: parâmetros da URL (?title=…&view=…&quest=…&v1=…&l1=…&v5=…&l5=…)
+     usados quando você cola o link "COPIAR LINK" do painel.
+   Fonte de verdade (em ordem): servidor > localStorage > URL.
+───────────────────────────────────────────────────────────────────────────── */
+const KEY='exoriPartyV1';
+const SERVER='http://127.0.0.1:7777/party-data';
+const POLL_MS=2000;
+const FALLBACK={title:'PARTY',view:'',quest:'sw',rows:[{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''}]};
+
+function sanitize(d){
+  const o=JSON.parse(JSON.stringify(FALLBACK));
+  o.title=String(d.title||'PARTY').slice(0,14).toUpperCase();
+  o.view=String(d.view||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,2);
+  o.quest=d.quest==='sa'?'sa':'sw';
+  for(let i=0;i<5;i++){const r=d.rows&&d.rows[i]?d.rows[i]:{};
+    o.rows[i].v=String(r.v||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,2);
+    o.rows[i].l=String(r.l||'').replace(/[^0-9]/g,'').slice(0,4);}
+  return o;
+}
+function fromLS(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');return s&&s.rows?s:null}catch(e){return null}}
+function fromURL(){
   const q=new URLSearchParams(location.search);
+  if(!q.get('title')&&!q.get('view')&&!q.get('v1')&&!q.get('l1')) return null;
+  const d=JSON.parse(JSON.stringify(FALLBACK));
   if(q.get('title')) d.title=q.get('title').slice(0,14).toUpperCase();
   if(q.get('view')) d.view=q.get('view').slice(0,2).toUpperCase();
   if(q.get('quest')) d.quest=q.get('quest')==='sa'?'sa':'sw';
-  for(let i=1;i<=5;i++){if(q.get('v'+i)) d.rows[i-1].v=q.get('v'+i).slice(0,2).toUpperCase();
-    if(q.get('l'+i)) d.rows[i-1].l=q.get('l'+i).replace(/[^0-9]/g,'').slice(0,4)}
+  for(let i=1;i<=5;i++){
+    if(q.get('v'+i)) d.rows[i-1].v=q.get('v'+i).slice(0,2).toUpperCase();
+    if(q.get('l'+i)) d.rows[i-1].l=q.get('l'+i).replace(/[^0-9]/g,'').slice(0,4);}
   return d;
 }
-let DATA=load();
 
-/* ─── RENDER (somente leitura) ─── */
+let DATA=sanitize(Object.assign({},FALLBACK,fromLS()||{},fromURL()||{}));
+let etag=null;
+let serverOK=false;
+let serverFail=0;
+
+/* ─── RENDER ─── */
 function vheadHTML(d){return '<span class="vlbl">VISÃO DO:</span><span class="vchip'+(d.view?'':' empty')+'">'+(d.view||'··')+'</span>'
   +'<span class="vsep"></span><span class="qlbl">QUEST:</span><span class="qchip '+(d.quest==='sa'?'sa':'sw')+'">'
   +(d.quest==='sa'?'SANGUINE':'SOUL WAR')+'</span>'}
 function pillHTML(r){return '<span class="pill fl"><span class="pv'+(r.v?'':' empty')+'">'+(r.v||'··')+'</span>'
   +'<span class="pl'+(r.l?'':' empty')+'">'+(r.l||'···')+'</span></span>'}
-function render(){
+function render(flashFirst){
   document.getElementById('vhead').innerHTML=vheadHTML(DATA);
   let html='<span class="mtag">'+(DATA.title||'PARTY')+'</span><span class="mdot"></span>';
   DATA.rows.forEach((r,i)=>{if(i) html+='<span class="pslash">/</span>'; html+=pillHTML(r)});
   document.getElementById('mline').innerHTML=html;
+  if(flashFirst){const novo=document.querySelector('.fl'); if(novo){novo.classList.remove('flash'); void novo.offsetWidth; novo.classList.add('flash')}}
 }
 
-/* ─── REAÇÃO A MUDANÇAS NO LOCALSTORAGE (admin editou em outra aba) ─── */
+/* ─── POLLING do servidor (2 s) ─── */
+async function poll(){
+  const headers={};
+  if(etag) headers['If-None-Match']=etag;
+  try{
+    const r=await fetch(SERVER,{headers,cache:'no-store'});
+    if(r.status===304) return; /* nada mudou */
+    if(!r.ok) throw new Error('http '+r.status);
+    const j=await r.json();
+    etag='"p'+j.etag+'"';
+    const next=sanitize(j);
+    if(JSON.stringify(next)!==JSON.stringify(DATA)){DATA=next; render(true)}
+    serverOK=true; serverFail=0;
+  }catch(e){
+    serverFail++;
+    if(serverFail===2 && serverOK){/* servidor caiu depois de estar ok → tenta localStorage */}
+    if(serverFail>=3){
+      /* fallback: localStorage (se servidor não estiver rodando por mais de 3 polls) */
+      const ls=fromLS();
+      if(ls){const next=sanitize(ls);
+        if(JSON.stringify(next)!==JSON.stringify(DATA)){DATA=next; render(true)}}
+    }
+  }
+}
+setInterval(poll,POLL_MS);
+poll();
+
+/* ─── storage events (fallback se mesmo perfil) ─── */
 window.addEventListener('storage',function(ev){
   if(ev.key!==KEY) return;
-  DATA=load();
-  const antes=document.querySelector('.fl.flash');
-  render();
-  const novo=document.querySelector('.fl'); if(novo){novo.classList.remove('flash'); void novo.offsetWidth; novo.classList.add('flash')}
+  const ls=fromLS(); if(!ls) return;
+  DATA=sanitize(ls); render(true);
 });
 
-/* ─── POLLING DE SEGURANÇA (5 s): se a aba ficou aberta e o localStorage mudou na mesma aba, ou se outro app trocou ─── */
-setInterval(()=>{const novo=JSON.stringify(load()); if(novo!==JSON.stringify(DATA)){DATA=load(); render()}}, 5000);
-render();
+/* ─── primeira tela imediata (com o que temos em LS/URL) ─── */
+render(false);
 </script></body></html>
