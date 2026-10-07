@@ -65,12 +65,12 @@
         "width": 1920,
         "height": 1080,
         "reroute_audio": false,
-        "restart_when_active": true,
+        "restart_when_active": false,
         "shutdown": true,
         "visibility": "always",
         "webpage_control_level": 1,
         "is_local_file": false,
-        "url": "file:///C:/twitch/exoriservice/assets/telas/starting-soon.html?t=10"
+        "url": "file:///C:/twitch/exoriservice/telas/starting-soon.html?t=10"
       },
       "id": "browser_source"
     },
@@ -103,8 +103,8 @@
         "shutdown": true,
         "visibility": "always",
         "webpage_control_level": 1,
-        "is_local_file": true,
-        "local_file": "C:/twitch/exoriservice/assets/telas/brb.html"
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/telas/brb.html"
       },
       "id": "browser_source"
     },
@@ -137,8 +137,8 @@
         "shutdown": true,
         "visibility": "always",
         "webpage_control_level": 1,
-        "is_local_file": true,
-        "local_file": "C:/twitch/exoriservice/assets/telas/encerramento.html"
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/telas/encerramento.html"
       },
       "id": "browser_source"
     },
@@ -171,8 +171,8 @@
         "shutdown": true,
         "visibility": "always",
         "webpage_control_level": 1,
-        "is_local_file": true,
-        "local_file": "C:/twitch/exoriservice/assets/overlay/overlay-gameplay.html"
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/overlay-gameplay.html"
       },
       "id": "browser_source"
     },
@@ -205,8 +205,8 @@
         "shutdown": true,
         "visibility": "always",
         "webpage_control_level": 1,
-        "is_local_file": true,
-        "local_file": "C:/twitch/exoriservice/assets/overlay/party-tracker.html"
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/party-tracker.html"
       },
       "id": "browser_source"
     },
@@ -239,8 +239,8 @@
         "shutdown": true,
         "visibility": "always",
         "webpage_control_level": 1,
-        "is_local_file": true,
-        "local_file": "C:/twitch/exoriservice/assets/overlay/carrossel-servicos.html"
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/carrossel-servicos.html"
       },
       "id": "browser_source"
     },
@@ -395,8 +395,8 @@
         "shutdown": true,
         "visibility": "always",
         "webpage_control_level": 1,
-        "is_local_file": true,
-        "local_file": "C:/twitch/exoriservice/assets/overlay/cobertura-chat.html"
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/cobertura-chat.html"
       },
       "id": "browser_source"
     },
@@ -407,13 +407,7 @@
       "mixers": 0,
       "sync": 0,
       "flags": 0,
-      "volume": {
-        "display": 0,
-        "method": "auto",
-        "show_cursor": true,
-        "srgb": false,
-        "force_sdr": false
-      },
+      "volume": 1.0,
       "balance": 0.5,
       "enabled": true,
       "muted": false,
@@ -425,8 +419,12 @@
       "monitoring_type": 0,
       "private_settings": {},
       "filters": [],
-      "settings": "display_capture",
-      "id": "browser_source"
+      "settings": {
+        "monitor": 0,
+        "capture_cursor": true,
+        "compatibility": false
+      },
+      "id": "monitor_capture"
     },
     {
       "prev_ver": 503316480,
@@ -457,8 +455,8 @@
         "shutdown": true,
         "visibility": "always",
         "webpage_control_level": 1,
-        "is_local_file": true,
-        "local_file": "C:/twitch/exoriservice/assets/overlay/moldura-monitor.html"
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/moldura-monitor.html"
       },
       "id": "browser_source"
     },
@@ -491,8 +489,8 @@
         "shutdown": true,
         "visibility": "always",
         "webpage_control_level": 1,
-        "is_local_file": true,
-        "local_file": "C:/twitch/exoriservice/assets/overlay/moldura-jogo.html"
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/moldura-jogo.html"
       },
       "id": "browser_source"
     },
@@ -525,8 +523,8 @@
         "shutdown": true,
         "visibility": "always",
         "webpage_control_level": 1,
-        "is_local_file": true,
-        "local_file": "C:/twitch/exoriservice/assets/overlay/moldura-jc.html"
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/moldura-jc.html"
       },
       "id": "browser_source"
     },
@@ -550,7 +548,7 @@
       "private_settings": {},
       "filters": [],
       "settings": {
-        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "css": "body { background-color: rgba(0,0,0,0); margin:0; overflow:hidden; }",
         "fps": 60,
         "width": 1920,
         "height": 72,
@@ -559,10 +557,166 @@
         "shutdown": true,
         "visibility": "always",
         "webpage_control_level": 1,
-        "is_local_file": true,
-        "local_file": "C:/twitch/exoriservice/assets/overlay/ticker.html"
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/ticker.html"
       },
       "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "00 🔧 ADMIN — Central de Edição",
+      "uuid": "5a680005-5bed-4ba5-94bf-d03e50b2ab76",
+      "id": "scene",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "custom_size": false,
+        "id_counter": 2,
+        "items": [
+          {
+            "source_uuid": "da04f8d2-feff-4ac3-9fa1-664998cc77dd",
+            "pos": {
+              "x": 320,
+              "y": 130,
+              "alignment": 5
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "alignment": 0,
+              "type": "OBS_BOUNDS_NONE"
+            },
+            "crop": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "scale_filter": "OBS_SCALE_BICUBIC",
+            "visible": true,
+            "locked": true,
+            "rot": 0,
+            "blend_method": "OBS_BLEND_NORMAL",
+            "id": 1,
+            "group_item_backup": false,
+            "show_transition": null,
+            "blend_sub_mode": 0,
+            "transparent": false
+          }
+        ]
+      }
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🎬 GRUPO · Webcam (moldura+contador)",
+      "uuid": "815ec740-6531-4257-95f9-20e02f19b3f9",
+      "id": "scene",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "custom_size": false,
+        "id_counter": 3,
+        "items": [
+          {
+            "source_uuid": "6956f848-5d2c-43d8-9123-8c8681e3984c",
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "alignment": 5
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "alignment": 0,
+              "type": "OBS_BOUNDS_NONE"
+            },
+            "crop": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "scale_filter": "OBS_SCALE_BICUBIC",
+            "visible": true,
+            "locked": false,
+            "rot": 0,
+            "blend_method": "OBS_BLEND_NORMAL",
+            "id": 1,
+            "group_item_backup": false,
+            "show_transition": null,
+            "blend_sub_mode": 0,
+            "transparent": false
+          },
+          {
+            "source_uuid": "6a763ca3-8b72-433a-9c83-8a0c06e13962",
+            "pos": {
+              "x": 360,
+              "y": 700,
+              "alignment": 5
+            },
+            "scale": {
+              "x": 0.18,
+              "y": 0.18
+            },
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "alignment": 0,
+              "type": "OBS_BOUNDS_NONE"
+            },
+            "crop": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "scale_filter": "OBS_SCALE_BICUBIC",
+            "visible": true,
+            "locked": false,
+            "rot": 0,
+            "blend_method": "OBS_BLEND_NORMAL",
+            "id": 2,
+            "group_item_backup": false,
+            "show_transition": null,
+            "blend_sub_mode": 0,
+            "transparent": false
+          }
+        ]
+      }
     },
     {
       "prev_ver": 503316480,
@@ -581,7 +735,7 @@
       "private_settings": {},
       "settings": {
         "custom_size": false,
-        "id_counter": 9,
+        "id_counter": 6,
         "items": [
           {
             "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
@@ -738,6 +892,40 @@
             },
             "private_settings": {},
             "type": "input"
+          },
+          {
+            "source_uuid": "72e46c9e-cef5-4ca5-896c-484d3652b506",
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "alignment": 5
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "alignment": 0,
+              "type": "OBS_BOUNDS_NONE"
+            },
+            "crop": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "scale_filter": "OBS_SCALE_BICUBIC",
+            "visible": true,
+            "locked": false,
+            "rot": 0,
+            "blend_method": "OBS_BLEND_NORMAL",
+            "id": 5,
+            "group_item_backup": false,
+            "show_transition": null,
+            "blend_sub_mode": 0,
+            "transparent": false
           }
         ]
       }
@@ -759,7 +947,7 @@
       "private_settings": {},
       "settings": {
         "custom_size": false,
-        "id_counter": 12,
+        "id_counter": 10,
         "items": [
           {
             "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
@@ -1033,6 +1221,74 @@
             },
             "private_settings": {},
             "type": "input"
+          },
+          {
+            "source_uuid": "72e46c9e-cef5-4ca5-896c-484d3652b506",
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "alignment": 5
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "alignment": 0,
+              "type": "OBS_BOUNDS_NONE"
+            },
+            "crop": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "scale_filter": "OBS_SCALE_BICUBIC",
+            "visible": true,
+            "locked": false,
+            "rot": 0,
+            "blend_method": "OBS_BLEND_NORMAL",
+            "id": 8,
+            "group_item_backup": false,
+            "show_transition": null,
+            "blend_sub_mode": 0,
+            "transparent": false
+          },
+          {
+            "source_uuid": "815ec740-6531-4257-95f9-20e02f19b3f9",
+            "pos": {
+              "x": 1450,
+              "y": 60,
+              "alignment": 5
+            },
+            "scale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "alignment": 0,
+              "type": "OBS_BOUNDS_NONE"
+            },
+            "crop": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "scale_filter": "OBS_SCALE_BICUBIC",
+            "visible": true,
+            "locked": false,
+            "rot": 0,
+            "blend_method": "OBS_BLEND_NORMAL",
+            "id": 9,
+            "group_item_backup": false,
+            "show_transition": null,
+            "blend_sub_mode": 0,
+            "transparent": false
           }
         ]
       }
@@ -1054,7 +1310,7 @@
       "private_settings": {},
       "settings": {
         "custom_size": false,
-        "id_counter": 13,
+        "id_counter": 11,
         "items": [
           {
             "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
@@ -1367,6 +1623,74 @@
             },
             "private_settings": {},
             "type": "input"
+          },
+          {
+            "source_uuid": "72e46c9e-cef5-4ca5-896c-484d3652b506",
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "alignment": 5
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "alignment": 0,
+              "type": "OBS_BOUNDS_NONE"
+            },
+            "crop": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "scale_filter": "OBS_SCALE_BICUBIC",
+            "visible": true,
+            "locked": false,
+            "rot": 0,
+            "blend_method": "OBS_BLEND_NORMAL",
+            "id": 9,
+            "group_item_backup": false,
+            "show_transition": null,
+            "blend_sub_mode": 0,
+            "transparent": false
+          },
+          {
+            "source_uuid": "815ec740-6531-4257-95f9-20e02f19b3f9",
+            "pos": {
+              "x": 1450,
+              "y": 60,
+              "alignment": 5
+            },
+            "scale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "alignment": 0,
+              "type": "OBS_BOUNDS_NONE"
+            },
+            "crop": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "scale_filter": "OBS_SCALE_BICUBIC",
+            "visible": true,
+            "locked": false,
+            "rot": 0,
+            "blend_method": "OBS_BLEND_NORMAL",
+            "id": 10,
+            "group_item_backup": false,
+            "show_transition": null,
+            "blend_sub_mode": 0,
+            "transparent": false
           }
         ]
       }
@@ -1388,7 +1712,7 @@
       "private_settings": {},
       "settings": {
         "custom_size": false,
-        "id_counter": 9,
+        "id_counter": 7,
         "items": [
           {
             "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
@@ -1545,6 +1869,74 @@
             },
             "private_settings": {},
             "type": "input"
+          },
+          {
+            "source_uuid": "72e46c9e-cef5-4ca5-896c-484d3652b506",
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "alignment": 5
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "alignment": 0,
+              "type": "OBS_BOUNDS_NONE"
+            },
+            "crop": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "scale_filter": "OBS_SCALE_BICUBIC",
+            "visible": true,
+            "locked": false,
+            "rot": 0,
+            "blend_method": "OBS_BLEND_NORMAL",
+            "id": 5,
+            "group_item_backup": false,
+            "show_transition": null,
+            "blend_sub_mode": 0,
+            "transparent": false
+          },
+          {
+            "source_uuid": "815ec740-6531-4257-95f9-20e02f19b3f9",
+            "pos": {
+              "x": 1450,
+              "y": 60,
+              "alignment": 5
+            },
+            "scale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "alignment": 0,
+              "type": "OBS_BOUNDS_NONE"
+            },
+            "crop": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "scale_filter": "OBS_SCALE_BICUBIC",
+            "visible": true,
+            "locked": false,
+            "rot": 0,
+            "blend_method": "OBS_BLEND_NORMAL",
+            "id": 6,
+            "group_item_backup": false,
+            "show_transition": null,
+            "blend_sub_mode": 0,
+            "transparent": false
           }
         ]
       }
@@ -1566,7 +1958,7 @@
       "private_settings": {},
       "settings": {
         "custom_size": false,
-        "id_counter": 9,
+        "id_counter": 6,
         "items": [
           {
             "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
@@ -1723,6 +2115,40 @@
             },
             "private_settings": {},
             "type": "input"
+          },
+          {
+            "source_uuid": "72e46c9e-cef5-4ca5-896c-484d3652b506",
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "alignment": 5
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "alignment": 0,
+              "type": "OBS_BOUNDS_NONE"
+            },
+            "crop": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0
+            },
+            "scale_filter": "OBS_SCALE_BICUBIC",
+            "visible": true,
+            "locked": false,
+            "rot": 0,
+            "blend_method": "OBS_BLEND_NORMAL",
+            "id": 5,
+            "group_item_backup": false,
+            "show_transition": null,
+            "blend_sub_mode": 0,
+            "transparent": false
           }
         ]
       }
@@ -1744,7 +2170,7 @@
       "private_settings": {},
       "settings": {
         "custom_size": false,
-        "id_counter": 12,
+        "id_counter": 8,
         "items": [
           {
             "name": "🎮 CAPTURA · Tibia ⚠️ SELECIONAR JANELA",
@@ -2021,6 +2447,142 @@
           }
         ]
       }
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🛠 CENTRAL DE EDIÇÃO",
+      "uuid": "da04f8d2-feff-4ac3-9fa1-664998cc77dd",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1280,
+        "height": 820,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/live-editor.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "📝 RODAPÉ · Animado",
+      "uuid": "72e46c9e-cef5-4ca5-896c-484d3652b506",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/rodape.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "🖼 MOLDURA · Webcam",
+      "uuid": "6956f848-5d2c-43d8-9123-8c8681e3984c",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/moldura-webcam.html"
+      },
+      "id": "browser_source"
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "⏱ CONTADOR · Twitch",
+      "uuid": "6a763ca3-8b72-433a-9c83-8a0c06e13962",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0, 0, 0, 0); margin: 0 auto; overflow: hidden; }",
+        "fps": 60,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 1,
+        "is_local_file": false,
+        "url": "file:///C:/twitch/exoriservice/overlay/contador-twitch.html"
+      },
+      "id": "browser_source"
     }
   ]
 }
