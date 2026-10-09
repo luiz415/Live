@@ -1,5 +1,5 @@
 ================================================================================
-EXORISERVICE — v6.8
+EXORISERVICE — v6.9
 ================================================================================
 
 
@@ -15,7 +15,7 @@ a) Extraia este ZIP (ou esta pasta) para C:\twitch\ de forma que fique:
 
 b) Abra o OBS → "Coleção de Cenas" → "Importar" → escolha
    C:\twitch\exoriservice\exoriservice-cenas.json
-   Dê o nome que quiser (ex: "exori v6.8").
+   Dê o nome que quiser (ex: "exori v6.9").
 
 c) Ajustes únicos:
    · 🎮 CAPTURA · Tibia → Selecione a janela do jogo.
@@ -38,9 +38,9 @@ c) Ajustes únicos:
 01 · STARTING        → Tela de entrada (captura + starting + carrossel + ticker).
 02 · GAMEPLAY        → Cena principal (captura + overlay + party tracker +
                        grupo webcam + carrossel + alertas + livepix + rodape
-                       + ticker).
+                       + ticker + texto live).
 03 · JUST CHATTING   → Fundo JC + grupo webcam + chat SE + alertas + livepix
-                       + carrossel + rodape + ticker.
+                       + carrossel + rodape + ticker + texto live.
 04 · BRB             → Volto já.
 05 · ENCERRAMENTO    → Encerramento.
 06 · TELA            → Captura de monitor + mini-captura do jogo + alertas
@@ -59,12 +59,12 @@ em DUAS zonas empilhadas (os outros — Rodapé e Carrossel — usam um painel q
 aparece POR CIMA de tudo; veja as seções 7 e 8).
 
 A parte de CIMA (primeiros 1080px da fonte) é o quadro da Party Tracker — é
-isso, e SÓ isso, que aparece no ar. A parte de BAIXO (de 1080px a 1720px da
+isso, e SÓ isso, que aparece no ar. A parte de BAIXO (de 1080px a 1860px da
 fonte) é o PAINEL DE EDIÇÃO. O OBS está configurado com um CORTE (crop_bottom
-= 640px) na fonte, diretamente na cena — isso significa que o painel de edição
+= 780px) na fonte, diretamente na cena — isso significa que o painel de edição
 NUNCA aparece na live, estrutural e permanentemente, não importa se você
 esqueceu ele aberto ou não. Só quando você abre "Interagir" é que o OBS mostra
-a fonte completa (1720px, sem corte) e você vê as duas partes ao mesmo tempo.
+a fonte completa (1860px, sem corte) e você vê as duas partes ao mesmo tempo.
 
 COMO EDITAR:
 
@@ -73,7 +73,7 @@ COMO EDITAR:
 3. A janela do Interagir abre mostrando o quadro da Party Tracker em cima e,
    logo abaixo dele (sem precisar rolar nada), o espaço reservado ao painel.
 4. APERTE A LETRA "E" para abrir o painel de edição nessa parte de baixo.
-5. No painel você tem (fontes do menu aumentadas para facilitar a leitura):
+5. No painel você tem (fontes do menu bem maiores para leitura no Interagir):
    · ZOOM (50%~150%, com botões −/+ e slider)
    · Título / Visão (2 letras) / Quest (SOUL WAR ou SANGUINE)
    · MOLDURA DO QUADRO — escolha entre 5 opções: SEM MOLDURA, NEON, CHAPA,
@@ -115,6 +115,12 @@ ficar duplicado.
 5. NOTAS DA VERSÃO (HISTÓRICO RESUMIDO)
 --------------------------------------------------------------------------------
 
+· v6.9 — Party Tracker: fontes do menu de edição bem maiores; quadro estável
+  (sem o "tremido" das linhas — animações de brilho contínuo e blur foram
+  removidas, renderização em pixels inteiros). Novo widget ✎ TEXTO LIVE:
+  digite qualquer mensagem para exibir na live, com cor de destaque e 5
+  molduras (SEM MOLDURA / NEON / CHAPA / DUPLO / HAZARD). Edita com E, painel
+  por cima (como Rodapé/Carrossel), arraste para posicionar.
 · v6.8 — Rodapé: a palavra "SANGUINE" (2º destaque da frase SERVICE DE
   QUESTS) agora pode ficar em vermelho (cor configurável por frase, via novo
   seletor no editor) e o tamanho da fonte foi ampliado (até 30, antes
@@ -233,4 +239,30 @@ COMO EDITAR:
 Lembrete: para trocar as IMAGENS do carrossel (não o efeito), veja a
 seção 6 — é só mexer nos arquivos da pasta assets\carrossel\, não precisa
 abrir o painel de edição para isso.
+
+--------------------------------------------------------------------------------
+9. WIDGET TEXTO LIVE (mensagem na tela)
+--------------------------------------------------------------------------------
+
+Fonte: ✎ WIDGET · Texto Live (já está nas cenas 02 · GAMEPLAY e 03 · JUST CHATTING).
+
+Serve para escrever qualquer texto e mostrar direto na live — aviso, call to
+action, nome de quest, o que precisar. É simples de propósito.
+
+COMO EDITAR:
+
+1. Botão direito na fonte → "Interagir".
+2. Aperte a letra "E" para abrir o painel — ele aparece POR CIMA da tela
+   (igual Rodapé/Carrossel; diferente do Party Tracker). Saia do modo edição
+   (E ou Esc) antes de deixar a cena no ar.
+3. No painel:
+   · TEXTO — até 240 caracteres (quebra de linha permitida).
+   · TAMANHO — slider 18 a 120 px.
+   · COR / DESTAQUE — verde ácido, branco, cinza ou vermelho.
+   · MOLDURA — SEM MOLDURA, NEON, CHAPA, DUPLO ou HAZARD (padrão NEON).
+4. Com o modo edição aberto, ARRASTE o quadro do texto para posicioná-lo.
+   "RESETAR POSIÇÃO" volta ao centro.
+5. SALVAR grava no navegador (localStorage). LIMPAR volta ao padrão
+   "EXORISERVICE".
+
 ================================================================================

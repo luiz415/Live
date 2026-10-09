@@ -1,0 +1,188 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<title>Texto Live — exoriservice</title>
+<style>
+@font-face{font-family:Orbitron;font-weight:900;src:url(data:font/ttf;base64,AAEAAAAQAQAABAAAR0RFRgTaBPcAAAEMAAAAfEdQT1OKv35rAAABiAAACLxHU1VCuPy46gAACkQAAAAoT1MvMmIj/jIAAApsAAAAYFNUQVR5lWwRAAAKzAAAACpjbWFw2Hp8awAACvgAAAJYZ2FzcAAAABAAAA1QAAAACGdseWY2WgK1AAANWAAAJghoZWFkEoGk3wAANNgAAAA2aGhlYQg9AxAAADUQAAAAJGhtdHjB6huIAAA1NAAAAuxsb2NhVlNgQgAAM2AAAAF4bWF4cADHAJEAADggAAAAIG5hbWUyBV6JAAA4QAAAAnhwb3N0OBU18gAAOrgAAAHjcHJlcGgGjIUAADycAAAABwABAAAADAAAAAAAAAACABIAAQAHAAEACAALAAEADQARAAgAFQAfAAIAHwAlAQEAIAEAKgEAIwEoEoEAI4AuAEQAoACoAQgKjACAALQAtACAAMAAcALkAugL0SAFOBT1ZwgBAFuBT5YVaZUAAAAABFV0CA0AAAABFV0CBoAAAAAAAAAAAAAAAAAAAAAAABOTAAEAAAAAwAAAAEAAABAAAuBT04Dv1D+xT8xPzA/Lj8sPyI/HD8aPxg/FD8SPxA/Dz8OPww/CD8GPwY/BD8CPwA/AD4APgA<ADwAOAA4ADQANAAwADAALgAuACwALAAsACoAKgAoACgAJgAmACQAJAAiACIAIAAgAB4AHgAcABwAGgAaABYAFgAUABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAQA') format('truetype')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace;
+ -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+:root{--acid:#B4FF00;--bg:#060806;--txt:#F2FFE8;--txt2:#9AA69A}
+#stage{position:absolute;inset:0;pointer-events:none}
+#card{position:absolute;left:50%;top:42%;
+ transform:translate3d(calc(-50% + var(--dx,0px)),calc(-50% + var(--dy,0px)),0);
+ transform-origin:center center;pointer-events:auto;backface-visibility:hidden}
+body.edit #card{cursor:grab;outline:2px dashed rgba(180,255,0,.85);outline-offset:10px}
+body.edit #card:active{cursor:grabbing}
+#txt{font-family:Orbitron,sans-serif;font-weight:900;letter-spacing:.08em;line-height:1.15;
+ white-space:pre-wrap;text-align:center;max-width:1600px}
+#txt.c-acid{color:var(--acid);text-shadow:0 0 18px rgba(180,255,0,.45)}
+#txt.c-white{color:#F2FFE8;text-shadow:0 0 14px rgba(242,255,232,.35)}
+#txt.c-gray{color:#9AA69A;text-shadow:0 0 10px rgba(154,166,154,.3)}
+#txt.c-sang{color:#e85858;text-shadow:0 0 16px rgba(232,88,88,.45)}
+#frame{display:inline-block}
+#frame.pf-none{padding:0;border:none;background:none;box-shadow:none}
+#frame.pf-neon{padding:22px 36px;border:2px solid var(--acid);border-radius:12px;
+ background:rgba(6,8,6,.55);box-shadow:0 0 28px rgba(180,255,0,.32),inset 0 0 18px rgba(180,255,0,.08)}
+#frame.pf-chapa{padding:20px 34px;border:2px solid rgba(190,205,190,.9);background:rgba(10,12,10,.72);
+ clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+#frame.pf-duplo{padding:24px 38px;border:1px solid rgba(92,153,0,.6);border-radius:10px;background:rgba(6,8,6,.55);
+ box-shadow:0 0 0 6px rgba(6,8,6,.9),0 0 0 8px var(--acid),0 0 22px rgba(180,255,0,.25)}
+#frame.pf-hazard{padding:22px 36px;border-radius:6px;background-image:linear-gradient(rgba(6,8,6,.62),rgba(6,8,6,.62)),
+ repeating-linear-gradient(45deg,var(--acid) 0 14px,#1a1a1a 14px 28px);
+ background-origin:border-box;background-clip:padding-box,border-box;border:5px solid transparent}
+#editor{position:fixed;inset:0;z-index:20;display:none;flex-direction:column;justify-content:flex-start;
+ background:linear-gradient(180deg,rgba(6,8,6,.94) 0%,rgba(6,8,6,.72) 42%,rgba(6,8,6,.18) 100%);
+ padding:18px 22px 12px;color:var(--txt);overflow-y:auto;pointer-events:none}
+#editor.on{display:flex}
+#editor>*{pointer-events:auto}
+#editor .ebar{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+#editor .etag{font-family:Orbitron;font-weight:900;font-size:24px;letter-spacing:.18em;color:var(--acid);
+ background:rgba(180,255,0,.08);padding:6px 12px;border-left:4px solid var(--acid)}
+#editor .ewarn{font-size:16px;color:#FFC107}
+#editor .card{background:rgba(14,19,14,.92);border:1px solid rgba(92,153,0,.5);border-radius:6px;padding:14px 16px;max-width:920px;margin-bottom:10px}
+#editor .card h3{font-size:18px;letter-spacing:.16em;color:var(--acid);margin-bottom:10px;text-transform:uppercase}
+#editor label{font-size:16px;letter-spacing:.1em;color:var(--txt2);display:block;margin:8px 0 4px}
+#editor textarea,#editor input,#editor select{background:#060806;border:1px solid rgba(92,153,0,.55);color:var(--txt);
+ outline:none;font-family:Orbitron,monospace;font-weight:900;padding:10px 12px;border-radius:3px;font-size:20px;width:100%}
+#editor textarea{min-height:90px;resize:vertical;letter-spacing:.04em}
+#editor .row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+#editor .row > div{flex:1;min-width:160px}
+#editor .frow{display:flex;gap:8px;flex-wrap:wrap}
+#editor .fbtn{padding:10px 16px;font-size:16px;font-weight:700;letter-spacing:.1em;cursor:pointer;border-radius:4px;
+ background:rgba(14,19,14,.75);color:var(--acid);border:1px solid rgba(180,255,0,.4);font-family:Chakra,monospace}
+#editor .fbtn.active{background:var(--acid);color:#060806}
+#editor .btn{padding:12px 20px;font-family:Chakra,monospace;font-weight:700;font-size:18px;letter-spacing:.12em;
+ background:var(--acid);color:var(--bg);border:0;cursor:pointer;border-radius:3px;margin-right:8px}
+#editor .btn.ghost{background:transparent;color:var(--acid);border:1px solid var(--acid)}
+#editor .btn.danger{background:transparent;color:#FF5252;border:1px solid #FF5252}
+#editor .status{font-size:16px;color:var(--txt2);margin-left:8px}
+#editor .status.ok{color:var(--acid)}
+#editor input[type=range]{accent-color:var(--acid);cursor:pointer}
+</style></head><body>
+<div id="stage"><div id="card"><div id="frame"><div id="txt"></div></div></div></div>
+<div id="editor">
+  <div class="ebar">
+    <span class="etag">TEXTO LIVE</span>
+    <span class="ewarn">Painel por cima da tela — saia do modo edição (E / Esc) antes de ir ao ar. Arraste o texto para mover.</span>
+  </div>
+  <div class="card">
+    <h3>mensagem</h3>
+    <label>TEXTO</label>
+    <textarea id="t-text" maxlength="240" placeholder="Digite o texto da live"></textarea>
+    <div class="row">
+      <div><label>TAMANHO</label><input id="t-size" type="range" min="18" max="120" step="2" value="48"><div id="sval" style="color:var(--acid);font:700 18px Orbitron;margin-top:4px">48px</div></div>
+      <div><label>COR / DESTAQUE</label>
+        <select id="t-color">
+          <option value="acid">VERDE ACIDO</option>
+          <option value="white">BRANCO</option>
+          <option value="gray">CINZA</option>
+          <option value="sang">VERMELHO</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>moldura</h3>
+    <div class="frow" id="framerow"></div>
+  </div>
+  <div>
+    <button class="btn" id="b-save">SALVAR</button>
+    <button class="btn ghost" id="b-resetpos">RESETAR POSICAO</button>
+    <button class="btn danger" id="b-clear">LIMPAR</button>
+    <button class="btn ghost" id="b-exit">SAIR (E)</button>
+    <span class="status" id="status">—</span>
+  </div>
+</div>
+<script>
+"use strict";
+const KEY="exoriTextoV1";
+const FRAMES=[{id:"none",name:"SEM MOLDURA"},{id:"neon",name:"NEON"},{id:"chapa",name:"CHAPA"},{id:"duplo",name:"DUPLO"},{id:"hazard",name:"HAZARD"}];
+const FRAME_IDS=FRAMES.map(f=>f.id);
+const COLORS=["acid","white","gray","sang"];
+const FALLBACK={text:"EXORISERVICE",size:48,color:"acid",frame:"neon",posX:0,posY:0};
+function sanitize(d){
+  const o=Object.assign({},FALLBACK);
+  o.text=String(d&&d.text!=null?d.text:FALLBACK.text).slice(0,240);
+  o.size=Math.max(18,Math.min(120,parseInt(d&&d.size,10)||48));
+  o.color=COLORS.includes(d&&d.color)?d.color:"acid";
+  o.frame=FRAME_IDS.includes(d&&d.frame)?d.frame:"neon";
+  o.posX=Math.max(-800,Math.min(800,parseInt(d&&d.posX,10)||0));
+  o.posY=Math.max(-500,Math.min(500,parseInt(d&&d.posY,10)||0));
+  return o;
+}
+function fromLS(){try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){return null}}
+let DATA=sanitize(fromLS()||FALLBACK);
+let editing=false;
+const $=id=>document.getElementById(id);
+function apply(){
+  const t=$("txt");
+  t.textContent=DATA.text||"";
+  t.style.fontSize=DATA.size+"px";
+  COLORS.forEach(c=>t.classList.toggle("c-"+c,c===DATA.color));
+  const fr=$("frame");
+  FRAMES.forEach(f=>fr.classList.toggle("pf-"+f.id,f.id===DATA.frame));
+  const card=$("card");
+  card.style.setProperty("--dx",Math.round(DATA.posX)+"px");
+  card.style.setProperty("--dy",Math.round(DATA.posY)+"px");
+}
+function persist(){
+  try{localStorage.setItem(KEY,JSON.stringify(DATA)); setStatus("SALVO",true)}catch(e){setStatus("ERRO",false)}
+}
+function setStatus(m,ok){const s=$("status"); s.textContent=m; s.className="status"+(ok?" ok":"")}
+function fillForm(){
+  $("t-text").value=DATA.text; $("t-size").value=DATA.size; $("sval").textContent=DATA.size+"px";
+  $("t-color").value=DATA.color; syncFrameButtons();
+}
+function readForm(){
+  DATA.text=$("t-text").value.slice(0,240);
+  DATA.size=parseInt($("t-size").value,10)||48;
+  DATA.color=$("t-color").value;
+  apply();
+}
+function syncFrameButtons(){
+  document.querySelectorAll("#framerow .fbtn").forEach(b=>b.classList.toggle("active",b.dataset.frame===DATA.frame));
+}
+(function buildFrames(){
+  const host=$("framerow");
+  FRAMES.forEach(f=>{
+    const b=document.createElement("button"); b.type="button"; b.className="fbtn"; b.textContent=f.name; b.dataset.frame=f.id;
+    b.onclick=function(){DATA.frame=f.id; apply(); syncFrameButtons(); persist();};
+    host.appendChild(b);
+  });
+})();
+function toggleEdit(){
+  editing=!editing;
+  $("editor").classList.toggle("on",editing);
+  document.body.classList.toggle("edit",editing);
+  if(editing){fillForm(); setTimeout(()=>$("t-text").focus(),40); setStatus("editando",false);}
+  else {readForm(); persist(); setStatus("VISUALIZACAO",true);}
+}
+document.addEventListener("keydown",function(ev){
+  const tag=(ev.target&&ev.target.tagName)||"";
+  const inField=(tag==="INPUT"||tag==="SELECT"||tag==="TEXTAREA");
+  if(ev.key==="Escape"){ev.preventDefault(); if(editing) toggleEdit(); return;}
+  if((ev.key==="e"||ev.key==="E") && !inField){ev.preventDefault(); toggleEdit();}
+});
+$("t-text").addEventListener("input",readForm);
+$("t-size").addEventListener("input",function(){$("sval").textContent=this.value+"px"; readForm();});
+$("t-color").addEventListener("change",readForm);
+$("b-save").onclick=function(){readForm(); persist();};
+$("b-clear").onclick=function(){if(!confirm("Voltar ao texto padrao?"))return; DATA=sanitize(FALLBACK); fillForm(); apply(); persist();};
+$("b-exit").onclick=function(){if(editing) toggleEdit();};
+$("b-resetpos").onclick=function(){DATA.posX=0; DATA.posY=0; apply(); persist();};
+(function enableDrag(){
+  const w=$("card"); let dragging=false,sx=0,sy=0,ox=0,oy=0;
+  w.addEventListener("pointerdown",function(e){
+    if(!editing) return; e.preventDefault(); dragging=true; sx=e.clientX; sy=e.clientY; ox=DATA.posX; oy=DATA.posY;
+    try{w.setPointerCapture(e.pointerId)}catch(err){}
+  });
+  w.addEventListener("pointermove",function(e){
+    if(!dragging) return;
+    DATA.posX=Math.max(-800,Math.min(800,ox+(e.clientX-sx)));
+    DATA.posY=Math.max(-500,Math.min(500,oy+(e.clientY-sy)));
+    apply();
+  });
+  function stop(){ if(!dragging) return; dragging=false; persist(); }
+  w.addEventListener("pointerup",stop); w.addEventListener("pointercancel",stop);
+})();
+apply();
+</script></body></html>

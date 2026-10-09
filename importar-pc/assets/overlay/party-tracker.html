@@ -7,7 +7,7 @@
        único pedaço que entra no quadro da live (o OBS corta - crop_bottom -
        tudo que vem depois, então o painel abaixo NUNCA aparece na stream,
        mesmo que você esqueça aberto).
-     - #editor (1080px-1560px) -> painel de edição, fica OCULTO por baixo do
+     - #editor (1080px-1860px) -> painel de edição, fica OCULTO por baixo do
        corte do OBS; só é visível para você dentro do "Interagir", abaixo do
        quadro da PT. Aperte E para abrir/fechar (Esc também fecha).
    - Dados ficam em localStorage 'exoriPartyV1' (mesma fonte, mesmo Chromium:
@@ -16,15 +16,14 @@
 --------------------------------------------------------------------------- */
 @font-face{font-family:Orbitron;font-weight:900;src:url(data:font/ttf;base64,AAEAAAAQAQAABAAAR0RFRgTaBPcAAAEMAAAAfEdQT1OKv35rAAABiAAACLxHU1VCuPy46gAACkQAAAAoT1MvMmIj/jIAAApsAAAAYFNUQVR5lWwRAAAKzAAAACpjbWFw2Hp8awAACvgAAAJYZ2FzcAAAABAAAA1QAAAACGdseWY2WgK1AAANWAAAJghoZWFkEoGk3wAANNgAAAA2aGhlYQg9AxAAADUQAAAAJGhtdHjB6huIAAA1NAAAAuxsb2NhVlNgQgAAM2AAAAF4bWF4cADHAJEAADggAAAAIG5hbWUyBV6JAAA4QAAAAnhwb3N0OBU18gAAOrgAAAHjcHJlcGgGjIUAADycAAAABwABAAAADAAAAAAAAAACABIAAQAHAAEACAALAAEADQARAAgAFQAfAAIAHwAlAQEAIAEAKgEAIwEoEoEAI4AuAEQAoACoAQgKjACAALQAtACAAMAAcALkAugL0SAFOBT1ZwgBAFuBT5YVaZUAAAAABFV0CA0AAAABFV0CBoAAAAAAAAAAAAAAAAAAAAAAABOTAAEAAAAAwAAAAEAAABAAAuBT04Dv1D+xT8xPzA/Lj8sPyI/HD8aPxg/FD8SPxA/Dz8OPww/CD8GPwY/BD8CPwA/AD4APgA<ADwAOAA4ADQANAAwADAALgAuACwALAAsACoAKgAoACgAJgAmACQAJAAiACIAIAAgAB4AHgAcABwAGgAaABYAFgAUABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAQA') format('truetype')}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace;position:relative}
+html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace;position:relative;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:geometricPrecision}
 #livezone{position:absolute;top:0;left:0;width:100%;height:1080px;overflow:hidden}
-.wrap{position:absolute;left:50%;bottom:87px;transform:translateX(calc(-50% + var(--dx,0px))) translateY(var(--dy,0px)) scale(var(--z,1));transform-origin:bottom center;z-index:2;transition:transform .2s ease}
+.wrap{position:absolute;left:50%;bottom:87px;transform:translate3d(calc(-50% + var(--dx,0px)),var(--dy,0px),0) scale(var(--z,1));transform-origin:bottom center;z-index:2;transition:none;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 body.edit .wrap{transition:none;cursor:grab;outline:2px dashed rgba(180,255,0,.85);outline-offset:10px;border-radius:6px}
 body.edit .wrap:active{cursor:grabbing}
 .mline{display:flex;align-items:center;gap:12px;padding:9px 18px;white-space:nowrap;
- background:rgba(6,8,6,.72);border-top:1px solid rgba(180,255,0,.55);border-bottom:1px solid rgba(92,153,0,.65);
- backdrop-filter:blur(3px);animation:mlg 3.6s ease-in-out infinite}
-@keyframes mlg{50%{box-shadow:0 0 22px rgba(180,255,0,.18)}}
+ background:rgba(6,8,6,.88);border-top:1px solid rgba(180,255,0,.55);border-bottom:1px solid rgba(92,153,0,.65);
+ box-shadow:0 0 16px rgba(180,255,0,.12)}
 .mtag{font-family:Orbitron;font-weight:900;font-size:13px;letter-spacing:.2em;color:var(--acid,#B4FF00);
  text-shadow:0 0 10px rgba(180,255,0,.5);padding-right:12px;border-right:1px solid rgba(92,153,0,.6)}
 .mdot{width:6px;height:6px;background:var(--acid,#B4FF00);border-radius:50%;box-shadow:0 0 8px var(--acid,#B4FF00);animation:blink 1.6s infinite}
@@ -34,24 +33,18 @@ body.edit .wrap:active{cursor:grabbing}
 .vchip{min-width:46px;text-align:center;font-family:Orbitron;font-weight:900;font-size:18px;letter-spacing:.12em;
  padding:3px 8px 3px calc(8px + .12em);color:#060806;background:var(--acid,#B4FF00);
  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
- animation:vglow 2.6s ease-in-out infinite}
-.vchip.empty{background:rgba(92,153,0,.22);color:#5C9900;animation:none}
-@keyframes vglow{50%{filter:drop-shadow(0 0 7px rgba(180,255,0,.8))}}
+ box-shadow:0 0 10px rgba(180,255,0,.35)}
+.vchip.empty{background:rgba(92,153,0,.22);color:#5C9900;box-shadow:none}
 .vconn{width:2px;height:7px;margin:0 auto 4px;background:linear-gradient(180deg,var(--acid,#B4FF00),transparent);opacity:.7}
 .vsep{width:1px;height:16px;margin:0 8px;background:linear-gradient(180deg,transparent,rgba(154,166,154,.55),transparent)}
 .qchip{font-family:Orbitron;font-weight:900;font-size:12px;letter-spacing:.1em;padding:4px 9px 4px calc(9px + .1em);
  white-space:nowrap;background:rgba(10,12,10,.92);color:#CFDCCF;border:1px solid rgba(190,205,190,.85);
- text-shadow:0 0 9px rgba(207,220,207,.55);animation:qgs 2.8s ease-in-out infinite;
+ text-shadow:0 0 8px rgba(207,220,207,.45);
  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
 .qchip::after{content:'▾';font-family:Chakra;font-size:9px;margin-left:6px;opacity:.75}
-.qchip.sa{color:#FF5252;border-color:rgba(255,80,80,.85);text-shadow:0 0 9px rgba(255,60,60,.6);animation:qrs 2.8s ease-in-out infinite}
-@keyframes qgs{50%{filter:drop-shadow(0 0 6px rgba(207,220,207,.55))}}
-@keyframes qrs{50%{filter:drop-shadow(0 0 6px rgba(255,60,60,.6))}}
+.qchip.sa{color:#FF5252;border-color:rgba(255,80,80,.85);text-shadow:0 0 8px rgba(255,60,60,.5)}
 .pill{display:inline-flex;align-items:baseline;gap:6px;padding:4px 10px;
- background:rgba(18,23,18,.85);border:1px solid rgba(92,153,0,.45);border-radius:20px;
- animation:pin .4s cubic-bezier(.2,.9,.3,1.15) both}
-.pill:nth-child(odd){animation-delay:.08s}
-@keyframes pin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+ background:rgba(18,23,18,.92);border:1px solid rgba(92,153,0,.45);border-radius:20px}
 .pill .pv{font-family:Orbitron;font-weight:900;font-size:15px;letter-spacing:.08em;color:var(--acid,#B4FF00)}
 .pill .pv.empty{color:#5C9900}
 .pill .pl{font-family:Orbitron;font-weight:900;font-size:13px;color:#F2FFE8}
@@ -61,7 +54,7 @@ body.edit .wrap:active{cursor:grabbing}
 @keyframes cellflash{0%{filter:brightness(1.9) drop-shadow(0 0 14px rgba(180,255,0,.8))}100%{}}
 
 /* ─── Moldura (frame) ao redor do quadro ─── */
-#pframe{display:inline-flex;flex-direction:column;align-items:center}
+#pframe{display:inline-flex;flex-direction:column;align-items:center;transform:translateZ(0)}
 #pframe.pf-none{padding:0;border:none;background:none;box-shadow:none;border-radius:0}
 #pframe.pf-neon{padding:16px 22px;border:2px solid var(--acid,#B4FF00);border-radius:10px;
  background:rgba(6,8,6,.42);box-shadow:0 0 24px rgba(180,255,0,.32),inset 0 0 18px rgba(180,255,0,.08)}
@@ -75,56 +68,56 @@ body.edit .wrap:active{cursor:grabbing}
 
 /* ─── PAINEL DE EDIÇÃO (só aparece quando editing=true) ─── */
 :root{--acid:#B4FF00;--toxic:#5C9900;--bg:#060806;--txt:#F2FFE8;--txt2:#9AA69A}
-#editor{position:absolute;top:1080px;left:0;width:100%;height:640px;z-index:10;display:none;flex-direction:column;justify-content:flex-start;
+#editor{position:absolute;top:1080px;left:0;width:100%;height:780px;z-index:10;display:none;flex-direction:column;justify-content:flex-start;
  background:linear-gradient(180deg,rgba(6,8,6,.98) 0%,rgba(6,8,6,.96) 100%);
  border-top:2px solid var(--acid);
  backdrop-filter:blur(4px);padding:18px 20px 12px;color:var(--txt);font-family:Chakra,monospace;overflow-y:auto;box-sizing:border-box}
 #editor.on{display:flex}
 #editor .ebar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-#editor .etag{font-family:Orbitron;font-weight:900;font-size:19px;letter-spacing:.2em;color:var(--acid);
+#editor .etag{font-family:Orbitron;font-weight:900;font-size:28px;letter-spacing:.2em;color:var(--acid);
  background:rgba(180,255,0,.08);padding:6px 12px;border-left:4px solid var(--acid)}
-#editor .ewarn{font-size:15px;color:#FFC107;margin-left:auto}
-#editor .egrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;max-width:900px}
+#editor .ewarn{font-size:20px;color:#FFC107;margin-left:auto}
+#editor .egrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;max-width:1100px}
 #editor .card{background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.5);border-radius:5px;padding:10px 12px}
-#editor .card h3{font-size:15px;letter-spacing:.16em;color:var(--acid);margin-bottom:10px;font-weight:700;text-transform:uppercase}
-#editor .row{display:flex;gap:6px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
-#editor .row label{font-size:15px;letter-spacing:.1em;color:var(--txt2);min-width:76px}
+#editor .card h3{font-size:22px;letter-spacing:.16em;color:var(--acid);margin-bottom:10px;font-weight:700;text-transform:uppercase}
+#editor .row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+#editor .row label{font-size:20px;letter-spacing:.1em;color:var(--txt2);min-width:76px}
 #editor .row input,#editor .row select{background:#060806;border:1px solid rgba(92,153,0,.55);color:var(--txt);
  outline:none;font-family:Orbitron,monospace;font-weight:900;letter-spacing:.1em;padding:9px 10px;
- border-radius:3px;font-size:19px}
+ border-radius:3px;font-size:26px}
 #editor .row input:focus,#editor .row select:focus{border-color:var(--acid);box-shadow:0 0 10px rgba(180,255,0,.3)}
-#editor input.vin{width:76px;text-align:center}
-#editor input.lin{width:92px;text-align:center}
-#editor input.title{width:180px}
+#editor input.vin{width:96px;text-align:center}
+#editor input.lin{width:110px;text-align:center}
+#editor input.title{width:240px}
 #editor select.quest{min-width:170px;cursor:pointer}
 #editor .erows{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:700px}
 #editor .erows .prow{background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.4);border-radius:4px;padding:6px 8px}
-#editor .erows .prow .plbl{font-size:13px;letter-spacing:.16em;color:var(--txt2);margin-bottom:5px}
+#editor .erows .prow .plbl{font-size:18px;letter-spacing:.16em;color:var(--txt2);margin-bottom:5px}
 #editor .erows .prow .pins{display:flex;gap:4px}
 #editor .erows .prow input{background:#060806;border:1px solid rgba(92,153,0,.55);color:var(--txt);
- outline:none;font-family:Orbitron,monospace;font-weight:900;padding:7px 6px;border-radius:3px;text-align:center;font-size:17px}
+ outline:none;font-family:Orbitron,monospace;font-weight:900;padding:7px 6px;border-radius:3px;text-align:center;font-size:24px}
 #editor .erows .prow input:focus{border-color:var(--acid)}
 #editor .erows .prow input.vin{width:100%}
 #editor .erows .prow input.lin{width:100%}
 #editor .efoot{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-#editor .btn{padding:10px 18px;font-family:Chakra,monospace;font-weight:700;font-size:15px;letter-spacing:.12em;
+#editor .btn{padding:14px 22px;font-family:Chakra,monospace;font-weight:700;font-size:22px;letter-spacing:.12em;
  background:var(--acid);color:var(--bg);border:0;cursor:pointer;border-radius:3px;
  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
 #editor .btn.ghost{background:transparent;color:var(--acid);border:1px solid var(--acid)}
 #editor .btn.danger{background:transparent;color:#FF5252;border:1px solid #FF5252}
-#editor .status{font-size:15px;color:var(--txt2);margin-left:6px}
+#editor .status{font-size:20px;color:var(--txt2);margin-left:6px}
 #editor .status.ok{color:var(--acid)}
 
 #editor .epos{margin-left:auto;display:flex;align-items:center;gap:6px;background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.5);padding:6px 10px;border-radius:3px}
-#editor .epos label{font-size:14px;letter-spacing:.12em;color:var(--txt2)}
+#editor .epos label{font-size:20px;letter-spacing:.12em;color:var(--txt2)}
 #editor .epos input[type=range]{width:180px;accent-color:var(--acid);cursor:pointer}
 #editor .epos button{width:28px;height:28px;border:0;background:var(--acid);color:#060806;font:700 15px/28px monospace;cursor:pointer;padding:0;border-radius:2px}
 #editor .epos button:active{transform:scale(.9)}
-#editor .vval{font:700 16px/1 Orbitron;color:var(--acid);min-width:58px;text-align:center}
-#editor .ehint{font-size:13px;color:var(--txt2);margin-left:auto;line-height:1.4}
+#editor .vval{font:700 24px/1 Orbitron;color:var(--acid);min-width:58px;text-align:center}
+#editor .ehint{font-size:18px;color:var(--txt2);margin-left:auto;line-height:1.4}
 #editor .ehint kbd{background:rgba(180,255,0,.1);color:var(--acid);padding:1px 6px;border-radius:2px;font-family:monospace}
 #editor .frow{display:flex;gap:8px;flex-wrap:wrap}
-#editor .fbtn{padding:9px 16px;font-size:14px;font-weight:700;letter-spacing:.1em;cursor:pointer;border-radius:4px;
+#editor .fbtn{padding:12px 18px;font-size:20px;font-weight:700;letter-spacing:.1em;cursor:pointer;border-radius:4px;
  background:rgba(14,19,14,.75);color:var(--acid);border:1px solid rgba(180,255,0,.4);font-family:Chakra,monospace}
 #editor .fbtn.active{background:var(--acid);color:#060806;box-shadow:0 0 12px rgba(180,255,0,.6);border-color:var(--acid)}
 </style></head><body>
@@ -148,7 +141,7 @@ body.edit .wrap:active{cursor:grabbing}
     <div class="card">
       <h3>cabeçalho</h3>
       <div class="row"><label>TÍTULO</label><input id="t-title" class="title" type="text" maxlength="14" placeholder="PARTY"></div>
-      <div class="row"><label>VISÃO</label><input id="t-view" class="vin" type="text" maxlength="2" placeholder="··"><span style="font-size:11px;color:var(--txt2)">2 letras</span></div>
+      <div class="row"><label>VISÃO</label><input id="t-view" class="vin" type="text" maxlength="2" placeholder="··"><span style="font-size:16px;color:var(--txt2)">2 letras</span></div>
       <div class="row"><label>QUEST</label>
         <select id="t-quest" class="quest"><option value="sw">SOUL WAR</option><option value="sa">SANGUINE</option></select>
       </div>
@@ -156,13 +149,13 @@ body.edit .wrap:active{cursor:grabbing}
     <div class="card" style="min-width:320px">
       <h3>moldura do quadro</h3>
       <div class="frow" id="framerow"></div>
-      <div style="font-size:12px;color:var(--txt2);margin-top:8px">Escolha um estilo de moldura ou desative.</div>
+      <div style="font-size:16px;color:var(--txt2);margin-top:8px">Escolha um estilo de moldura ou desative.</div>
     </div>
   </div>
   <div class="card" style="margin-top:8px;max-width:900px">
     <h3>jogadores (até 5)</h3>
     <div class="erows" id="erows"></div>
-    <div style="font-size:11px;color:var(--txt2);margin-top:6px">VOC = 2 letras; LV = número (até 4 dígitos).</div>
+    <div style="font-size:16px;color:var(--txt2);margin-top:6px">VOC = 2 letras; LV = número (até 4 dígitos).</div>
   </div>
   <div class="efoot">
     <button class="btn" id="b-save">SALVAR</button>
@@ -222,8 +215,8 @@ function pillHTML(r){return '<span class="pill fl"><span class="pv'+(r.v?'':' em
 function applyTransform(){
   const w=document.querySelector('.wrap');
   w.style.setProperty('--z',(DATA.zoom/100));
-  w.style.setProperty('--dx',(DATA.posX||0)+'px');
-  w.style.setProperty('--dy',(DATA.posY||0)+'px');
+  w.style.setProperty('--dx',Math.round(DATA.posX||0)+'px');
+  w.style.setProperty('--dy',Math.round(DATA.posY||0)+'px');
 }
 function applyFrame(){
   const pf=$('pframe'); if(!pf) return;
@@ -267,7 +260,7 @@ function fillForm(){
   buildRows();
   syncFrameButtons();
 }
-function syncZoom(){const z=parseInt($('zoom').value,10)||100;DATA.zoom=z;$('zval').textContent=z+'%';applyZoom()}
+function syncZoom(){const z=parseInt($('zoom').value,10)||100;DATA.zoom=z;$('zval').textContent=z+'%';applyTransform()}
 function readForm(){
   const d=JSON.parse(JSON.stringify(DATA));
   if(!editing) return DATA;

@@ -733,7 +733,7 @@
         "css": "body { background-color: rgba(0,0,0,0); margin:0 auto; overflow:hidden; }",
         "fps": 60,
         "width": 1920,
-        "height": 1720,
+        "height": 1860,
         "reroute_audio": false,
         "restart_when_active": false,
         "shutdown": true,
@@ -742,6 +742,41 @@
         "is_local_file": true,
         "local_file": "C:/twitch/exoriservice/assets/overlay/party-tracker.html",
         "url": "file:///C:/twitch/exoriservice/assets/overlay/party-tracker.html"
+      }
+    },
+    {
+      "prev_ver": 503316480,
+      "name": "✎ WIDGET · Texto Live",
+      "uuid": "13680abf-1afe-4c67-b7a2-01551b0570b0",
+      "id": "browser_source",
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-talk": false,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [],
+      "settings": {
+        "css": "body { background-color: rgba(0,0,0,0); margin:0 auto; overflow:hidden; }",
+        "fps": 30,
+        "width": 1920,
+        "height": 1080,
+        "reroute_audio": false,
+        "restart_when_active": false,
+        "shutdown": true,
+        "visibility": "always",
+        "webpage_control_level": 2,
+        "is_local_file": true,
+        "local_file": "C:/twitch/exoriservice/assets/overlay/texto-live.html",
+        "url": "file:///C:/twitch/exoriservice/assets/overlay/texto-live.html"
       }
     },
     {
@@ -1489,7 +1524,7 @@
             "crop_left": 0,
             "crop_top": 0,
             "crop_right": 0,
-            "crop_bottom": 640,
+            "crop_bottom": 780,
             "id": 8,
             "group_item_backup": false,
             "scale_filter": "disable",
@@ -1737,6 +1772,45 @@
             "private_settings": {},
             "type": "input",
             "id": 14
+          },
+          {
+            "name": "✎ WIDGET · Texto Live",
+            "source_uuid": "13680abf-1afe-4c67-b7a2-01551b0570b0",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input",
+            "id": 15
           }
         ]
       }
@@ -2310,6 +2384,45 @@
             "private_settings": {},
             "type": "input",
             "id": 14
+          },
+          {
+            "name": "✎ WIDGET · Texto Live",
+            "source_uuid": "13680abf-1afe-4c67-b7a2-01551b0570b0",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {},
+            "type": "input",
+            "id": 15
           }
         ]
       }
