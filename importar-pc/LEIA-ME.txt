@@ -1,0 +1,199 @@
+================================================================================
+EXORISERVICE — v6.6
+================================================================================
+
+
+--------------------------------------------------------------------------------
+1. INSTALAÇÃO
+--------------------------------------------------------------------------------
+
+a) Extraia este ZIP (ou esta pasta) para C:\twitch\ de forma que fique:
+
+     C:\twitch\exoriservice\assets\...
+     C:\twitch\exoriservice\exoriservice-cenas.json
+     C:\twitch\exoriservice\integracoes\...
+
+b) Abra o OBS → "Coleção de Cenas" → "Importar" → escolha
+   C:\twitch\exoriservice\exoriservice-cenas.json
+   Dê o nome que quiser (ex: "exori v6.6").
+
+c) Ajustes únicos:
+   · 🎮 CAPTURA · Tibia → Selecione a janela do jogo.
+   · 🖥 CAPTURA · Monitor → Selecione o monitor (cena 06 · TELA).
+   · 🎥 WEBCAM · Câmera → Selecione sua webcam.
+   · 🔔 ALERTAS · StreamElements → Cole sua URL.
+   · 💚 WIDGET · LivePIX → Cole sua URL do LivePIX.
+   · 💬 CHAT · StreamElements → Cole sua URL (Just Chatting).
+   · 🎧 Discord / 🎵 Spotify / 🌐 Navegador → nas propriedades de cada fonte
+     de áudio, selecione o processo/dispositivo correto (Wasapi).
+   · 📊 CONTADOR · Twitch → veja a seção "integracoes/twitch-contador.md"
+     para configurar o proxy local (opcional — sem ele o contador fica
+     "indisponível", mas o resto da cena funciona normalmente).
+
+
+--------------------------------------------------------------------------------
+2. CENAS
+--------------------------------------------------------------------------------
+
+01 · STARTING        → Tela de entrada (captura + starting + carrossel + ticker).
+02 · GAMEPLAY        → Cena principal (captura + overlay + party tracker +
+                       grupo webcam + carrossel + alertas + livepix + rodape
+                       + ticker).
+03 · JUST CHATTING   → Fundo JC + grupo webcam + chat SE + alertas + livepix
+                       + carrossel + rodape + ticker.
+04 · BRB             → Volto já.
+05 · ENCERRAMENTO    → Encerramento.
+06 · TELA            → Captura de monitor + mini-captura do jogo + alertas
+                       + livepix + rodape + ticker.
+
+Grupo Webcam = câmera + moldura (moldura-webcam.html) + contador (contador-twitch.html).
+Mova o grupo todo para reposicionar os três juntos.
+
+
+--------------------------------------------------------------------------------
+3. PARTY TRACKER (como funciona a edição)
+--------------------------------------------------------------------------------
+
+É uma ÚNICA fonte: 🐺 WIDGET · Party Tracker.
+
+A parte de CIMA (primeiros 1080px) aparece no ar normalmente.
+A parte de BAIXO (fora do enquadramento da live) é o PAINEL DE EDIÇÃO — o OBS
+está configurado com "crop" para que esse painel NUNCA apareça na live, mas ele
+está lá quando você abre Interagir.
+
+COMO EDITAR:
+
+1. Selecione a fonte 🐺 WIDGET · Party Tracker na cena 02 · GAMEPLAY.
+2. Botão direito → "Interagir".
+3. A janela do Interagir abre só com a parte da live (1080px).
+4. APERTE A LETRA "E" → a página rola automaticamente para baixo, revelando
+   o painel de edição (faixa preta FORA do ar).
+5. No painel você tem:
+   · ZOOM (50%~150%, com botões −/+ e slider)
+   · Título / Visão (2 letras) / Quest (SOUL WAR ou SANGUINE)
+   · 5 slots de jogador (VOC 2 letras + LV até 4 dígitos)
+   · SALVAR / LIMPAR TUDO / SAIR (E)
+6. Toda alteração aparece em TEMPO REAL na parte de cima (que é o que vai pro ar).
+7. Aperte E ou Esc para fechar → a janela volta para o topo.
+
+ZONA SEGURA: nunca se preocupe — o crop do OBS garante que o painel nunca vaze
+para o stream, mesmo enquanto você edita.
+
+Esse mesmo padrão (Interagir → tecla "E" → painel oculto abaixo) é usado em
+TODOS os widgets editáveis: Party Tracker, Rodapé e Carrossel de Serviços.
+
+
+--------------------------------------------------------------------------------
+4. MIXER DE ÁUDIO
+--------------------------------------------------------------------------------
+
+As fontes de áudio presentes no mixer são (e só essas):
+
+🎤 Meu Mic              · seu microfone (monitoramento ligado)
+🎧 Discord              · áudio do Discord
+🎵 Spotify              · áudio do Spotify
+💚 Widget LivePIX       · som dos alertas do LivePIX
+🔔 Alertas StreamElements · som dos alertas do SE
+🌐 Navegador            · áudio de páginas do navegador (quando usar)
+
+O Áudio Desktop global foi removido. Se o OBS criar fontes de áudio globais
+automaticamente em Arquivo → Configurações → Áudio, desative-as para não
+ficar duplicado.
+
+
+--------------------------------------------------------------------------------
+5. NOTAS DA VERSÃO (HISTÓRICO RESUMIDO)
+--------------------------------------------------------------------------------
+
+· v6.6 — Rodapé e Carrossel ganharam editor completo (ver seções 7 e 8) e o
+  Carrossel passou a descobrir sozinho as imagens da pasta (ver seção 6).
+· v6.1-6.5 — Carrossel sem etiquetas de "Serviços"; transição em DISSOLVER;
+  slide de Service destaca QUEST SANGUINE em vermelho pulsante. Ticker com
+  "SERVICE DE QUESTS" como primeiro item. Overlay Gameplay com borda verde
+  contínua (inclusive embaixo, onde fica o rodapé). Cobertura Chat do Jogo
+  com efeito leve de relâmpago aleatório (~7s). Widget LivePIX adicionado.
+  Grupo Webcam agrupando câmera + moldura + contador.
+
+
+--------------------------------------------------------------------------------
+6. TROCAR AS IMAGENS DO CARROSSEL
+--------------------------------------------------------------------------------
+
+As imagens ficam em:
+
+     C:\twitch\exoriservice\assets\carrossel\
+
+Elas são carregadas automaticamente pelo widget — ele testa slide-1.png,
+slide-2.png, slide-3.png, slide-4.png, slide-5.png... em sequência e usa
+SOMENTE as que existirem e carregarem com sucesso. Não precisa editar nenhum
+código.
+
+COMO TROCAR:
+
+1. Apague ou substitua qualquer slide-N.png pela sua nova imagem (mantenha
+   o mesmo nome, ex: slide-2.png) — tamanho recomendado 1920x1080 ou
+   proporção parecida.
+2. Para ADICIONAR mais slides, basta criar slide-5.png, slide-6.png, etc.
+   (sequência sem pular números).
+3. Para REMOVER um slide, apague o arquivo correspondente — o widget NÃO vai
+   mostrar quadro preto no lugar dele; ele simplesmente pula para o próximo
+   que existir.
+4. Se o OBS já estiver aberto com a cena, basta fechar e abrir a fonte de
+   navegador de novo (ou "Atualizar cache do navegador" no botão direito da
+   fonte) para o carrossel reler a pasta.
+
+
+--------------------------------------------------------------------------------
+7. EDITAR O RODAPÉ (textos, efeitos, tamanho da fonte)
+--------------------------------------------------------------------------------
+
+Fonte: 📰 WIDGET · Rodapé (presente em GAMEPLAY, JUST CHATTING, TELA, STARTING).
+
+COMO EDITAR:
+
+1. Botão direito na fonte → "Interagir".
+2. Aperte a letra "E" para abrir o painel de edição (some do ar, só aparece
+   para você, igual ao Party Tracker).
+3. No painel você encontra:
+   · FRASES — cada frase do rodapé tem campos editáveis (emoji, título,
+     texto do meio, destaque 1, destaque 2 e um "tema" de cor para o
+     destaque). Você pode ADICIONAR novas frases, REMOVER ou REORDENAR
+     (setas para cima/baixo) as 3 frases padrão (Service de Quests,
+     Rubini Coins, Intermédio) ou qualquer frase nova.
+   · EFEITO DE TRANSIÇÃO — escolha entre: Marquee (rolagem contínua),
+     Fade, Slide, Zoom ou Blur, para a troca entre frases.
+   · TAMANHO DA FONTE (ZOOM) — slider de 5 a 18vh controlando o tamanho
+     das letras do rodapé.
+   · VELOCIDADE / DURAÇÃO e FADE — sliders para ajustar quanto tempo cada
+     frase fica visível e a suavidade da transição.
+4. Clique em SALVAR para gravar tudo no navegador (localStorage) — fica
+   salvo mesmo se fechar o OBS. "LIMPAR" volta para os valores padrão.
+5. Aperte E ou Esc para fechar o painel e voltar ao modo normal (no ar).
+
+
+--------------------------------------------------------------------------------
+8. EDITAR O CARROSSEL DE SERVIÇOS (tamanho, posição, efeitos)
+--------------------------------------------------------------------------------
+
+Fonte: 🧩 WIDGET · Carrossel de Serviços.
+
+COMO EDITAR:
+
+1. Botão direito na fonte → "Interagir".
+2. Aperte a letra "E" para abrir o painel de edição.
+3. No painel você encontra:
+   · TAMANHO / POSIÇÃO — sliders de zoom e X/Y para ajustar o quadro do
+     carrossel na tela.
+   · EFEITO DE TRANSIÇÃO — escolha entre: Fade (dissolver), Slide
+     (deslizar lateral), Zoom/Ken Burns (zoom lento tipo documentário) ou
+     Slide Vertical.
+   · DURAÇÃO de cada slide e DURAÇÃO do fade/transição (sliders
+     independentes).
+4. Clique em SALVAR para gravar no navegador (localStorage). "LIMPAR" volta
+   para os valores padrão.
+5. Aperte E ou Esc para fechar o painel.
+
+Lembrete: para trocar as IMAGENS do carrossel (não o efeito), veja a
+seção 6 — é só mexer nos arquivos da pasta assets\carrossel\, não precisa
+abrir o painel de edição para isso.
+================================================================================

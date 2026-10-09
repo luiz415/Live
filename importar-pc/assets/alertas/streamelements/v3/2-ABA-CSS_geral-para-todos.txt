@@ -1,0 +1,93 @@
+/* ═══ EXORISERVICE · CSS DO ALERTA v3 (colar na aba CSS — igual para todos) ═══ */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Chakra+Petch:wght@500;600&display=swap');
+
+.xal{--acid:#B4FF00;--toxic:#5C9900;--txt:#F2FFE8;--txt2:#9AA69A;position:relative;display:flex;align-items:center;gap:24px;
+ width:860px;padding:22px 36px;background:rgba(6,8,6,.93);border:1px solid rgba(92,153,0,.85);
+ clip-path:polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);
+ font-family:'Chakra Petch',sans-serif;box-shadow:0 0 34px rgba(180,255,0,.14),inset 0 0 30px rgba(23,51,0,.25);
+ animation:xin .55s cubic-bezier(.2,.9,.3,1.2) both,xout .45s 5.6s both}
+.xal::before{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;
+ background:linear-gradient(180deg,var(--acid),var(--toxic));animation:volt 3s steps(3) infinite}
+.xal::after{content:'';position:absolute;left:-120%;top:0;bottom:0;width:60%;
+ background:linear-gradient(90deg,transparent,rgba(180,255,0,.10),transparent);animation:sweep 2.6s .3s linear infinite}
+@keyframes sweep{to{left:160%}}
+@keyframes volt{50%{filter:brightness(1.7)}}
+@keyframes xin{from{opacity:0;transform:translateX(-90px) skewX(-4deg)}to{opacity:1;transform:none}}
+@keyframes xout{to{opacity:0;transform:translateX(70px) skewX(3deg)}}
+.xal .hexf{position:relative;width:110px;height:110px;flex:0 0 110px;display:flex;align-items:center;justify-content:center}
+.xal .hexf img{width:72px;height:72px;position:relative;z-index:2;filter:drop-shadow(0 0 10px rgba(180,255,0,.5))}
+.xal .hexf svg{position:absolute;fill:none;stroke:var(--toxic);stroke-width:1.4;stroke-dasharray:10 6;animation:spin 10s linear infinite;opacity:.9}
+.xal .hexf svg.b{stroke:var(--acid);stroke-dasharray:2 9;animation:spin 16s linear infinite reverse;opacity:.5}
+@keyframes spin{to{transform:rotate(360deg)}}
+.xal .mid{flex:1;min-width:0}
+.xal .kind{font-size:17px;font-weight:600;letter-spacing:.34em;color:var(--acid);text-transform:uppercase;white-space:nowrap;overflow:hidden}
+.xal .name{position:relative;font-family:'Orbitron',sans-serif;font-weight:900;font-size:38px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 0 22px rgba(180,255,0,.25)}
+.xal .name::before,.xal .name::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;opacity:0;pointer-events:none}
+.xal .name::before{color:var(--toxic)}
+.xal .name::after{color:rgba(255,255,255,.45)}
+@keyframes ng1{0%,88%,100%{opacity:0}90%{opacity:.85;transform:translate(-4px,-2px);clip-path:inset(10% 0 60% 0)}94%{opacity:.85;transform:translate(3px,1px);clip-path:inset(64% 0 6% 0)}}
+@keyframes ng2{0%,88%,100%{opacity:0}91%{opacity:.7;transform:translate(4px,2px);clip-path:inset(58% 0 12% 0)}95%{opacity:.7;transform:translate(-3px,-1px);clip-path:inset(6% 0 62% 0)}}
+.xal .msg{font-size:15px;font-weight:500;color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+.xal .right{text-align:right;flex:0 0 auto}
+.xal .metric{font-family:'Orbitron',sans-serif;font-weight:900;font-size:44px;color:var(--acid);text-shadow:0 0 26px rgba(180,255,0,.45);line-height:1}
+.xal .mlabel{font-size:12px;font-weight:600;letter-spacing:.3em;color:var(--txt2);text-transform:uppercase;margin-top:5px}
+
+/* ══ T1 · FOLLOW (impacto leve — glitch raro, entrada limpa) ══ */
+.t1{width:780px;animation:xin .5s cubic-bezier(.2,.9,.3,1.2) both,xout .4s 5.6s both}
+.t1 .name{font-size:34px}
+.t1 .name::before{animation:ng1 5.2s .3s steps(2) infinite}
+.t1 .name::after{animation:ng2 5.2s .3s steps(2) infinite}
+.t1 .hexf svg{animation-duration:14s}.t1 .hexf svg.b{animation-duration:20s}
+
+/* ══ T2 · SUB (impacto médio — shards explosivos + pulso de borda) ══ */
+.t2 .name::before{animation:ng1 3.4s .2s steps(2) infinite}
+.t2 .name::after{animation:ng2 3.4s .2s steps(2) infinite}
+.edgep{position:absolute;inset:-7px;border:1px solid rgba(180,255,0,.0);pointer-events:none;animation:edgep 1.9s ease-out infinite}
+@keyframes edgep{0%{opacity:0;transform:scale(1.04)}18%{opacity:.9;border-color:rgba(180,255,0,.75);box-shadow:0 0 24px rgba(180,255,0,.28)}100%{opacity:0;transform:scale(1)}}
+.shx{position:absolute;left:30px;top:50%;width:0;height:0;pointer-events:none;
+ border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:19px solid var(--acid);
+ animation:shardfly .95s cubic-bezier(.15,.8,.3,1) both}
+.shx.g{border-bottom-color:var(--toxic)}
+@keyframes shardfly{from{transform:translate(0,0) rotate(0);opacity:1}to{transform:translate(var(--dx),var(--dy)) rotate(200deg);opacity:0}}
+
+/* ══ T3 · TIP/BITS (impacto forte — chuva de moedas + varredura de energia) ══ */
+.t3{border-color:rgba(180,255,0,.9);box-shadow:0 0 46px rgba(180,255,0,.24),inset 0 0 30px rgba(23,51,0,.25)}
+.t3 .name::before{animation:ng1 2.4s .2s steps(2) infinite}
+.t3 .name::after{animation:ng2 2.4s .2s steps(2) infinite}
+.t3 .metric{font-size:50px;text-shadow:0 0 36px rgba(180,255,0,.6)}
+.coin{position:absolute;top:-56px;width:15px;height:15px;border-radius:50%;pointer-events:none;
+ background:radial-gradient(circle at 35% 35%,#eaffca,var(--acid) 45%,var(--toxic));
+ box-shadow:0 0 12px rgba(180,255,0,.65);animation:coinfall linear infinite}
+@keyframes coinfall{0%{transform:translateY(0) rotate(0);opacity:0}8%{opacity:1}100%{transform:translateY(340px) rotate(260deg);opacity:0}}
+.energysweep{position:absolute;left:0;right:0;bottom:-16px;height:4px;pointer-events:none;
+ background:linear-gradient(90deg,transparent,var(--acid),var(--toxic),var(--acid),transparent);
+ background-size:200% 100%;animation:esweep 1.5s linear infinite;box-shadow:0 0 16px rgba(180,255,0,.55)}
+@keyframes esweep{to{background-position:-200% 0}}
+
+/* ══ T4 · RAID (impacto MÁXIMO — abertura em tela cheia + shake contínuo) ══ */
+.t4{border-color:var(--acid);box-shadow:0 0 60px rgba(180,255,0,.34),inset 0 0 30px rgba(23,51,0,.25);
+ animation:xin .5s cubic-bezier(.2,.9,.3,1.2) both,rshk .55s .12s cubic-bezier(.36,.07,.19,.97) 5,xout .45s 7.6s both}
+@keyframes rshk{0%{transform:translate(7px,-5px)}25%{transform:translate(-6px,4px)}50%{transform:translate(5px,3px) skewX(.4deg)}75%{transform:translate(-4px,-2px)}100%{transform:none}}
+.t4 .name{font-size:42px}
+.t4 .name::before{animation:ng1 1.7s .2s steps(2) infinite}
+.t4 .name::after{animation:ng2 1.7s .2s steps(2) infinite}
+.t4 .metric{font-size:54px}
+.t4 .hexf svg{animation-duration:5s,8s;stroke:var(--acid)}
+/* intro em tela cheia */
+.xintro{position:fixed;inset:0;z-index:9;pointer-events:none;animation:introout 2.1s .1s forwards}
+@keyframes introout{0%,76%{opacity:1}100%{opacity:0;visibility:hidden}}
+.xintro .iflash{position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,rgba(180,255,0,.30) 0%,rgba(23,51,0,.12) 45%,transparent 70%);animation:ifl 2.1s both}
+@keyframes ifl{0%{opacity:0}12%{opacity:1}100%{opacity:0}}
+.xintro .ibar{position:absolute;left:0;right:0;height:5px;background:linear-gradient(90deg,transparent,var(--acid) 40%,var(--toxic) 60%,transparent);background-size:200% 100%;animation:ibar 1.05s linear infinite;box-shadow:0 0 22px rgba(180,255,0,.6)}
+.xintro .ibar.a{top:9%}.xintro .ibar.b{bottom:9%;animation-direction:reverse}
+@keyframes ibar{to{background-position:-200% 0}}
+.xintro .ighost{position:absolute;left:50%;top:44%;width:52vmin;height:52vmin;transform:translate(-50%,-50%) scale(.6);opacity:0;
+ filter:drop-shadow(0 0 44px rgba(180,255,0,.55));animation:igh 2.1s cubic-bezier(.2,.8,.3,1) both}
+@keyframes igh{0%{opacity:0;transform:translate(-50%,-50%) scale(.55)}22%{opacity:.85}100%{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
+.xintro .iword{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font-family:'Orbitron',sans-serif;font-weight:900;
+ font-size:13vmin;color:var(--acid);letter-spacing:.3em;padding-left:.3em;text-shadow:0 0 7vmin rgba(180,255,0,.65);animation:iwd 2.1s both;white-space:nowrap}
+@keyframes iwd{0%{opacity:0;transform:translate(-50%,-50%) scale(1.7);filter:blur(6px)}20%{opacity:1;transform:translate(-50%,-50%) scale(1);filter:blur(0)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(.92)}}
+.xintro .istrobe{position:absolute;inset:0;background:#F2FFE8;opacity:0;animation:istr .42s steps(2) 4}
+@keyframes istr{50%{opacity:.09}}
+
+/* duração do raid: a banner some às 7,6s (ajuste Alert Duration p/ 8s no tipo RAID) */

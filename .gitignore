@@ -1,6 +1,4 @@
-# Build/export artifacts — not tracked, regenerated on demand
-importar-pc/
-*.zip
-snapshots/
 # Legacy/abandoned "Central de Edição" local-server experiment (snapshot 009)
 servidor/
+# Old session snapshots (historical backups, not part of the live product)
+snapshots/

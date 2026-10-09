@@ -1,0 +1,293 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<title>Party Tracker — exoriservice</title>
+<style>
+/* PARTY TRACKER
+   Por padrão mostra o widget do público. Aperte E (dentro de Interagir no OBS)
+   para abrir/fechar o painel de edição; Esc também fecha.
+   - O widget do público é visível SEMPRE; o painel de edição aparece POR CIMA
+     quando o modo edição está ativo. Saia do modo edição (E/Esc) antes de
+     deixar a cena no ar para o público não ver os campos.
+   - Dados ficam em localStorage 'exoriPartyV1' (mesma fonte, mesmo Chromium:
+     sempre compartilhado).
+   - URL params ?title=&view=&quest=&v1=..l5= também são aceitos (fallback).
+--------------------------------------------------------------------------- */
+@font-face{font-family:Orbitron;font-weight:900;src:url(data:font/ttf;base64,AAEAAAAQAQAABAAAR0RFRgTaBPcAAAEMAAAAfEdQT1OKv35rAAABiAAACLxHU1VCuPy46gAACkQAAAAoT1MvMmIj/jIAAApsAAAAYFNUQVR5lWwRAAAKzAAAACpjbWFw2Hp8awAACvgAAAJYZ2FzcAAAABAAAA1QAAAACGdseWY2WgK1AAANWAAAJghoZWFkEoGk3wAANNgAAAA2aGhlYQg9AxAAADUQAAAAJGhtdHjB6huIAAA1NAAAAuxsb2NhVlNgQgAAM2AAAAF4bWF4cADHAJEAADggAAAAIG5hbWUyBV6JAAA4QAAAAnhwb3N0OBU18gAAOrgAAAHjcHJlcGgGjIUAADycAAAABwABAAAADAAAAAAAAAACABIAAQAHAAEACAALAAEADQARAAgAFQAfAAIAHwAlAQEAIAEAKgEAIwEoEoEAI4AuAEQAoACoAQgKjACAALQAtACAAMAAcALkAugL0SAFOBT1ZwgBAFuBT5YVaZUAAAAABFV0CA0AAAABFV0CBoAAAAAAAAAAAAAAAAAAAAAAABOTAAEAAAAAwAAAAEAAABAAAuBT04Dv1D+xT8xPzA/Lj8sPyI/HD8aPxg/FD8SPxA/Dz8OPww/CD8GPwY/BD8CPwA/AD4APgA<ADwAOAA4ADQANAAwADAALgAuACwALAAsACoAKgAoACgAJgAmACQAJAAiACIAIAAgAB4AHgAcABwAGgAaABYAFgAUABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAQA') format('truetype')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace}
+.wrap{position:fixed;left:50%;bottom:calc(6.8vh + 14px);transform:translateX(-50%) scale(var(--z,1));transform-origin:bottom center;z-index:2;transition:transform .2s ease}
+.mline{display:flex;align-items:center;gap:12px;padding:9px 18px;white-space:nowrap;
+ background:rgba(6,8,6,.72);border-top:1px solid rgba(180,255,0,.55);border-bottom:1px solid rgba(92,153,0,.65);
+ backdrop-filter:blur(3px);animation:mlg 3.6s ease-in-out infinite}
+@keyframes mlg{50%{box-shadow:0 0 22px rgba(180,255,0,.18)}}
+.mtag{font-family:Orbitron;font-weight:900;font-size:13px;letter-spacing:.2em;color:var(--acid,#B4FF00);
+ text-shadow:0 0 10px rgba(180,255,0,.5);padding-right:12px;border-right:1px solid rgba(92,153,0,.6)}
+.mdot{width:6px;height:6px;background:var(--acid,#B4FF00);border-radius:50%;box-shadow:0 0 8px var(--acid,#B4FF00);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.2}}
+.vhead{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px;white-space:nowrap}
+.vlbl,.qlbl{font-size:11px;font-weight:600;letter-spacing:.22em;color:#9AA69A}
+.vchip{min-width:46px;text-align:center;font-family:Orbitron;font-weight:900;font-size:18px;letter-spacing:.12em;
+ padding:3px 8px 3px calc(8px + .12em);color:#060806;background:var(--acid,#B4FF00);
+ clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+ animation:vglow 2.6s ease-in-out infinite}
+.vchip.empty{background:rgba(92,153,0,.22);color:#5C9900;animation:none}
+@keyframes vglow{50%{filter:drop-shadow(0 0 7px rgba(180,255,0,.8))}}
+.vconn{width:2px;height:7px;margin:0 auto 4px;background:linear-gradient(180deg,var(--acid,#B4FF00),transparent);opacity:.7}
+.vsep{width:1px;height:16px;margin:0 8px;background:linear-gradient(180deg,transparent,rgba(154,166,154,.55),transparent)}
+.qchip{font-family:Orbitron;font-weight:900;font-size:12px;letter-spacing:.1em;padding:4px 9px 4px calc(9px + .1em);
+ white-space:nowrap;background:rgba(10,12,10,.92);color:#CFDCCF;border:1px solid rgba(190,205,190,.85);
+ text-shadow:0 0 9px rgba(207,220,207,.55);animation:qgs 2.8s ease-in-out infinite;
+ clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.qchip::after{content:'▾';font-family:Chakra;font-size:9px;margin-left:6px;opacity:.75}
+.qchip.sa{color:#FF5252;border-color:rgba(255,80,80,.85);text-shadow:0 0 9px rgba(255,60,60,.6);animation:qrs 2.8s ease-in-out infinite}
+@keyframes qgs{50%{filter:drop-shadow(0 0 6px rgba(207,220,207,.55))}}
+@keyframes qrs{50%{filter:drop-shadow(0 0 6px rgba(255,60,60,.6))}}
+.pill{display:inline-flex;align-items:baseline;gap:6px;padding:4px 10px;
+ background:rgba(18,23,18,.85);border:1px solid rgba(92,153,0,.45);border-radius:20px;
+ animation:pin .4s cubic-bezier(.2,.9,.3,1.15) both}
+.pill:nth-child(odd){animation-delay:.08s}
+@keyframes pin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.pill .pv{font-family:Orbitron;font-weight:900;font-size:15px;letter-spacing:.08em;color:var(--acid,#B4FF00)}
+.pill .pv.empty{color:#5C9900}
+.pill .pl{font-family:Orbitron;font-weight:900;font-size:13px;color:#F2FFE8}
+.pill .pl.empty{color:#9AA69A;opacity:.5}
+.pslash{color:rgba(92,153,0,.8);font-size:12px}
+.fl.flash{animation:cellflash .5s ease-out}
+@keyframes cellflash{0%{filter:brightness(1.9) drop-shadow(0 0 14px rgba(180,255,0,.8))}100%{}}
+
+/* ─── PAINEL DE EDIÇÃO (só aparece quando editing=true) ─── */
+:root{--acid:#B4FF00;--toxic:#5C9900;--bg:#060806;--txt:#F2FFE8;--txt2:#9AA69A}
+#editor{position:fixed;inset:0;z-index:10;display:none;flex-direction:column;justify-content:flex-start;
+ background:linear-gradient(180deg,rgba(6,8,6,.92) 0%,rgba(6,8,6,.78) 38%,rgba(6,8,6,.35) 100%);
+ backdrop-filter:blur(4px);padding:18px 20px 12px;color:var(--txt);font-family:Chakra,monospace}
+#editor.on{display:flex}
+#editor .ebar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+#editor .etag{font-family:Orbitron;font-weight:900;font-size:14px;letter-spacing:.24em;color:var(--acid);
+ background:rgba(180,255,0,.08);padding:6px 12px;border-left:4px solid var(--acid)}
+#editor .ewarn{font-size:12px;color:#FFC107;margin-left:auto}
+#editor .egrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;max-width:900px}
+#editor .card{background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.5);border-radius:5px;padding:10px 12px}
+#editor .card h3{font-size:11px;letter-spacing:.18em;color:var(--acid);margin-bottom:8px;font-weight:700;text-transform:uppercase}
+#editor .row{display:flex;gap:6px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
+#editor .row label{font-size:11px;letter-spacing:.12em;color:var(--txt2);min-width:60px}
+#editor .row input,#editor .row select{background:#060806;border:1px solid rgba(92,153,0,.55);color:var(--txt);
+ outline:none;font-family:Orbitron,monospace;font-weight:900;letter-spacing:.1em;padding:6px 8px;
+ border-radius:3px;font-size:14px}
+#editor .row input:focus,#editor .row select:focus{border-color:var(--acid);box-shadow:0 0 10px rgba(180,255,0,.3)}
+#editor input.vin{width:60px;text-align:center}
+#editor input.lin{width:74px;text-align:center}
+#editor input.title{width:140px}
+#editor select.quest{min-width:140px;cursor:pointer}
+#editor .erows{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:700px}
+#editor .erows .prow{background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.4);border-radius:4px;padding:6px 8px}
+#editor .erows .prow .plbl{font-size:10px;letter-spacing:.18em;color:var(--txt2);margin-bottom:4px}
+#editor .erows .prow .pins{display:flex;gap:4px}
+#editor .erows .prow input{background:#060806;border:1px solid rgba(92,153,0,.55);color:var(--txt);
+ outline:none;font-family:Orbitron,monospace;font-weight:900;padding:5px 6px;border-radius:3px;text-align:center;font-size:13px}
+#editor .erows .prow input:focus{border-color:var(--acid)}
+#editor .erows .prow input.vin{width:100%}
+#editor .erows .prow input.lin{width:100%}
+#editor .efoot{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#editor .btn{padding:8px 14px;font-family:Chakra,monospace;font-weight:700;font-size:12px;letter-spacing:.14em;
+ background:var(--acid);color:var(--bg);border:0;cursor:pointer;border-radius:3px;
+ clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+#editor .btn.ghost{background:transparent;color:var(--acid);border:1px solid var(--acid)}
+#editor .btn.danger{background:transparent;color:#FF5252;border:1px solid #FF5252}
+#editor .status{font-size:12px;color:var(--txt2);margin-left:6px}
+#editor .status.ok{color:var(--acid)}
+
+#editor .epos{margin-left:auto;display:flex;align-items:center;gap:6px;background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.5);padding:6px 10px;border-radius:3px}
+#editor .epos label{font-size:11px;letter-spacing:.14em;color:var(--txt2)}
+#editor .epos input[type=range]{width:180px;accent-color:var(--acid);cursor:pointer}
+#editor .epos button{width:28px;height:28px;border:0;background:var(--acid);color:#060806;font:700 15px/28px monospace;cursor:pointer;padding:0;border-radius:2px}
+#editor .epos button:active{transform:scale(.9)}
+#editor .vval{font:700 13px/1 Orbitron;color:var(--acid);min-width:50px;text-align:center}
+#editor .ehint{font-size:11px;color:var(--txt2);margin-left:auto;line-height:1.4}
+#editor .ehint kbd{background:rgba(180,255,0,.1);color:var(--acid);padding:1px 6px;border-radius:2px;font-family:monospace}
+</style></head><body>
+
+<div class="wrap" id="wrap">
+  <div class="vhead" id="vhead"></div>
+  <div class="mline" id="mline"></div>
+</div>
+
+<div id="editor">
+  <div class="ebar">
+    <span class="etag">🎮 MODO EDIÇÃO</span>
+    <span class="ewarn">⚠ PÚBLICO VÊ ESTE PAINEL — SAIA (E/ESC) ANTES DE DEIXAR A CENA NO AR</span>
+    <span class="epos"><label>ZOOM</label><button id="zsub" type="button">−</button><input id="zoom" type="range" min="50" max="150" step="5" value="100"><button id="zadd" type="button">+</button><span class="vval" id="zval">100%</span></span>
+  </div>
+  <div class="egrid">
+    <div class="card">
+      <h3>cabeçalho</h3>
+      <div class="row"><label>TÍTULO</label><input id="t-title" class="title" type="text" maxlength="14" placeholder="PARTY"></div>
+      <div class="row"><label>VISÃO</label><input id="t-view" class="vin" type="text" maxlength="2" placeholder="··"><span style="font-size:11px;color:var(--txt2)">2 letras</span></div>
+      <div class="row"><label>QUEST</label>
+        <select id="t-quest" class="quest"><option value="sw">SOUL WAR</option><option value="sa">SANGUINE</option></select>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:8px;max-width:900px">
+    <h3>jogadores (até 5)</h3>
+    <div class="erows" id="erows"></div>
+    <div style="font-size:11px;color:var(--txt2);margin-top:6px">VOC = 2 letras; LV = número (até 4 dígitos).</div>
+  </div>
+  <div class="efoot">
+    <button class="btn" id="b-save">SALVAR</button>
+    <button class="btn danger" id="b-clear">LIMPAR TUDO</button>
+    <button class="btn ghost" id="b-exit">SAIR (E)</button>
+    <span class="status" id="status">—</span>
+    <span class="ehint">Aperte <kbd>E</kbd> ou <kbd>Esc</kbd> para sair · auto-salva em 4 s</span>
+  </div>
+</div>
+
+<script>
+"use strict";
+const KEY='exoriPartyV1';
+const FALLBACK={zoom:100,title:'PARTY',view:'',quest:'sw',rows:[{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''}]};
+function sanitize(d){
+  const o=JSON.parse(JSON.stringify(FALLBACK));
+  o.zoom=Math.max(50,Math.min(150,parseInt(d.zoom||100,10)||100));
+  o.title=String(d.title||'PARTY').slice(0,14).toUpperCase();
+  o.view=String(d.view||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,2);
+  o.quest=d.quest==='sa'?'sa':'sw';
+  for(let i=0;i<5;i++){const r=d.rows&&d.rows[i]?d.rows[i]:{};
+    o.rows[i].v=String(r.v||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,2);
+    o.rows[i].l=String(r.l||'').replace(/[^0-9]/g,'').slice(0,4);}
+  return o;
+}
+function fromLS(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');return s&&s.rows?s:null}catch(e){return null}}
+function fromURL(){
+  const q=new URLSearchParams(location.search);
+  if(!q.get('title')&&!q.get('view')&&!q.get('v1')&&!q.get('l1')) return null;
+  const d=JSON.parse(JSON.stringify(FALLBACK));
+  if(q.get('title')) d.title=q.get('title').slice(0,14).toUpperCase();
+  if(q.get('view')) d.view=q.get('view').slice(0,2).toUpperCase();
+  if(q.get('quest')) d.quest=q.get('quest')==='sa'?'sa':'sw';
+  if(q.get('zoom')) d.zoom=Math.max(50,Math.min(150,parseInt(q.get('zoom'),10)||100));
+  for(let i=1;i<=5;i++){
+    if(q.get('v'+i)) d.rows[i-1].v=q.get('v'+i).slice(0,2).toUpperCase();
+    if(q.get('l'+i)) d.rows[i-1].l=q.get('l'+i).replace(/[^0-9]/g,'').slice(0,4);}
+  return d;
+}
+
+let DATA=sanitize(Object.assign({},FALLBACK,fromLS()||{},fromURL()||{}));
+let editing=false;
+
+/* ─── Render do widget ─── */
+const $=id=>document.getElementById(id);
+function vheadHTML(d){return '<span class="vlbl">VISÃO DO:</span><span class="vchip'+(d.view?'':' empty')+'">'+(d.view||'··')+'</span>'
+  +'<span class="vsep"></span><span class="qlbl">QUEST:</span><span class="qchip '+(d.quest==='sa'?'sa':'sw')+'">'
+  +(d.quest==='sa'?'SANGUINE':'SOUL WAR')+'</span>'}
+function pillHTML(r){return '<span class="pill fl"><span class="pv'+(r.v?'':' empty')+'">'+(r.v||'··')+'</span>'
+  +'<span class="pl'+(r.l?'':' empty')+'">'+(r.l||'···')+'</span></span>'}
+function applyZoom(){document.querySelector('.wrap').style.setProperty('--z',(DATA.zoom/100));}
+function render(flashFirst){
+  $('vhead').innerHTML=vheadHTML(DATA);
+  let html='<span class="mtag">'+(DATA.title||'PARTY')+'</span><span class="mdot"></span>';
+  DATA.rows.forEach((r,i)=>{if(i) html+='<span class="pslash">/</span>'; html+=pillHTML(r)});
+  $('mline').innerHTML=html;
+  applyZoom();
+  if(flashFirst){const n=document.querySelector('.fl'); if(n){n.classList.remove('flash'); void n.offsetWidth; n.classList.add('flash')}}
+}
+
+/* ─── Persistência ─── */
+let saveTimer=null;
+function persist(flash){
+  DATA=sanitize(readForm());
+  try{localStorage.setItem(KEY,JSON.stringify(DATA)); setStatus('SALVO ✓',true)}catch(e){setStatus('ERRO: '+e.message)}
+  buildRows(); render(flash!==false);
+}
+function setStatus(m,ok){const s=$('status'); if(!s)return; s.textContent=m; s.className='status'+(ok?' ok':'')}
+
+/* ─── Editor DOM ─── */
+function buildRows(){
+  const host=$('erows'); if(!host) return;
+  host.innerHTML='';
+  for(let i=0;i<5;i++){
+    const r=DATA.rows[i]||{v:'',l:''};
+    const d=document.createElement('div'); d.className='prow';
+    d.innerHTML=`<div class="plbl">#${i+1}</div><div class="pins">
+      <input data-i="${i}" data-k="v" class="vin" type="text" maxlength="2" value="${r.v||''}" placeholder="VOC">
+      <input data-i="${i}" data-k="l" class="lin" type="text" inputmode="numeric" maxlength="4" value="${r.l||''}" placeholder="LV"></div>`;
+    host.appendChild(d);
+  }
+}
+function fillForm(){
+  $('t-title').value=DATA.title||''; $('t-view').value=DATA.view||''; $('t-quest').value=DATA.quest||'sw';
+  $('zoom').value=DATA.zoom||100; $('zval').textContent=(DATA.zoom||100)+'%';
+  buildRows();
+}
+function syncZoom(){const z=parseInt($('zoom').value,10)||100;DATA.zoom=z;$('zval').textContent=z+'%';applyZoom()}
+function readForm(){
+  const d=JSON.parse(JSON.stringify(FALLBACK));
+  if(!editing) return DATA;
+  d.zoom=parseInt($('zoom').value,10)||100;
+  d.title=$('t-title').value.slice(0,14).toUpperCase()||'PARTY';
+  d.view=String($('t-view').value||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,2);
+  d.quest=$('t-quest').value==='sa'?'sa':'sw';
+  document.querySelectorAll('#erows input').forEach(inp=>{
+    const i=+inp.dataset.i,k=inp.dataset.k;
+    d.rows[i][k]=k==='v'? String(inp.value||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,2)
+                       : String(inp.value||'').replace(/[^0-9]/g,'').slice(0,4);
+  });
+  return d;
+}
+
+/* ─── Liga/desliga editor ─── */
+function toggleEdit(){
+  editing=!editing;
+  $('editor').classList.toggle('on',editing);
+  if(editing){ fillForm(); setTimeout(()=>$('t-title').focus(),50); setStatus('editando',false);}
+  else{ persist(true); setStatus('VISUALIZAÇÃO',true);}
+}
+function closeEdit(){ if(editing) toggleEdit(); }
+
+document.addEventListener('keydown',function(ev){
+  /* Ignora se estiver digitando em um input (a não ser Esc) */
+  const tag=(ev.target&&ev.target.tagName)||'';
+  const inField=(tag==='INPUT'||tag==='SELECT'||tag==='TEXTAREA');
+  if(ev.key==='Escape'){ev.preventDefault(); if(editing) closeEdit(); return;}
+  if(ev.key==='e'||ev.key==='E'){
+    if(inField) return; /* não captura E digitado no campo VOC */
+    ev.preventDefault(); toggleEdit(); return;
+  }
+});
+
+/* zoom */
+function setZ(z){z=Math.max(50,Math.min(150,parseInt(z,10)||100));$('zoom').value=z;syncZoom();try{localStorage.setItem(KEY,JSON.stringify(Object.assign(DATA,{zoom:z})))}catch(e){}}
+if($('zoom')) $('zoom').addEventListener('input',function(){syncZoom()});
+if($('zoom')) $('zoom').addEventListener('change',function(){setZ($('zoom').value)});
+function hold(id,fn){var b=document.getElementById(id),iv=null;
+ function stop(){if(iv){clearInterval(iv);iv=null}}
+ if(!b)return;
+ b.addEventListener('pointerdown',function(e){e.preventDefault();fn();iv=setInterval(fn,120)});
+ ['pointerup','pointerleave','pointercancel'].forEach(function(ev){b.addEventListener(ev,stop)})}
+hold('zsub',function(){setZ((parseInt($('zoom').value,10)||100)-5)});
+hold('zadd',function(){setZ((parseInt($('zoom').value,10)||100)+5)});
+if($('b-save')) $('b-save').onclick=function(){persist(true)};
+if($('b-clear')) $('b-clear').onclick=function(){
+  if(!confirm('Apagar todos os dados do Party Tracker?')) return;
+  try{localStorage.removeItem(KEY)}catch(e){}
+  DATA=sanitize(FALLBACK); fillForm(); persist(true);
+};
+if($('b-exit')) $('b-exit').onclick=closeEdit;
+
+/* Auto-save enquanto edita (4 s de inatividade) */
+let lastJSON=JSON.stringify(DATA);
+setInterval(()=>{
+  if(!editing){lastJSON=JSON.stringify(DATA); return;}
+  const atual=JSON.stringify(readForm());
+  if(atual!==lastJSON){lastJSON=atual; persist(false);}
+},4000);
+
+/* Polling do localStorage (2 s): pega mudanças feitas em outras abas do mesmo
+   arquivo ou após reload; útil quando o OBS troca de cena. */
+setInterval(()=>{
+  if(editing) return; /* não puxa enquanto estamos editando */
+  const ls=fromLS(); if(!ls) return;
+  const next=sanitize(ls);
+  if(JSON.stringify(next)!==JSON.stringify(DATA)){DATA=next; render(true)}
+},2000);
+
+render(false);
+</script></body></html>
