@@ -6,7 +6,7 @@
 :root{--acid:#B4FF00;--toxic:#5C9900;--txt:#F2FFE8;--txt2:#9AA69A}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace}
-.edge{position:fixed;inset:0 0 6.8vh 0;border:1px solid rgba(180,255,0,.35);border-bottom:none;pointer-events:none}
+.edge{position:fixed;inset:0;border:1px solid rgba(180,255,0,.42);box-shadow:inset 0 0 26px rgba(180,255,0,.12),0 0 18px rgba(180,255,0,.18);pointer-events:none;z-index:20}
 /* ── QUADRO DA MARCA — móvel/ajustável (tecla E) + efeitos: cometa na borda, glow e shimmer ── */
 @property --ma{syntax:'<angle>';initial-value:0deg;inherits:false}
 .head{position:fixed;left:32px;bottom:calc(6.8vh + 14px);display:flex;align-items:center;gap:12px;
