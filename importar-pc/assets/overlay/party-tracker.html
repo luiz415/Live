@@ -19,7 +19,7 @@
 html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace;position:relative;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:geometricPrecision}
 #livezone{position:absolute;top:0;left:0;width:100%;height:1080px;overflow:hidden}
 .wrap{position:absolute;left:50%;bottom:87px;transform:translate3d(calc(-50% + var(--dx,0px)),var(--dy,0px),0) scale(var(--z,1));transform-origin:bottom center;z-index:2;transition:none;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-body.edit .wrap{transition:none;cursor:grab;outline:2px dashed rgba(180,255,0,.85);outline-offset:10px;border-radius:6px}
+body.edit .wrap{transition:none;cursor:grab}
 body.edit .wrap:active{cursor:grabbing}
 .mline{display:flex;align-items:center;gap:12px;padding:9px 18px;white-space:nowrap;
  background:rgba(6,8,6,.88);border-top:1px solid rgba(180,255,0,.55);border-bottom:1px solid rgba(92,153,0,.65);
@@ -54,17 +54,17 @@ body.edit .wrap:active{cursor:grabbing}
 @keyframes cellflash{0%{filter:brightness(1.9) drop-shadow(0 0 14px rgba(180,255,0,.8))}100%{}}
 
 /* ─── Moldura (frame) ao redor do quadro ─── */
-#pframe{display:inline-flex;flex-direction:column;align-items:center;transform:translateZ(0)}
+#pframe{display:inline-flex;flex-direction:column;align-items:center;transform:translateZ(0);--fw:2px}
 #pframe.pf-none{padding:0;border:none;background:none;box-shadow:none;border-radius:0}
-#pframe.pf-neon{padding:16px 22px;border:2px solid var(--acid,#B4FF00);border-radius:10px;
+#pframe.pf-neon{padding:16px 22px;border:var(--fw) solid var(--acid,#B4FF00);border-radius:10px;
  background:rgba(6,8,6,.42);box-shadow:0 0 24px rgba(180,255,0,.32),inset 0 0 18px rgba(180,255,0,.08)}
-#pframe.pf-chapa{padding:14px 22px;border:2px solid rgba(190,205,190,.9);background:rgba(10,12,10,.7);
+#pframe.pf-chapa{padding:14px 22px;border:var(--fw) solid rgba(190,205,190,.9);background:rgba(10,12,10,.7);
  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
 #pframe.pf-duplo{padding:17px 24px;border:1px solid rgba(92,153,0,.6);border-radius:8px;background:rgba(6,8,6,.45);
- box-shadow:0 0 0 5px rgba(6,8,6,.9),0 0 0 7px var(--acid,#B4FF00),0 0 20px rgba(180,255,0,.25)}
-#pframe.pf-hazard{padding:16px 24px;border-radius:5px;background-image:linear-gradient(rgba(6,8,6,.5),rgba(6,8,6,.5)),
- repeating-linear-gradient(45deg,var(--acid,#B4FF00) 0 14px,#1a1a1a 14px 28px);
- background-origin:border-box;background-clip:padding-box,border-box;border:4px solid transparent}
+ box-shadow:0 0 0 var(--fw) rgba(6,8,6,.9),0 0 0 calc(var(--fw) + 2px) var(--acid,#B4FF00),0 0 20px rgba(180,255,0,.25)}
+#pframe.pf-fina{padding:12px 18px;border:var(--fw) solid rgba(180,255,0,.7);border-radius:2px;background:rgba(6,8,6,.28)}
+#pframe.pf-inner{padding:16px 22px;border:none;border-radius:8px;background:rgba(6,8,6,.4);
+ box-shadow:inset 0 0 0 var(--fw) var(--acid,#B4FF00),inset 0 0 18px rgba(180,255,0,.25)}
 
 /* ─── PAINEL DE EDIÇÃO (só aparece quando editing=true) ─── */
 :root{--acid:#B4FF00;--toxic:#5C9900;--bg:#060806;--txt:#F2FFE8;--txt2:#9AA69A}
@@ -149,7 +149,8 @@ body.edit .wrap:active{cursor:grabbing}
     <div class="card" style="min-width:320px">
       <h3>moldura do quadro</h3>
       <div class="frow" id="framerow"></div>
-      <div style="font-size:22px;color:var(--txt2);margin-top:8px">Escolha um estilo de moldura ou desative.</div>
+      <div class="row" style="margin-top:10px"><label>GROSSURA</label><input id="t-fw" type="range" min="1" max="12" step="1" value="2" style="width:180px"><span class="vval" id="fwval">2px</span></div>
+      <div style="font-size:22px;color:var(--txt2);margin-top:8px">Escolha um estilo e a grossura da moldura.</div>
     </div>
   </div>
   <div class="card" style="margin-top:8px;max-width:900px">
@@ -170,8 +171,8 @@ body.edit .wrap:active{cursor:grabbing}
 <script>
 "use strict";
 const KEY='exoriPartyV1';
-const FALLBACK={zoom:100,title:'PARTY',view:'',quest:'sw',frame:'neon',posX:0,posY:0,rows:[{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''}]};
-const FRAMES=[{id:'none',name:'SEM MOLDURA'},{id:'neon',name:'NEON'},{id:'chapa',name:'CHAPA'},{id:'duplo',name:'DUPLO'},{id:'hazard',name:'HAZARD'}];
+const FALLBACK={zoom:100,title:'PARTY',view:'',quest:'sw',frame:'neon',fw:2,posX:0,posY:0,rows:[{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''}]};
+const FRAMES=[{id:'none',name:'SEM MOLDURA'},{id:'neon',name:'NEON'},{id:'chapa',name:'CHAPA'},{id:'duplo',name:'DUPLO'},{id:'fina',name:'FINA'},{id:'inner',name:'INTERNA'}];
 const FRAME_IDS=FRAMES.map(f=>f.id);
 function sanitize(d){
   const o=JSON.parse(JSON.stringify(FALLBACK));
@@ -179,7 +180,8 @@ function sanitize(d){
   o.title=String(d.title||'PARTY').slice(0,14).toUpperCase();
   o.view=String(d.view||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,2);
   o.quest=d.quest==='sa'?'sa':'sw';
-  o.frame=FRAME_IDS.includes(d.frame)?d.frame:'neon';
+  o.frame=FRAME_IDS.includes(d.frame)?d.frame:(d.frame==='hazard'?'neon':'neon');
+  o.fw=Math.max(1,Math.min(16,parseInt(d.fw,10)||2));
   o.posX=Math.max(-500,Math.min(500,parseInt(d.posX,10)||0));
   o.posY=Math.max(-500,Math.min(500,parseInt(d.posY,10)||0));
   for(let i=0;i<5;i++){const r=d.rows&&d.rows[i]?d.rows[i]:{};
@@ -221,6 +223,7 @@ function applyTransform(){
 function applyFrame(){
   const pf=$('pframe'); if(!pf) return;
   FRAMES.forEach(f=>pf.classList.toggle('pf-'+f.id, f.id===(DATA.frame||'neon')));
+  pf.style.setProperty('--fw',(DATA.fw||2)+'px');
 }
 function render(flashFirst){
   $('vhead').innerHTML=vheadHTML(DATA);
@@ -257,6 +260,7 @@ function buildRows(){
 function fillForm(){
   $('t-title').value=DATA.title||''; $('t-view').value=DATA.view||''; $('t-quest').value=DATA.quest||'sw';
   $('zoom').value=DATA.zoom||100; $('zval').textContent=(DATA.zoom||100)+'%';
+  if($('t-fw')){$('t-fw').value=DATA.fw||2;$('fwval').textContent=(DATA.fw||2)+'px'}
   buildRows();
   syncFrameButtons();
 }
@@ -268,6 +272,7 @@ function readForm(){
   d.title=$('t-title').value.slice(0,14).toUpperCase()||'PARTY';
   d.view=String($('t-view').value||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,2);
   d.quest=$('t-quest').value==='sa'?'sa':'sw';
+  d.fw=parseInt(($('t-fw')&&$('t-fw').value)||DATA.fw||2,10);
   document.querySelectorAll('#erows input').forEach(inp=>{
     const i=+inp.dataset.i,k=inp.dataset.k;
     d.rows[i][k]=k==='v'? String(inp.value||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,2)
@@ -281,7 +286,7 @@ function toggleEdit(){
   editing=!editing;
   $('editor').classList.toggle('on',editing);
   document.body.classList.toggle('edit',editing);
-  if(editing){ fillForm(); setTimeout(()=>$('t-title').focus(),50); setStatus('editando',false);}
+  if(editing){ fillForm(); setStatus('editando',false);}
   else{ persist(true); setStatus('VISUALIZAÇÃO',true);}
 }
 function closeEdit(){ if(editing) toggleEdit(); }
@@ -301,6 +306,7 @@ document.addEventListener('keydown',function(ev){
 function setZ(z){z=Math.max(50,Math.min(150,parseInt(z,10)||100));$('zoom').value=z;syncZoom();try{localStorage.setItem(KEY,JSON.stringify(Object.assign(DATA,{zoom:z})))}catch(e){}}
 if($('zoom')) $('zoom').addEventListener('input',function(){syncZoom()});
 if($('zoom')) $('zoom').addEventListener('change',function(){setZ($('zoom').value)});
+if($('t-fw')) $('t-fw').addEventListener('input',function(){DATA.fw=parseInt(this.value,10)||2;$('fwval').textContent=DATA.fw+'px';applyFrame();try{localStorage.setItem(KEY,JSON.stringify(DATA))}catch(e){}});
 function syncFrameButtons(){
   document.querySelectorAll('#framerow .fbtn').forEach(function(b){b.classList.toggle('active', b.dataset.frame===(DATA.frame||'neon'))});
 }

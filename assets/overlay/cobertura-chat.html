@@ -1,113 +1,193 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
-<title>Cobertura · Chat do Jogo — exoriservice</title><style>
+<title>Cobertura · Chat do Jogo — exoriservice</title>
+<style>
 :root{--acid:#B4FF00}
 *{margin:0;padding:0;box-sizing:border-box}
-/* leve relâmpago */
-.cover::after{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 50% 30%,rgba(255,255,255,.0) 0%,rgba(255,255,255,.0) 100%);mix-blend-mode:screen;animation:flash 7.3s linear infinite;z-index:9}
-@keyframes flash{0%,92%,100%{opacity:0;background:radial-gradient(ellipse 60% 40% at 50% 30%,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 100%)}
- 93%{opacity:.9;background:radial-gradient(ellipse 60% 40% at 50% 30%,rgba(220,255,220,.22) 0%,rgba(180,255,0,.08) 45%,transparent 80%)}
- 93.6%{opacity:.25}
- 94.2%{opacity:.75;background:radial-gradient(ellipse 65% 45% at 45% 20%,rgba(255,255,255,.18) 0%,rgba(180,255,0,.06) 50%,transparent 85%)}
- 94.8%{opacity:0}}
-html,body{width:100%;height:100%;overflow:hidden;background:transparent}
-
-/* ══ fundo único bem escuro (privacidade total) ══ */
-.cover{position:fixed;inset:0;background:rgba(6,8,6,.100)}
-
-/* ══ EFEITOS (todos dinâmicos — nenhum elemento fixo) ══ */
+html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace}
+.cover{position:fixed;inset:0;background:rgba(6,8,6,1)}
+.cover.flashon::after{content:'';position:fixed;inset:0;pointer-events:none;
+ background:radial-gradient(ellipse 60% 40% at 50% 30%,rgba(220,255,220,.22) 0%,rgba(180,255,0,.08) 45%,transparent 80%);
+ mix-blend-mode:screen;animation:flash 7.3s linear infinite;z-index:9;opacity:var(--flashop,.9)}
+@keyframes flash{0%,92%,100%{opacity:0}93%{opacity:var(--flashop,.9)}93.6%{opacity:.25}94.2%{opacity:calc(var(--flashop,.9)*.8)}94.8%{opacity:0}}
 .fx{position:fixed;inset:0;overflow:hidden;pointer-events:none}
-
-/* ── CHUVA: 3 camadas de profundidade, inclinada pelo vento ── */
-.drop{position:absolute;top:-18%;border-radius:2px;
- background:linear-gradient(180deg,transparent,rgba(190,255,10,var(--op)));
- animation:fall linear infinite}
-@keyframes fall{
- from{transform:translateY(-18vh) rotate(var(--ra))}
- to{transform:translateY(138vh) rotate(var(--ra))}}
-
-/* ── VAGALUMES: pontos de luz flutuando devagar, piscando ── */
-.ff{position:absolute;width:var(--s);height:var(--s);border-radius:50%;
- background:rgba(198,255,30,.95);box-shadow:0 0 calc(var(--s)*2.6) rgba(180,255,0,.8);
- animation:drift var(--dd) ease-in-out infinite alternate,ffpulse var(--pp) ease-in-out infinite;
- opacity:0}
-@keyframes drift{
- from{transform:translate(0,0)}
- to{transform:translate(var(--dx),var(--dy))}}
+.drop{position:absolute;top:-18%;border-radius:2px;background:linear-gradient(180deg,transparent,rgba(190,255,10,var(--op)));animation:fall linear infinite}
+@keyframes fall{from{transform:translateY(-18vh) rotate(var(--ra))}to{transform:translateY(138vh) rotate(var(--ra))}}
+.ff{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:rgba(198,255,30,.95);box-shadow:0 0 calc(var(--s)*2.6) rgba(180,255,0,.8);
+ animation:drift var(--dd) ease-in-out infinite alternate,ffpulse var(--pp) ease-in-out infinite;opacity:0}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(var(--dx),var(--dy))}}
 @keyframes ffpulse{0%,100%{opacity:.06}45%{opacity:var(--pk)}60%{opacity:.25}}
-
-/* ── POEIRA LUMINOSA: partículas mínimas subindo com balanço ── */
-.dust{position:absolute;bottom:-3%;width:var(--s);height:var(--s);border-radius:50%;
- background:rgba(180,255,0,var(--op));
+.dust{position:absolute;bottom:-3%;width:var(--s);height:var(--s);border-radius:50%;background:rgba(180,255,0,var(--op));
  animation:rise var(--rd) linear infinite,sway var(--sd) ease-in-out infinite alternate}
 @keyframes rise{to{transform:translateY(-116vh)}}
 @keyframes sway{from{margin-left:0}to{margin-left:14px}}
-
-/* ── NÉVOA SUTIL: dois véus respirando em direções opostas ── */
-.mist{position:absolute;width:70vw;height:60vh;border-radius:50%;
- background:radial-gradient(ellipse,rgba(30,54,7,.55),transparent 65%);
- filter:blur(30px);opacity:.14;animation:mdrift 36s ease-in-out infinite alternate}
+.mist{position:absolute;width:70vw;height:60vh;border-radius:50%;background:radial-gradient(ellipse,rgba(30,54,7,.55),transparent 65%);
+ filter:blur(30px);opacity:var(--mop,.14);animation:mdrift 36s ease-in-out infinite alternate}
 @keyframes mdrift{from{transform:translate(-4%,3%) scale(1)}to{transform:translate(5%,-4%) scale(1.15)}}
+.snow{position:absolute;top:-8%;width:var(--s);height:var(--s);border-radius:50%;background:rgba(230,255,210,var(--op));
+ box-shadow:0 0 4px rgba(180,255,0,.35);animation:snowf linear infinite}
+@keyframes snowf{from{transform:translateY(-10vh) translateX(0)}to{transform:translateY(120vh) translateX(var(--sx))}}
+.spark{position:absolute;bottom:0;width:2px;height:var(--h);border-radius:2px;background:linear-gradient(180deg,rgba(180,255,0,0),rgba(180,255,0,var(--op)));
+ animation:sparkup linear infinite}
+@keyframes sparkup{from{transform:translateY(0) scaleY(1);opacity:1}to{transform:translateY(-80vh) scaleY(.3);opacity:0}}
+.scan{position:fixed;inset:0;pointer-events:none;z-index:8;opacity:var(--sop,.12);
+ background:repeating-linear-gradient(180deg,transparent 0 2px,rgba(180,255,0,.12) 2px 3px);animation:scanm 8s linear infinite}
+@keyframes scanm{from{background-position:0 0}to{background-position:0 40px}}
+.vig{position:fixed;inset:0;pointer-events:none;z-index:7;
+ background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,var(--vop,.55)) 100%)}
 
-.mark{position:fixed;right:12px;bottom:10px;display:flex;align-items:center;gap:8px;opacity:.5}
-.mark img{width:26px;height:26px;filter:grayscale(.2) brightness(1.1)}
-.mark span{font-family:Chakra,monospace;font-size:11px;letter-spacing:.22em;color:#9AA69A}
+#editor{position:fixed;inset:0;z-index:80;display:none;flex-direction:column;justify-content:flex-end;
+ background:linear-gradient(180deg,rgba(6,8,6,.2),rgba(6,8,6,.94));padding:8px;color:#F2FFE8;pointer-events:none}
+#editor.on{display:flex}
+#editor .box{pointer-events:auto;background:rgba(8,10,8,.96);border:1px solid #B4FF00;padding:10px 12px;max-height:92%;overflow:auto}
+#editor .etag{font:900 13px/1 Orbitron,sans-serif;color:#B4FF00;letter-spacing:.14em;margin-bottom:8px}
+#editor .hint{font-size:11px;color:#9AA69A;margin-bottom:8px}
+#editor .grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px}
+#editor label{font-size:11px;letter-spacing:.08em;color:#9AA69A;display:flex;justify-content:space-between;align-items:center}
+#editor label span.v{color:#B4FF00;font:700 11px Orbitron,monospace;min-width:36px;text-align:right}
+#editor input[type=range]{width:100%;accent-color:#B4FF00}
+#editor .tog{display:flex;align-items:center;gap:6px;font-size:11px;color:#9AA69A}
+#editor .btn{margin-top:8px;padding:6px 10px;font:700 11px Chakra,monospace;border:0;background:#B4FF00;color:#060806;cursor:pointer;margin-right:6px}
+#editor .btn.ghost{background:transparent;color:#B4FF00;border:1px solid #B4FF00}
 </style></head><body>
 <div class="cover" id="cover"><div class="fx" id="fx"></div></div>
+<div id="editor">
+  <div class="box">
+    <div class="etag">COBERTURA · EFEITOS</div>
+    <div class="hint">E abre/fecha. Intensidade 0 desliga o efeito. Salva sozinho.</div>
+    <div class="grid">
+      <div><label>FUNDO <span class="v" id="v-forca">100</span></label><input id="e-forca" type="range" min="40" max="100" value="100"></div>
+      <div><label>CHUVA <span class="v" id="v-chuva">72</span></label><input id="e-chuva" type="range" min="0" max="160" value="72"></div>
+      <div><label>VENTO <span class="v" id="v-vento">12</span></label><input id="e-vento" type="range" min="0" max="28" value="12"></div>
+      <div><label>VAGALUMES <span class="v" id="v-vagalumes">9</span></label><input id="e-vagalumes" type="range" min="0" max="24" value="9"></div>
+      <div><label>POEIRA <span class="v" id="v-poeira">14</span></label><input id="e-poeira" type="range" min="0" max="40" value="14"></div>
+      <div><label>NEVE <span class="v" id="v-neve">0</span></label><input id="e-neve" type="range" min="0" max="80" value="0"></div>
+      <div><label>FAISCAS <span class="v" id="v-faiscas">0</span></label><input id="e-faiscas" type="range" min="0" max="40" value="0"></div>
+      <div><label>VINHETA <span class="v" id="v-vinheta">0</span></label><input id="e-vinheta" type="range" min="0" max="80" value="0"></div>
+      <div><label>SCANLINES <span class="v" id="v-scan">0</span></label><input id="e-scan" type="range" min="0" max="40" value="0"></div>
+      <div><label>RELAMPAGO <span class="v" id="v-flash">40</span></label><input id="e-flash" type="range" min="0" max="100" value="40"></div>
+    </div>
+    <label class="tog" style="margin-top:8px"><input id="e-nevoa" type="checkbox" checked> NEVOA</label>
+    <div>
+      <button class="btn" id="b-save">SALVAR</button>
+      <button class="btn ghost" id="b-def">PADRAO</button>
+      <button class="btn ghost" id="b-exit">SAIR (E)</button>
+    </div>
+  </div>
+</div>
 <script>
-/* ═══ CONFIGURAÇÃO RÁPIDA (edite aqui) ═══
-   forca ......... 0 a 1 — opacidade da cor única do fundo (padrão .100)
-   chuva ......... nº TOTAL de gotas em 3 planos (0 desativa · padrão 72)
-   vento ......... inclinação das gotas em graus (padrão 12)
-   vagalumes .... nº de vagalumes (0 desativa · padrão 9)
-   poeira ....... nº de partículas de poeira (0 desativa · padrão 14)
-   nevoa ......... true/false — véus de névoa respirando ao fundo
-   marca ......... true/false — mini-assinatura no canto            */
-const CFG={forca:1,chuva:72,vento:12,vagalumes:9,poeira:14,nevoa:true,marca:false};
-
-document.getElementById('cover').style.background='rgba(6,8,6,'+CFG.forca+')';
-var fx=document.getElementById('fx');
-/* ── CHUVA: planos [longe, meio, perto] — perto = mais grossa, rápida e viva ── */
-var PLANOS=[
- {n:.42,w:1,  h:[10,17],op:[.10,.20],du:[2.6,3.5]},
- {n:.36,w:2,  h:[15,26],op:[.22,.38],du:[1.8,2.5]},
- {n:.22,w:3,  h:[24,40],op:[.42,.62],du:[1.1,1.7],blur:.4}];
-PLANOS.forEach(function(p){
- var q=Math.round(CFG.chuva*p.n);
- for(var i=0;i<q;i++){
-  var d=document.createElement('i');d.className='drop';
-  var h=p.h[0]+Math.random()*(p.h[1]-p.h[0]);
-  var op=p.op[0]+Math.random()*(p.op[1]-p.op[0]);
-  var du=p.du[0]+Math.random()*(p.du[1]-p.du[0]);
-  var ra=(CFG.vento+(Math.random()*4-2));
-  d.style.cssText='left:'+(-6+Math.random()*112)+'%;width:'+p.w+'px;height:'+h+'px;'
-   +'--op:'+op.toFixed(2)+';--ra:'+ra.toFixed(1)+'deg;'
-   +'animation-duration:'+du.toFixed(2)+'s;animation-delay:-'+(Math.random()*4).toFixed(2)+'s'
-   +(p.blur?';filter:blur(.4px)':'');
-  fx.appendChild(d)}});
-/* ── VAGALUMES: deriva lenta + pulso de brilho orgânico ── */
-for(var f=0;f<CFG.vagalumes;f++){
- var v=document.createElement('i');v.className='ff';
- var s=3+Math.random()*3.5;
- v.style.cssText='left:'+(4+Math.random()*92)+'%;top:'+(10+Math.random()*78)+'%;'
-  +'--s:'+s.toFixed(1)+'px;--pk:'+(.55+Math.random()*.4).toFixed(2)+';'
-  +'--dx:'+((Math.random()*120-60)).toFixed(0)+'px;--dy:'+((Math.random()*80-40)).toFixed(0)+'px;'
-  +'--dd:'+(11+Math.random()*14).toFixed(1)+'s;--pp:'+(2.6+Math.random()*3.4).toFixed(1)+'s;'
-  +'animation-delay:-'+(Math.random()*12).toFixed(1)+'s,-'+(Math.random()*4).toFixed(1)+'s';
- fx.appendChild(v)}
-/* ── POEIRA LUMINOSA: sobe devagar balançando ── */
-for(var u=0;u<CFG.poeira;u++){
- var t=document.createElement('i');t.className='dust';
- t.style.cssText='left:'+(Math.random()*100)+'%;--s:'+(1.6+Math.random()*2.2).toFixed(1)+'px;'
-  +'--op:'+(.12+Math.random()*.22).toFixed(2)+';';
- var rd=16+Math.random()*18, sd=3+Math.random()*4;
- t.style.animationDuration=rd.toFixed(1)+'s,'+sd.toFixed(1)+'s';
- t.style.animationDelay='-'+(Math.random()*20).toFixed(1)+'s,0s';
- fx.appendChild(t)}
-/* ── NÉVOA: dois véus em pontos opostos ── */
-if(CFG.nevoa){
- var m1=document.createElement('i');m1.className='mist';
- m1.style.cssText='left:-12vw;top:-14vh';
- var m2=document.createElement('i');m2.className='mist';
- m2.style.cssText='right:-14vw;bottom:-18vh;animation-duration:44s;animation-delay:-18s';
- fx.appendChild(m1);fx.appendChild(m2)}
+"use strict";
+const KEY="exoriCoverV1";
+const DEF={forca:100,chuva:72,vento:12,vagalumes:9,poeira:14,nevoa:true,neve:0,faiscas:0,vinheta:0,scan:0,flash:40};
+function load(){
+  try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); return s?Object.assign({},DEF,s):Object.assign({},DEF)}catch(e){return Object.assign({},DEF)}
+}
+let CFG=load();
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem(KEY,JSON.stringify(CFG))}catch(e){}}
+function fill(){
+  ["forca","chuva","vento","vagalumes","poeira","neve","faiscas","vinheta","scan","flash"].forEach(k=>{
+    const el=$("e-"+k); if(!el)return; el.value=CFG[k]; $("v-"+k).textContent=CFG[k];
+  });
+  $("e-nevoa").checked=!!CFG.nevoa;
+}
+function read(){
+  ["forca","chuva","vento","vagalumes","poeira","neve","faiscas","vinheta","scan","flash"].forEach(k=>{
+    CFG[k]=parseInt($("e-"+k).value,10)||0;
+  });
+  CFG.nevoa=$("e-nevoa").checked;
+  fill();
+}
+function rebuild(){
+  const cover=$("cover");
+  cover.style.background="rgba(6,8,6,"+(CFG.forca/100)+")";
+  cover.classList.toggle("flashon", CFG.flash>0);
+  cover.style.setProperty("--flashop", (CFG.flash/100).toFixed(2));
+  const fx=$("fx"); fx.innerHTML="";
+  const PLANOS=[
+    {n:.42,w:1,h:[10,17],op:[.10,.20],du:[2.6,3.5]},
+    {n:.36,w:2,h:[15,26],op:[.22,.38],du:[1.8,2.5]},
+    {n:.22,w:3,h:[24,40],op:[.42,.62],du:[1.1,1.7],blur:.4}
+  ];
+  PLANOS.forEach(function(p){
+    var q=Math.round(CFG.chuva*p.n);
+    for(var i=0;i<q;i++){
+      var d=document.createElement("i"); d.className="drop";
+      var h=p.h[0]+Math.random()*(p.h[1]-p.h[0]);
+      var op=p.op[0]+Math.random()*(p.op[1]-p.op[0]);
+      var du=p.du[0]+Math.random()*(p.du[1]-p.du[0]);
+      var ra=(CFG.vento+(Math.random()*4-2));
+      d.style.cssText="left:"+(-6+Math.random()*112)+"%;width:"+p.w+"px;height:"+h+"px;"
+        +"--op:"+op.toFixed(2)+";--ra:"+ra.toFixed(1)+"deg;"
+        +"animation-duration:"+du.toFixed(2)+"s;animation-delay:-"+(Math.random()*4).toFixed(2)+"s"
+        +(p.blur?";filter:blur(.4px)":"");
+      fx.appendChild(d);
+    }
+  });
+  for(var f=0;f<CFG.vagalumes;f++){
+    var v=document.createElement("i"); v.className="ff";
+    var s=3+Math.random()*3.5;
+    v.style.cssText="left:"+(4+Math.random()*92)+"%;top:"+(10+Math.random()*78)+"%;"
+      +"--s:"+s.toFixed(1)+"px;--pk:"+(.55+Math.random()*.4).toFixed(2)+";"
+      +"--dx:"+((Math.random()*120-60)).toFixed(0)+"px;--dy:"+((Math.random()*80-40)).toFixed(0)+"px;"
+      +"--dd:"+(11+Math.random()*14).toFixed(1)+"s;--pp:"+(2.6+Math.random()*3.4).toFixed(1)+"s;"
+      +"animation-delay:-"+(Math.random()*12).toFixed(1)+"s,-"+(Math.random()*4).toFixed(1)+"s";
+    fx.appendChild(v);
+  }
+  for(var u=0;u<CFG.poeira;u++){
+    var t=document.createElement("i"); t.className="dust";
+    t.style.cssText="left:"+(Math.random()*100)+"%;--s:"+(1.6+Math.random()*2.2).toFixed(1)+"px;"
+      +"--op:"+(.12+Math.random()*.22).toFixed(2)+";";
+    var rd=16+Math.random()*18, sd=3+Math.random()*4;
+    t.style.animationDuration=rd.toFixed(1)+"s,"+sd.toFixed(1)+"s";
+    t.style.animationDelay="-"+(Math.random()*20).toFixed(1)+"s,0s";
+    fx.appendChild(t);
+  }
+  if(CFG.nevoa){
+    var m1=document.createElement("i"); m1.className="mist"; m1.style.cssText="left:-12vw;top:-14vh";
+    var m2=document.createElement("i"); m2.className="mist"; m2.style.cssText="right:-14vw;bottom:-18vh;animation-duration:44s;animation-delay:-18s";
+    fx.appendChild(m1); fx.appendChild(m2);
+  }
+  for(var n=0;n<CFG.neve;n++){
+    var sn=document.createElement("i"); sn.className="snow";
+    var sz=2+Math.random()*4;
+    sn.style.cssText="left:"+(Math.random()*100)+"%;--s:"+sz.toFixed(1)+"px;--op:"+(.25+Math.random()*.5).toFixed(2)+";"
+      +"--sx:"+(Math.random()*40-20).toFixed(0)+"px;animation-duration:"+(6+Math.random()*8).toFixed(1)+"s;animation-delay:-"+(Math.random()*8).toFixed(1)+"s";
+    fx.appendChild(sn);
+  }
+  for(var k=0;k<CFG.faiscas;k++){
+    var sp=document.createElement("i"); sp.className="spark";
+    sp.style.cssText="left:"+(Math.random()*100)+"%;--h:"+(8+Math.random()*18).toFixed(0)+"px;--op:"+(.3+Math.random()*.5).toFixed(2)+";"
+      +"animation-duration:"+(1.2+Math.random()*1.8).toFixed(2)+"s;animation-delay:-"+(Math.random()*2).toFixed(2)+"s";
+    fx.appendChild(sp);
+  }
+  if(CFG.scan>0){
+    var sc=document.createElement("i"); sc.className="scan"; sc.style.setProperty("--sop",(CFG.scan/100).toFixed(2)); fx.appendChild(sc);
+  }
+  if(CFG.vinheta>0){
+    var vg=document.createElement("i"); vg.className="vig"; vg.style.setProperty("--vop",(CFG.vinheta/100).toFixed(2)); fx.appendChild(vg);
+  }
+}
+fill(); rebuild();
+let editing=false, tmr=null;
+function applyLive(){ read(); rebuild(); save(); }
+["forca","chuva","vento","vagalumes","poeira","neve","faiscas","vinheta","scan","flash"].forEach(k=>{
+  $("e-"+k).addEventListener("input", function(){
+    $("v-"+k).textContent=this.value;
+    clearTimeout(tmr); tmr=setTimeout(applyLive, 180);
+  });
+});
+$("e-nevoa").addEventListener("change", applyLive);
+$("b-save").onclick=function(){applyLive();};
+$("b-def").onclick=function(){CFG=Object.assign({},DEF); fill(); rebuild(); save();};
+function toggle(){
+  editing=!editing; $("editor").classList.toggle("on",editing);
+  if(editing) fill();
+}
+$("b-exit").onclick=function(){if(editing) toggle();};
+document.addEventListener("keydown",function(ev){
+  const tag=(ev.target&&ev.target.tagName)||"";
+  const inField=(tag==="INPUT"||tag==="SELECT");
+  if(ev.key==="Escape"&&editing){ev.preventDefault(); toggle(); return;}
+  if((ev.key==="e"||ev.key==="E") && !inField){ev.preventDefault(); toggle();}
+});
 </script></body></html>

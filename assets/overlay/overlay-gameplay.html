@@ -7,13 +7,14 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace}
 
-.edge{--ew:2px;position:fixed;inset:0;pointer-events:none;z-index:20;border:none;box-shadow:none;background:none}
+.edge{--ew:2px;position:fixed;inset:0;pointer-events:none;z-index:5;border:none;box-shadow:none;background:transparent}
 .edge.ef-none{border:0;box-shadow:none}
 .edge.ef-neon{border:var(--ew) solid rgba(180,255,0,.55);box-shadow:inset 0 0 26px rgba(180,255,0,.12),0 0 18px rgba(180,255,0,.18)}
 .edge.ef-glow{border:var(--ew) solid #B4FF00;box-shadow:inset 0 0 40px rgba(180,255,0,.22),0 0 28px rgba(180,255,0,.4)}
 .edge.ef-duplo{border:1px solid rgba(180,255,0,.45);box-shadow:0 0 0 var(--ew) rgba(6,8,6,.95),0 0 0 calc(var(--ew) + 2px) #B4FF00,0 0 22px rgba(180,255,0,.28)}
 .edge.ef-chapa{border:var(--ew) solid rgba(210,220,210,.9);box-shadow:inset 0 0 0 2px rgba(6,8,6,.75)}
-.edge.ef-hazard{border:var(--ew) solid transparent;background-image:linear-gradient(transparent,transparent),repeating-linear-gradient(45deg,#B4FF00 0 14px,#141414 14px 28px);background-origin:border-box;background-clip:padding-box,border-box}
+.edge.ef-fina{border:var(--ew) solid rgba(180,255,0,.75);box-shadow:none}
+.edge.ef-inner{border:none;box-shadow:inset 0 0 0 var(--ew) #B4FF00,inset 0 0 28px rgba(180,255,0,.22)}
 .mbar{flex-wrap:wrap;max-width:96vw;row-gap:8px}
 .mbar .frow{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .mbar .fbtn{width:auto;padding:0 10px;height:30px;font:700 11px/30px Chakra,monospace;letter-spacing:.08em;background:transparent;color:#B4FF00;border:1px solid rgba(180,255,0,.45)}
@@ -44,7 +45,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 @keyframes hshim{0%{background-position:130% 0}55%,100%{background-position:-130% 0}}
 .editing .head{cursor:grab;outline:2px dashed rgba(180,255,0,.9);outline-offset:4px;animation:none}
 .editing .head:active{cursor:grabbing}
-.mbar{position:fixed;top:12px;left:50%;transform:translateX(-50%);display:none;z-index:9;
+.mbar{position:fixed;top:12px;left:50%;transform:translateX(-50%);display:none;z-index:50;
  align-items:center;gap:8px;background:rgba(6,8,6,.95);border:1px solid var(--acid);
  padding:8px 12px;white-space:nowrap}
 .editing .mbar{display:flex}
@@ -147,8 +148,8 @@ function save(){S={x:pct().x,y:pct().y,s:sc(),edge:EDGE,ew:EW};try{localStorage.
 function syncUI(){var p=Math.round(sc()*100);rng.value=p;val.textContent=p+'%'}
 function setS(v){v=Math.min(200,Math.max(60,v));h.style.setProperty('--ms',(v/100).toFixed(2));syncUI();save()}
 
-var EDGES=[{id:'none',n:'SEM'},{id:'neon',n:'NEON'},{id:'glow',n:'GLOW'},{id:'duplo',n:'DUPLO'},{id:'chapa',n:'CHAPA'},{id:'hazard',n:'HAZARD'}];
-var EDGE=(S&&S.edge)||'neon', EW=Math.max(1,Math.min(16,(S&&S.ew)||2));
+var EDGES=[{id:'none',n:'SEM'},{id:'neon',n:'NEON'},{id:'glow',n:'GLOW'},{id:'duplo',n:'DUPLO'},{id:'chapa',n:'CHAPA'},{id:'fina',n:'FINA'},{id:'inner',n:'INTERNA'}];
+var EDGE=(S&&S.edge&&S.edge!=='hazard')?S.edge:'neon', EW=Math.max(1,Math.min(16,(S&&S.ew)||2));
 var edgeEl=document.getElementById('edge');
 function applyEdge(){
   if(!edgeEl)return;

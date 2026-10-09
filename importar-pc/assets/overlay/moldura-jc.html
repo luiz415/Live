@@ -43,9 +43,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent}
 .frame.fm-duplo .rail{border:1px solid rgba(180,255,0,.4);box-shadow:0 0 0 6px rgba(6,8,6,.9),0 0 0 9px var(--acid)}
 .frame.fm-chapa .ring{display:none}
 .frame.fm-chapa .rail{border:4px solid rgba(210,220,210,.9)}
-.frame.fm-hazard .ring{display:none}
-.frame.fm-hazard .rail{border:6px solid transparent;background-image:linear-gradient(transparent,transparent),repeating-linear-gradient(45deg,var(--acid) 0 16px,#141414 16px 32px);background-origin:border-box;background-clip:padding-box,border-box}
-#editor{position:fixed;inset:auto 0 0 0;z-index:40;display:none;flex-direction:column;
+.frame.fm-fina .ring{display:none}
+.frame.fm-fina .rail{border:2px solid rgba(180,255,0,.75);box-shadow:none}
+.frame.fm-inner .ring{display:none}
+.frame.fm-inner .rail{border:none;box-shadow:inset 0 0 0 4px var(--acid),inset 0 0 30px rgba(180,255,0,.2)}
+#editor{position:fixed;inset:auto 0 0 0;z-index:80;display:none;flex-direction:column;
  background:rgba(6,8,6,.94);border-top:2px solid var(--acid);padding:16px 20px;color:#F2FFE8;font-family:Chakra,monospace;max-height:42vh;overflow:auto}
 #editor.on{display:flex}
 #editor .etag{font:900 22px/1 Orbitron,sans-serif;color:var(--acid);letter-spacing:.16em;margin-bottom:10px}
@@ -72,9 +74,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent}
 <script>
 "use strict";
 const KEY="exoriMoldJcV1";
-const FRAMES=[{id:"comet",name:"COMETA"},{id:"neon",name:"NEON"},{id:"duplo",name:"DUPLO"},{id:"chapa",name:"CHAPA"},{id:"hazard",name:"HAZARD"},{id:"none",name:"SEM MOLDURA"}];
+const FRAMES=[{id:"comet",name:"COMETA"},{id:"neon",name:"NEON"},{id:"duplo",name:"DUPLO"},{id:"chapa",name:"CHAPA"},{id:"fina",name:"FINA"},{id:"inner",name:"INTERNA"},{id:"none",name:"SEM MOLDURA"}];
 let frame="comet", editing=false;
-try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&FRAMES.some(f=>f.id===s.frame)) frame=s.frame;}catch(e){}
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.frame==="hazard") frame="neon"; else if(s&&FRAMES.some(f=>f.id===s.frame)) frame=s.frame;}catch(e){}
 const host=document.getElementById("framerow");
 const fr=document.getElementById("frame");
 function apply(){
