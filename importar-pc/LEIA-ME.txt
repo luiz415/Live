@@ -1,5 +1,5 @@
 ================================================================================
-EXORISERVICE — v6.7
+EXORISERVICE — v6.8
 ================================================================================
 
 
@@ -15,7 +15,7 @@ a) Extraia este ZIP (ou esta pasta) para C:\twitch\ de forma que fique:
 
 b) Abra o OBS → "Coleção de Cenas" → "Importar" → escolha
    C:\twitch\exoriservice\exoriservice-cenas.json
-   Dê o nome que quiser (ex: "exori v6.7").
+   Dê o nome que quiser (ex: "exori v6.8").
 
 c) Ajustes únicos:
    · 🎮 CAPTURA · Tibia → Selecione a janela do jogo.
@@ -59,12 +59,12 @@ em DUAS zonas empilhadas (os outros — Rodapé e Carrossel — usam um painel q
 aparece POR CIMA de tudo; veja as seções 7 e 8).
 
 A parte de CIMA (primeiros 1080px da fonte) é o quadro da Party Tracker — é
-isso, e SÓ isso, que aparece no ar. A parte de BAIXO (de 1080px a 1560px da
+isso, e SÓ isso, que aparece no ar. A parte de BAIXO (de 1080px a 1720px da
 fonte) é o PAINEL DE EDIÇÃO. O OBS está configurado com um CORTE (crop_bottom
-= 480px) na fonte, diretamente na cena — isso significa que o painel de edição
+= 640px) na fonte, diretamente na cena — isso significa que o painel de edição
 NUNCA aparece na live, estrutural e permanentemente, não importa se você
 esqueceu ele aberto ou não. Só quando você abre "Interagir" é que o OBS mostra
-a fonte completa (1560px, sem corte) e você vê as duas partes ao mesmo tempo.
+a fonte completa (1720px, sem corte) e você vê as duas partes ao mesmo tempo.
 
 COMO EDITAR:
 
@@ -73,13 +73,20 @@ COMO EDITAR:
 3. A janela do Interagir abre mostrando o quadro da Party Tracker em cima e,
    logo abaixo dele (sem precisar rolar nada), o espaço reservado ao painel.
 4. APERTE A LETRA "E" para abrir o painel de edição nessa parte de baixo.
-5. No painel você tem:
+5. No painel você tem (fontes do menu aumentadas para facilitar a leitura):
    · ZOOM (50%~150%, com botões −/+ e slider)
    · Título / Visão (2 letras) / Quest (SOUL WAR ou SANGUINE)
+   · MOLDURA DO QUADRO — escolha entre 5 opções: SEM MOLDURA, NEON, CHAPA,
+     DUPLO ou HAZARD, aplicadas instantaneamente ao redor do quadro (o
+     padrão de fábrica é NEON).
    · 5 slots de jogador (VOC 2 letras + LV até 4 dígitos)
-   · SALVAR / LIMPAR TUDO / SAIR (E)
-6. Toda alteração aparece em TEMPO REAL na parte de cima (que é o que vai pro ar).
-7. Aperte E ou Esc para fechar o painel (opcional — ele já não aparece na live
+   · SALVAR / RESETAR POSIÇÃO / LIMPAR TUDO / SAIR (E)
+6. ARRASTAR O QUADRO: com o modo de edição aberto, clique e arraste o quadro
+   da Party Tracker (lá em cima, na parte ao vivo) para reposicioná-lo onde
+   quiser — o cursor vira uma "mãozinha" para indicar que pode mover. O botão
+   "RESETAR POSIÇÃO" no painel devolve o quadro para o centro.
+7. Toda alteração aparece em TEMPO REAL na parte de cima (que é o que vai pro ar).
+8. Aperte E ou Esc para fechar o painel (opcional — ele já não aparece na live
    de qualquer forma, graças ao corte do OBS).
 
 ZONA SEGURA: nunca se preocupe — o corte (crop) do OBS garante que o painel
@@ -108,6 +115,16 @@ ficar duplicado.
 5. NOTAS DA VERSÃO (HISTÓRICO RESUMIDO)
 --------------------------------------------------------------------------------
 
+· v6.8 — Rodapé: a palavra "SANGUINE" (2º destaque da frase SERVICE DE
+  QUESTS) agora pode ficar em vermelho (cor configurável por frase, via novo
+  seletor no editor) e o tamanho da fonte foi ampliado (até 30, antes
+  limitado a 18), reduzindo o espaço vazio entre as letras e a borda da
+  faixa. Party Tracker: menu de edição com fontes maiores (mais fácil de
+  ler), o quadro ao vivo agora pode ser ARRASTADO com o mouse em modo de
+  edição (com botão "RESETAR POSIÇÃO"), e foi adicionada uma MOLDURA
+  selecionável ao redor do quadro (SEM MOLDURA, NEON, CHAPA, DUPLO ou
+  HAZARD — padrão NEON). O painel de edição cresceu (agora até 1720px /
+  crop_bottom 640px) para caber os novos controles.
 · v6.7 — Correção de 3 bugs: (1) Rodapé não aparecia/travava por um laço
   infinito no script (corrigido); (2) Carrossel mostrava só a 1ª imagem e
   depois ficava preto (corrigido) e não era possível arrastar o quadro com o
@@ -167,14 +184,18 @@ COMO EDITAR:
    (E ou Esc) antes de deixar a cena no ar, senão o público vê o painel.
 3. No painel você encontra:
    · FRASES — cada frase do rodapé tem campos editáveis (emoji, título,
-     texto do meio, destaque 1, destaque 2 e um "tema" de cor para o
-     destaque). Você pode ADICIONAR novas frases, REMOVER ou REORDENAR
-     (setas para cima/baixo) as 3 frases padrão (Service de Quests,
-     Rubini Coins, Intermédio) ou qualquer frase nova.
+     texto do meio, destaque 1 (com seletor de cor) e destaque 2 (com SEU
+     PRÓPRIO seletor de cor independente). Por padrão, na frase "SERVICE DE
+     QUESTS", o destaque 1 ("SOUL WAR") fica cinza e o destaque 2
+     ("SANGUINE") fica VERMELHO — mas qualquer frase pode ter cada destaque
+     em VERDE, CINZA ou VERMELHO, à sua escolha. Você pode ADICIONAR novas
+     frases, REMOVER ou REORDENAR (setas para cima/baixo) as 3 frases padrão
+     (Service de Quests, Rubini Coins, Intermédio) ou qualquer frase nova.
    · EFEITO DE TRANSIÇÃO — escolha entre: Marquee (rolagem contínua),
      Fade, Slide, Zoom ou Blur, para a troca entre frases.
-   · TAMANHO DA FONTE (ZOOM) — slider de 5 a 18vh controlando o tamanho
-     das letras do rodapé.
+   · TAMANHO DA FONTE (ZOOM) — slider agora vai de 5 até 30 (antes o máximo
+     era 18), permitindo letras bem maiores com menos espaço vazio entre
+     elas e a borda da faixa do rodapé.
    · VELOCIDADE / DURAÇÃO e FADE — sliders para ajustar quanto tempo cada
      frase fica visível e a suavidade da transição.
 4. Clique em SALVAR para gravar tudo no navegador (localStorage) — fica

@@ -11,7 +11,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 .zone{flex:1;overflow:hidden;display:flex;align-items:center}
 
 /* --- EFEITO 1: MARQUEE (scroll horizontal infinito, original) --- */
-.roll{display:inline-flex;align-items:center;white-space:nowrap;font-size:var(--fz);letter-spacing:.06em;color:#CBD6CB;text-shadow:0 .35vh .9vh rgba(0,0,0,.95);will-change:transform}
+.roll{display:inline-flex;align-items:center;white-space:nowrap;font-size:var(--fz);line-height:.86;letter-spacing:.06em;color:#CBD6CB;text-shadow:0 .35vh .9vh rgba(0,0,0,.95);will-change:transform}
 .fx-marquee .roll{animation:none;transform:translateX(0)}
 
 /* --- EFEITO 2: FADE (uma frase centralizada, fade in/out) --- */
@@ -155,7 +155,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
       <h3>tamanho da fonte (zoom)</h3>
       <div class="row"><label>FONTE</label>
         <button class="mini" id="fz-sub" type="button">−</button>
-        <input id="fz" type="range" min="5" max="18" step=".25" value="9.5">
+        <input id="fz" type="range" min="5" max="30" step=".25" value="9.5">
         <button class="mini" id="fz-add" type="button">+</button>
         <span class="vval" id="fz-val">9.5vh</span>
       </div>
@@ -207,7 +207,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 (function(){
 var KEY='exoRodape2';
 var DEFAULT_ITEMS=[
-  {emoji:'⚔️', title:'SERVICE DE QUESTS', mid:'Precisa de Service para', hi:'SOUL WAR', hi2:'SANGUINE', cmd:'!service', hitheme:'soul'},
+  {emoji:'⚔️', title:'SERVICE DE QUESTS', mid:'Precisa de Service para', hi:'SOUL WAR', hi2:'SANGUINE', cmd:'!service', hitheme:'soul', hitheme2:'sang'},
   {emoji:'💰', title:'RUBINI COINS',    mid:'1K por',               hi:'R$ 90,00',   hi2:'Estoque limitado!', cmd:'!coins',    hitheme:'acid'},
   {emoji:'🤝', title:'INTERMÉDIO',     mid:'Negocie seus itens com',hi:'segurança!', hi2:'',                  cmd:'!intermedio',hitheme:'acid'}
 ];
@@ -243,7 +243,7 @@ function renderItemHTML(it){
   var h='<span class="it">'+(it.emoji||'')+'&nbsp;&nbsp;<b>'+(it.title||'')+'</b>';
   if(it.mid)h+=sep+it.mid;
   if(it.hi)h+=' <strong class="'+hiClass(it.hitheme||'acid')+'">'+it.hi+'</strong>';
-  if(it.hi2)h+=sep+'<strong>'+it.hi2+'</strong>';
+  if(it.hi2)h+=sep+'<strong class="'+hiClass(it.hitheme2||'acid')+'">'+it.hi2+'</strong>';
   if(it.cmd)h+=' <b>→</b> <i>'+it.cmd+'</i>';
   h+='</span>';
   return h;
@@ -320,7 +320,7 @@ function setFx(id){
   build();save();setStatus('efeito '+id+' salvo',true)
 }
 function setSPD(v){S.spd=Math.max(20,Math.min(400,+v|0));syncUI();velHud();save()}
-function setFZ(v){S.fz=Math.min(18,Math.max(5,+v));
+function setFZ(v){S.fz=Math.min(30,Math.max(5,+v));
  document.documentElement.style.setProperty('--fz',S.fz+'vh');syncUI();save()}
 function setDur(v){S.dur=Math.min(15,Math.max(2,+v));syncUI();if(S.fx!=='marquee')restartItemTimer();save()}
 function setFd(v){S.fd=Math.min(2,Math.max(.2,+v));
@@ -384,7 +384,7 @@ document.getElementById('b-rst').onclick=function(){
 
 /* Editor de frases */
 var plist=document.getElementById('plist');
-function emptyItem(){return {emoji:'📣',title:'NOVA FRASE',mid:'',hi:'',hi2:'',cmd:'',hitheme:'acid'}}
+function emptyItem(){return {emoji:'📣',title:'NOVA FRASE',mid:'',hi:'',hi2:'',cmd:'',hitheme:'acid',hitheme2:'acid'}}
 function renderPlist(){
   plist.innerHTML='';
   S.items.forEach(function(it,idx){plist.appendChild(renderPItem(it,idx))});
@@ -400,6 +400,7 @@ function renderPItem(it,idx){
    +' <input class="p-mid wfull" placeholder="texto normal antes do destaque (opcional)" value="'+esc(it.mid||'')+'">'
    +' <input class="p-hi" placeholder="TEXTO DESTAQUE" value="'+esc(it.hi||'')+'">'
    +' <input class="p-hi2" placeholder="segundo destaque (opcional)" value="'+esc(it.hi2||'')+'">'
+   +' <select class="p-theme2"><option value="acid">2º destaque: VERDE</option><option value="soul">2º destaque: CINZA</option><option value="sang">2º destaque: VERMELHO</option></select>'
    +' <input class="p-cmd wfull" placeholder="comando (ex: !service)" value="'+esc(it.cmd||'')+'">'
    +'</div>'
    +'<div class="pactions">'
@@ -409,6 +410,7 @@ function renderPItem(it,idx){
    +'</div>'
    +'<div class="preview"></div>';
   var sel=d.querySelector('.p-theme');sel.value=it.hitheme||'acid';
+  var sel2=d.querySelector('.p-theme2');sel2.value=it.hitheme2||'acid';
   function upd(){
     var o={emoji:d.querySelector('.p-emoji').value,
             title:d.querySelector('.p-title').value,
@@ -416,7 +418,8 @@ function renderPItem(it,idx){
             hi:d.querySelector('.p-hi').value,
             hi2:d.querySelector('.p-hi2').value,
             cmd:d.querySelector('.p-cmd').value,
-            hitheme:d.querySelector('.p-theme').value};
+            hitheme:d.querySelector('.p-theme').value,
+            hitheme2:d.querySelector('.p-theme2').value};
     S.items[idx]=o;previewPItem(d,o);
   }
   function previewPItem(el,o){var pv=el.querySelector('.preview');

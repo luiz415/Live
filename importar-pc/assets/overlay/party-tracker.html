@@ -18,7 +18,9 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace;position:relative}
 #livezone{position:absolute;top:0;left:0;width:100%;height:1080px;overflow:hidden}
-.wrap{position:absolute;left:50%;bottom:87px;transform:translateX(-50%) scale(var(--z,1));transform-origin:bottom center;z-index:2;transition:transform .2s ease}
+.wrap{position:absolute;left:50%;bottom:87px;transform:translateX(calc(-50% + var(--dx,0px))) translateY(var(--dy,0px)) scale(var(--z,1));transform-origin:bottom center;z-index:2;transition:transform .2s ease}
+body.edit .wrap{transition:none;cursor:grab;outline:2px dashed rgba(180,255,0,.85);outline-offset:10px;border-radius:6px}
+body.edit .wrap:active{cursor:grabbing}
 .mline{display:flex;align-items:center;gap:12px;padding:9px 18px;white-space:nowrap;
  background:rgba(6,8,6,.72);border-top:1px solid rgba(180,255,0,.55);border-bottom:1px solid rgba(92,153,0,.65);
  backdrop-filter:blur(3px);animation:mlg 3.6s ease-in-out infinite}
@@ -58,69 +60,88 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 .fl.flash{animation:cellflash .5s ease-out}
 @keyframes cellflash{0%{filter:brightness(1.9) drop-shadow(0 0 14px rgba(180,255,0,.8))}100%{}}
 
+/* ─── Moldura (frame) ao redor do quadro ─── */
+#pframe{display:inline-flex;flex-direction:column;align-items:center}
+#pframe.pf-none{padding:0;border:none;background:none;box-shadow:none;border-radius:0}
+#pframe.pf-neon{padding:16px 22px;border:2px solid var(--acid,#B4FF00);border-radius:10px;
+ background:rgba(6,8,6,.42);box-shadow:0 0 24px rgba(180,255,0,.32),inset 0 0 18px rgba(180,255,0,.08)}
+#pframe.pf-chapa{padding:14px 22px;border:2px solid rgba(190,205,190,.9);background:rgba(10,12,10,.7);
+ clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+#pframe.pf-duplo{padding:17px 24px;border:1px solid rgba(92,153,0,.6);border-radius:8px;background:rgba(6,8,6,.45);
+ box-shadow:0 0 0 5px rgba(6,8,6,.9),0 0 0 7px var(--acid,#B4FF00),0 0 20px rgba(180,255,0,.25)}
+#pframe.pf-hazard{padding:16px 24px;border-radius:5px;background-image:linear-gradient(rgba(6,8,6,.5),rgba(6,8,6,.5)),
+ repeating-linear-gradient(45deg,var(--acid,#B4FF00) 0 14px,#1a1a1a 14px 28px);
+ background-origin:border-box;background-clip:padding-box,border-box;border:4px solid transparent}
+
 /* ─── PAINEL DE EDIÇÃO (só aparece quando editing=true) ─── */
 :root{--acid:#B4FF00;--toxic:#5C9900;--bg:#060806;--txt:#F2FFE8;--txt2:#9AA69A}
-#editor{position:absolute;top:1080px;left:0;width:100%;height:480px;z-index:10;display:none;flex-direction:column;justify-content:flex-start;
+#editor{position:absolute;top:1080px;left:0;width:100%;height:640px;z-index:10;display:none;flex-direction:column;justify-content:flex-start;
  background:linear-gradient(180deg,rgba(6,8,6,.98) 0%,rgba(6,8,6,.96) 100%);
  border-top:2px solid var(--acid);
  backdrop-filter:blur(4px);padding:18px 20px 12px;color:var(--txt);font-family:Chakra,monospace;overflow-y:auto;box-sizing:border-box}
 #editor.on{display:flex}
 #editor .ebar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-#editor .etag{font-family:Orbitron;font-weight:900;font-size:14px;letter-spacing:.24em;color:var(--acid);
+#editor .etag{font-family:Orbitron;font-weight:900;font-size:19px;letter-spacing:.2em;color:var(--acid);
  background:rgba(180,255,0,.08);padding:6px 12px;border-left:4px solid var(--acid)}
-#editor .ewarn{font-size:12px;color:#FFC107;margin-left:auto}
+#editor .ewarn{font-size:15px;color:#FFC107;margin-left:auto}
 #editor .egrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;max-width:900px}
 #editor .card{background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.5);border-radius:5px;padding:10px 12px}
-#editor .card h3{font-size:11px;letter-spacing:.18em;color:var(--acid);margin-bottom:8px;font-weight:700;text-transform:uppercase}
+#editor .card h3{font-size:15px;letter-spacing:.16em;color:var(--acid);margin-bottom:10px;font-weight:700;text-transform:uppercase}
 #editor .row{display:flex;gap:6px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
-#editor .row label{font-size:11px;letter-spacing:.12em;color:var(--txt2);min-width:60px}
+#editor .row label{font-size:15px;letter-spacing:.1em;color:var(--txt2);min-width:76px}
 #editor .row input,#editor .row select{background:#060806;border:1px solid rgba(92,153,0,.55);color:var(--txt);
- outline:none;font-family:Orbitron,monospace;font-weight:900;letter-spacing:.1em;padding:6px 8px;
- border-radius:3px;font-size:14px}
+ outline:none;font-family:Orbitron,monospace;font-weight:900;letter-spacing:.1em;padding:9px 10px;
+ border-radius:3px;font-size:19px}
 #editor .row input:focus,#editor .row select:focus{border-color:var(--acid);box-shadow:0 0 10px rgba(180,255,0,.3)}
-#editor input.vin{width:60px;text-align:center}
-#editor input.lin{width:74px;text-align:center}
-#editor input.title{width:140px}
-#editor select.quest{min-width:140px;cursor:pointer}
+#editor input.vin{width:76px;text-align:center}
+#editor input.lin{width:92px;text-align:center}
+#editor input.title{width:180px}
+#editor select.quest{min-width:170px;cursor:pointer}
 #editor .erows{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:700px}
 #editor .erows .prow{background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.4);border-radius:4px;padding:6px 8px}
-#editor .erows .prow .plbl{font-size:10px;letter-spacing:.18em;color:var(--txt2);margin-bottom:4px}
+#editor .erows .prow .plbl{font-size:13px;letter-spacing:.16em;color:var(--txt2);margin-bottom:5px}
 #editor .erows .prow .pins{display:flex;gap:4px}
 #editor .erows .prow input{background:#060806;border:1px solid rgba(92,153,0,.55);color:var(--txt);
- outline:none;font-family:Orbitron,monospace;font-weight:900;padding:5px 6px;border-radius:3px;text-align:center;font-size:13px}
+ outline:none;font-family:Orbitron,monospace;font-weight:900;padding:7px 6px;border-radius:3px;text-align:center;font-size:17px}
 #editor .erows .prow input:focus{border-color:var(--acid)}
 #editor .erows .prow input.vin{width:100%}
 #editor .erows .prow input.lin{width:100%}
 #editor .efoot{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-#editor .btn{padding:8px 14px;font-family:Chakra,monospace;font-weight:700;font-size:12px;letter-spacing:.14em;
+#editor .btn{padding:10px 18px;font-family:Chakra,monospace;font-weight:700;font-size:15px;letter-spacing:.12em;
  background:var(--acid);color:var(--bg);border:0;cursor:pointer;border-radius:3px;
  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
 #editor .btn.ghost{background:transparent;color:var(--acid);border:1px solid var(--acid)}
 #editor .btn.danger{background:transparent;color:#FF5252;border:1px solid #FF5252}
-#editor .status{font-size:12px;color:var(--txt2);margin-left:6px}
+#editor .status{font-size:15px;color:var(--txt2);margin-left:6px}
 #editor .status.ok{color:var(--acid)}
 
 #editor .epos{margin-left:auto;display:flex;align-items:center;gap:6px;background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.5);padding:6px 10px;border-radius:3px}
-#editor .epos label{font-size:11px;letter-spacing:.14em;color:var(--txt2)}
+#editor .epos label{font-size:14px;letter-spacing:.12em;color:var(--txt2)}
 #editor .epos input[type=range]{width:180px;accent-color:var(--acid);cursor:pointer}
 #editor .epos button{width:28px;height:28px;border:0;background:var(--acid);color:#060806;font:700 15px/28px monospace;cursor:pointer;padding:0;border-radius:2px}
 #editor .epos button:active{transform:scale(.9)}
-#editor .vval{font:700 13px/1 Orbitron;color:var(--acid);min-width:50px;text-align:center}
-#editor .ehint{font-size:11px;color:var(--txt2);margin-left:auto;line-height:1.4}
+#editor .vval{font:700 16px/1 Orbitron;color:var(--acid);min-width:58px;text-align:center}
+#editor .ehint{font-size:13px;color:var(--txt2);margin-left:auto;line-height:1.4}
 #editor .ehint kbd{background:rgba(180,255,0,.1);color:var(--acid);padding:1px 6px;border-radius:2px;font-family:monospace}
+#editor .frow{display:flex;gap:8px;flex-wrap:wrap}
+#editor .fbtn{padding:9px 16px;font-size:14px;font-weight:700;letter-spacing:.1em;cursor:pointer;border-radius:4px;
+ background:rgba(14,19,14,.75);color:var(--acid);border:1px solid rgba(180,255,0,.4);font-family:Chakra,monospace}
+#editor .fbtn.active{background:var(--acid);color:#060806;box-shadow:0 0 12px rgba(180,255,0,.6);border-color:var(--acid)}
 </style></head><body>
 
 <div id="livezone">
   <div class="wrap" id="wrap">
-    <div class="vhead" id="vhead"></div>
-    <div class="mline" id="mline"></div>
+    <div class="pframe" id="pframe">
+      <div class="vhead" id="vhead"></div>
+      <div class="mline" id="mline"></div>
+    </div>
   </div>
 </div>
 
 <div id="editor">
   <div class="ebar">
     <span class="etag">🎮 MODO EDIÇÃO</span>
-    <span class="ewarn" style="color:#9AA69A">🔒 Painel protegido pelo corte (crop) do OBS — nunca aparece na live, mesmo aberto</span>
+    <span class="ewarn" style="color:#9AA69A">🔒 Painel protegido pelo corte (crop) do OBS — nunca aparece na live, mesmo aberto · Arraste o quadro acima para mover</span>
     <span class="epos"><label>ZOOM</label><button id="zsub" type="button">−</button><input id="zoom" type="range" min="50" max="150" step="5" value="100"><button id="zadd" type="button">+</button><span class="vval" id="zval">100%</span></span>
   </div>
   <div class="egrid">
@@ -132,6 +153,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
         <select id="t-quest" class="quest"><option value="sw">SOUL WAR</option><option value="sa">SANGUINE</option></select>
       </div>
     </div>
+    <div class="card" style="min-width:320px">
+      <h3>moldura do quadro</h3>
+      <div class="frow" id="framerow"></div>
+      <div style="font-size:12px;color:var(--txt2);margin-top:8px">Escolha um estilo de moldura ou desative.</div>
+    </div>
   </div>
   <div class="card" style="margin-top:8px;max-width:900px">
     <h3>jogadores (até 5)</h3>
@@ -140,6 +166,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
   </div>
   <div class="efoot">
     <button class="btn" id="b-save">SALVAR</button>
+    <button class="btn ghost" id="b-resetpos">RESETAR POSIÇÃO</button>
     <button class="btn danger" id="b-clear">LIMPAR TUDO</button>
     <button class="btn ghost" id="b-exit">SAIR (E)</button>
     <span class="status" id="status">—</span>
@@ -150,13 +177,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 <script>
 "use strict";
 const KEY='exoriPartyV1';
-const FALLBACK={zoom:100,title:'PARTY',view:'',quest:'sw',rows:[{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''}]};
+const FALLBACK={zoom:100,title:'PARTY',view:'',quest:'sw',frame:'neon',posX:0,posY:0,rows:[{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''},{v:'',l:''}]};
+const FRAMES=[{id:'none',name:'SEM MOLDURA'},{id:'neon',name:'NEON'},{id:'chapa',name:'CHAPA'},{id:'duplo',name:'DUPLO'},{id:'hazard',name:'HAZARD'}];
+const FRAME_IDS=FRAMES.map(f=>f.id);
 function sanitize(d){
   const o=JSON.parse(JSON.stringify(FALLBACK));
   o.zoom=Math.max(50,Math.min(150,parseInt(d.zoom||100,10)||100));
   o.title=String(d.title||'PARTY').slice(0,14).toUpperCase();
   o.view=String(d.view||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,2);
   o.quest=d.quest==='sa'?'sa':'sw';
+  o.frame=FRAME_IDS.includes(d.frame)?d.frame:'neon';
+  o.posX=Math.max(-500,Math.min(500,parseInt(d.posX,10)||0));
+  o.posY=Math.max(-500,Math.min(500,parseInt(d.posY,10)||0));
   for(let i=0;i<5;i++){const r=d.rows&&d.rows[i]?d.rows[i]:{};
     o.rows[i].v=String(r.v||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,2);
     o.rows[i].l=String(r.l||'').replace(/[^0-9]/g,'').slice(0,4);}
@@ -187,13 +219,23 @@ function vheadHTML(d){return '<span class="vlbl">VISÃO DO:</span><span class="v
   +(d.quest==='sa'?'SANGUINE':'SOUL WAR')+'</span>'}
 function pillHTML(r){return '<span class="pill fl"><span class="pv'+(r.v?'':' empty')+'">'+(r.v||'··')+'</span>'
   +'<span class="pl'+(r.l?'':' empty')+'">'+(r.l||'···')+'</span></span>'}
-function applyZoom(){document.querySelector('.wrap').style.setProperty('--z',(DATA.zoom/100));}
+function applyTransform(){
+  const w=document.querySelector('.wrap');
+  w.style.setProperty('--z',(DATA.zoom/100));
+  w.style.setProperty('--dx',(DATA.posX||0)+'px');
+  w.style.setProperty('--dy',(DATA.posY||0)+'px');
+}
+function applyFrame(){
+  const pf=$('pframe'); if(!pf) return;
+  FRAMES.forEach(f=>pf.classList.toggle('pf-'+f.id, f.id===(DATA.frame||'neon')));
+}
 function render(flashFirst){
   $('vhead').innerHTML=vheadHTML(DATA);
   let html='<span class="mtag">'+(DATA.title||'PARTY')+'</span><span class="mdot"></span>';
   DATA.rows.forEach((r,i)=>{if(i) html+='<span class="pslash">/</span>'; html+=pillHTML(r)});
   $('mline').innerHTML=html;
-  applyZoom();
+  applyTransform();
+  applyFrame();
   if(flashFirst){const n=document.querySelector('.fl'); if(n){n.classList.remove('flash'); void n.offsetWidth; n.classList.add('flash')}}
 }
 
@@ -223,10 +265,11 @@ function fillForm(){
   $('t-title').value=DATA.title||''; $('t-view').value=DATA.view||''; $('t-quest').value=DATA.quest||'sw';
   $('zoom').value=DATA.zoom||100; $('zval').textContent=(DATA.zoom||100)+'%';
   buildRows();
+  syncFrameButtons();
 }
 function syncZoom(){const z=parseInt($('zoom').value,10)||100;DATA.zoom=z;$('zval').textContent=z+'%';applyZoom()}
 function readForm(){
-  const d=JSON.parse(JSON.stringify(FALLBACK));
+  const d=JSON.parse(JSON.stringify(DATA));
   if(!editing) return DATA;
   d.zoom=parseInt($('zoom').value,10)||100;
   d.title=$('t-title').value.slice(0,14).toUpperCase()||'PARTY';
@@ -244,6 +287,7 @@ function readForm(){
 function toggleEdit(){
   editing=!editing;
   $('editor').classList.toggle('on',editing);
+  document.body.classList.toggle('edit',editing);
   if(editing){ fillForm(); setTimeout(()=>$('t-title').focus(),50); setStatus('editando',false);}
   else{ persist(true); setStatus('VISUALIZAÇÃO',true);}
 }
@@ -264,6 +308,55 @@ document.addEventListener('keydown',function(ev){
 function setZ(z){z=Math.max(50,Math.min(150,parseInt(z,10)||100));$('zoom').value=z;syncZoom();try{localStorage.setItem(KEY,JSON.stringify(Object.assign(DATA,{zoom:z})))}catch(e){}}
 if($('zoom')) $('zoom').addEventListener('input',function(){syncZoom()});
 if($('zoom')) $('zoom').addEventListener('change',function(){setZ($('zoom').value)});
+function syncFrameButtons(){
+  document.querySelectorAll('#framerow .fbtn').forEach(function(b){b.classList.toggle('active', b.dataset.frame===(DATA.frame||'neon'))});
+}
+(function buildFrameRow(){
+  const host=$('framerow'); if(!host) return;
+  FRAMES.forEach(function(f){
+    const b=document.createElement('button');
+    b.type='button'; b.className='fbtn'; b.textContent=f.name; b.dataset.frame=f.id;
+    b.addEventListener('click',function(){
+      DATA.frame=f.id; applyFrame(); syncFrameButtons();
+      try{localStorage.setItem(KEY,JSON.stringify(DATA))}catch(e){}
+      setStatus('moldura: '+f.name,true);
+    });
+    host.appendChild(b);
+  });
+  syncFrameButtons();
+})();
+
+/* ─── Arrastar o quadro (só em modo edição) ─── */
+(function enableDrag(){
+  const w=$('wrap'); if(!w) return;
+  let dragging=false,sx=0,sy=0,ox=0,oy=0;
+  w.addEventListener('pointerdown',function(e){
+    if(!editing) return;
+    e.preventDefault();
+    dragging=true; sx=e.clientX; sy=e.clientY; ox=DATA.posX||0; oy=DATA.posY||0;
+    try{w.setPointerCapture(e.pointerId)}catch(err){}
+  });
+  w.addEventListener('pointermove',function(e){
+    if(!dragging) return;
+    DATA.posX=Math.max(-500,Math.min(500,ox+(e.clientX-sx)));
+    DATA.posY=Math.max(-500,Math.min(500,oy+(e.clientY-sy)));
+    applyTransform();
+  });
+  function stopDrag(){
+    if(!dragging) return;
+    dragging=false;
+    try{localStorage.setItem(KEY,JSON.stringify(DATA))}catch(e){}
+    setStatus('posição salva',true);
+  }
+  w.addEventListener('pointerup',stopDrag);
+  w.addEventListener('pointercancel',stopDrag);
+})();
+if($('b-resetpos')) $('b-resetpos').onclick=function(){
+  DATA.posX=0; DATA.posY=0; applyTransform();
+  try{localStorage.setItem(KEY,JSON.stringify(DATA))}catch(e){}
+  setStatus('posição resetada',true);
+};
+
 function hold(id,fn){var b=document.getElementById(id),iv=null;
  function stop(){if(iv){clearInterval(iv);iv=null}}
  if(!b)return;
