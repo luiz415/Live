@@ -1,5 +1,5 @@
 ================================================================================
-EXORISERVICE — v6.6
+EXORISERVICE — v6.7
 ================================================================================
 
 
@@ -15,7 +15,7 @@ a) Extraia este ZIP (ou esta pasta) para C:\twitch\ de forma que fique:
 
 b) Abra o OBS → "Coleção de Cenas" → "Importar" → escolha
    C:\twitch\exoriservice\exoriservice-cenas.json
-   Dê o nome que quiser (ex: "exori v6.6").
+   Dê o nome que quiser (ex: "exori v6.7").
 
 c) Ajustes únicos:
    · 🎮 CAPTURA · Tibia → Selecione a janela do jogo.
@@ -54,33 +54,36 @@ Mova o grupo todo para reposicionar os três juntos.
 3. PARTY TRACKER (como funciona a edição)
 --------------------------------------------------------------------------------
 
-É uma ÚNICA fonte: 🐺 WIDGET · Party Tracker.
+É uma ÚNICA fonte: 🐺 WIDGET · Party Tracker. É o ÚNICO widget com esse layout
+em DUAS zonas empilhadas (os outros — Rodapé e Carrossel — usam um painel que
+aparece POR CIMA de tudo; veja as seções 7 e 8).
 
-A parte de CIMA (primeiros 1080px) aparece no ar normalmente.
-A parte de BAIXO (fora do enquadramento da live) é o PAINEL DE EDIÇÃO — o OBS
-está configurado com "crop" para que esse painel NUNCA apareça na live, mas ele
-está lá quando você abre Interagir.
+A parte de CIMA (primeiros 1080px da fonte) é o quadro da Party Tracker — é
+isso, e SÓ isso, que aparece no ar. A parte de BAIXO (de 1080px a 1560px da
+fonte) é o PAINEL DE EDIÇÃO. O OBS está configurado com um CORTE (crop_bottom
+= 480px) na fonte, diretamente na cena — isso significa que o painel de edição
+NUNCA aparece na live, estrutural e permanentemente, não importa se você
+esqueceu ele aberto ou não. Só quando você abre "Interagir" é que o OBS mostra
+a fonte completa (1560px, sem corte) e você vê as duas partes ao mesmo tempo.
 
 COMO EDITAR:
 
 1. Selecione a fonte 🐺 WIDGET · Party Tracker na cena 02 · GAMEPLAY.
 2. Botão direito → "Interagir".
-3. A janela do Interagir abre só com a parte da live (1080px).
-4. APERTE A LETRA "E" → a página rola automaticamente para baixo, revelando
-   o painel de edição (faixa preta FORA do ar).
+3. A janela do Interagir abre mostrando o quadro da Party Tracker em cima e,
+   logo abaixo dele (sem precisar rolar nada), o espaço reservado ao painel.
+4. APERTE A LETRA "E" para abrir o painel de edição nessa parte de baixo.
 5. No painel você tem:
    · ZOOM (50%~150%, com botões −/+ e slider)
    · Título / Visão (2 letras) / Quest (SOUL WAR ou SANGUINE)
    · 5 slots de jogador (VOC 2 letras + LV até 4 dígitos)
    · SALVAR / LIMPAR TUDO / SAIR (E)
 6. Toda alteração aparece em TEMPO REAL na parte de cima (que é o que vai pro ar).
-7. Aperte E ou Esc para fechar → a janela volta para o topo.
+7. Aperte E ou Esc para fechar o painel (opcional — ele já não aparece na live
+   de qualquer forma, graças ao corte do OBS).
 
-ZONA SEGURA: nunca se preocupe — o crop do OBS garante que o painel nunca vaze
-para o stream, mesmo enquanto você edita.
-
-Esse mesmo padrão (Interagir → tecla "E" → painel oculto abaixo) é usado em
-TODOS os widgets editáveis: Party Tracker, Rodapé e Carrossel de Serviços.
+ZONA SEGURA: nunca se preocupe — o corte (crop) do OBS garante que o painel
+nunca vaze para o stream, mesmo que ele fique aberto por engano.
 
 
 --------------------------------------------------------------------------------
@@ -105,6 +108,13 @@ ficar duplicado.
 5. NOTAS DA VERSÃO (HISTÓRICO RESUMIDO)
 --------------------------------------------------------------------------------
 
+· v6.7 — Correção de 3 bugs: (1) Rodapé não aparecia/travava por um laço
+  infinito no script (corrigido); (2) Carrossel mostrava só a 1ª imagem e
+  depois ficava preto (corrigido) e não era possível arrastar o quadro com o
+  painel de edição aberto (corrigido); (3) Party Tracker voltou a ter o
+  layout em duas zonas (quadro em cima / menu de edição embaixo, protegido
+  por corte do OBS) — único widget com esse padrão; Rodapé e Carrossel usam
+  painel por cima (precisa sair do modo edição antes de ir ao ar).
 · v6.6 — Rodapé e Carrossel ganharam editor completo (ver seções 7 e 8) e o
   Carrossel passou a descobrir sozinho as imagens da pasta (ver seção 6).
 · v6.1-6.5 — Carrossel sem etiquetas de "Serviços"; transição em DISSOLVER;
@@ -152,8 +162,9 @@ Fonte: 📰 WIDGET · Rodapé (presente em GAMEPLAY, JUST CHATTING, TELA, STARTI
 COMO EDITAR:
 
 1. Botão direito na fonte → "Interagir".
-2. Aperte a letra "E" para abrir o painel de edição (some do ar, só aparece
-   para você, igual ao Party Tracker).
+2. Aperte a letra "E" para abrir o painel de edição — ele aparece POR CIMA de
+   toda a tela (diferente do Party Tracker). Por isso: SAIA do modo edição
+   (E ou Esc) antes de deixar a cena no ar, senão o público vê o painel.
 3. No painel você encontra:
    · FRASES — cada frase do rodapé tem campos editáveis (emoji, título,
      texto do meio, destaque 1, destaque 2 e um "tema" de cor para o
@@ -180,8 +191,13 @@ Fonte: 🧩 WIDGET · Carrossel de Serviços.
 COMO EDITAR:
 
 1. Botão direito na fonte → "Interagir".
-2. Aperte a letra "E" para abrir o painel de edição.
-3. No painel você encontra:
+2. Aperte a letra "E" para abrir o painel de edição — ele aparece POR CIMA de
+   toda a tela (diferente do Party Tracker). Por isso: SAIA do modo edição
+   (E ou Esc) antes de deixar a cena no ar, senão o público vê o painel.
+3. Com o painel aberto, você também pode ARRASTAR o quadro do carrossel
+   diretamente com o mouse (ele fica visível por baixo do painel) para
+   reposicioná-lo, além de usar as setas do teclado.
+4. No painel você encontra:
    · TAMANHO / POSIÇÃO — sliders de zoom e X/Y para ajustar o quadro do
      carrossel na tela.
    · EFEITO DE TRANSIÇÃO — escolha entre: Fade (dissolver), Slide
@@ -189,9 +205,9 @@ COMO EDITAR:
      Slide Vertical.
    · DURAÇÃO de cada slide e DURAÇÃO do fade/transição (sliders
      independentes).
-4. Clique em SALVAR para gravar no navegador (localStorage). "LIMPAR" volta
+5. Clique em SALVAR para gravar no navegador (localStorage). "LIMPAR" volta
    para os valores padrão.
-5. Aperte E ou Esc para fechar o painel.
+6. Aperte E ou Esc para fechar o painel.
 
 Lembrete: para trocar as IMAGENS do carrossel (não o efeito), veja a
 seção 6 — é só mexer nos arquivos da pasta assets\carrossel\, não precisa

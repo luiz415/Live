@@ -304,8 +304,7 @@ function build(){
   if(S.fx==='marquee'){buildMarquee()}else{buildCentered();showItem(0);restartItemTimer()}
 }
 
-function setFx(id){
-  S.fx=id;
+function applyFxUI(id){
   FXS.forEach(function(f){
     strip.classList.toggle('fx-'+f.id,f.id===id);
     var bt=fxrow.querySelector('[data-fx="'+f.id+'"]');
@@ -314,7 +313,11 @@ function setFx(id){
   document.getElementById('velhint').textContent=id==='marquee'
     ?'Velocidade de rolagem (px/s) — quanto maior, mais rápido.'
     :'Ignorado neste efeito. Use DURAÇÃO/FRASE abaixo para controlar o tempo de cada frase.';
-  build();save();syncUI();setStatus('efeito '+id+' salvo',true)
+}
+function setFx(id){
+  S.fx=id;
+  applyFxUI(id);
+  build();save();setStatus('efeito '+id+' salvo',true)
 }
 function setSPD(v){S.spd=Math.max(20,Math.min(400,+v|0));syncUI();velHud();save()}
 function setFZ(v){S.fz=Math.min(18,Math.max(5,+v));
@@ -329,7 +332,7 @@ function syncUI(){
   fd.value=S.fd;fdv.textContent=(+S.fd).toFixed(1)+'s';
   document.documentElement.style.setProperty('--fz',S.fz+'vh');
   document.documentElement.style.setProperty('--fade',S.fd+'s');
-  setFx(S.fx);
+  applyFxUI(S.fx);
 }
 function velHud(){var h=document.getElementById('velhud');if(!h)return;
  h.innerHTML='⟐ <b>'+Math.round(S.spd)+'</b> px/s · '+S.fz.toFixed(1)+'vh · '+S.fx;

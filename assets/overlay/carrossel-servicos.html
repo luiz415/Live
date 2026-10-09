@@ -66,8 +66,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 
 #editor{position:fixed;inset:0;z-index:20;display:none;flex-direction:column;justify-content:flex-start;
  background:linear-gradient(180deg,rgba(6,8,6,.92) 0%,rgba(6,8,6,.78) 38%,rgba(6,8,6,.35) 100%);
- backdrop-filter:blur(4px);padding:18px 20px 12px;color:var(--txt);font-family:Chakra,monospace;overflow-y:auto}
+ backdrop-filter:blur(4px);padding:18px 20px 12px;color:var(--txt);font-family:Chakra,monospace;overflow-y:auto;
+ pointer-events:none}
 #editor.on{display:flex}
+#editor>*{pointer-events:auto}
 #editor .ebar{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 #editor .etag{font-weight:900;font-size:14px;letter-spacing:.24em;color:var(--acid);
  background:rgba(180,255,0,.08);padding:6px 12px;border-left:4px solid var(--acid)}
@@ -315,10 +317,10 @@ function show(i){
   i=((i%slides.length)+slides.length)%slides.length;
   slides.forEach(function(s,j){
     if(!s.ok)return;
+    s.el.style.removeProperty('opacity');
     s.el.classList.remove('on','off');
     if(j===i)s.el.classList.add('on');
     else if(j===curIdx)s.el.classList.add('off');
-    else s.el.style.opacity=0;
   });
   curIdx=i;
 }

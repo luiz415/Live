@@ -2,19 +2,23 @@
 <title>Party Tracker — exoriservice</title>
 <style>
 /* PARTY TRACKER
-   Por padrão mostra o widget do público. Aperte E (dentro de Interagir no OBS)
-   para abrir/fechar o painel de edição; Esc também fecha.
-   - O widget do público é visível SEMPRE; o painel de edição aparece POR CIMA
-     quando o modo edição está ativo. Saia do modo edição (E/Esc) antes de
-     deixar a cena no ar para o público não ver os campos.
+   Layout fixo em DUAS zonas empilhadas na própria página (sem overlay por cima):
+     - #livezone (0-1080px)  -> o quadro da Party Tracker, SEMPRE visível, é o
+       único pedaço que entra no quadro da live (o OBS corta - crop_bottom -
+       tudo que vem depois, então o painel abaixo NUNCA aparece na stream,
+       mesmo que você esqueça aberto).
+     - #editor (1080px-1560px) -> painel de edição, fica OCULTO por baixo do
+       corte do OBS; só é visível para você dentro do "Interagir", abaixo do
+       quadro da PT. Aperte E para abrir/fechar (Esc também fecha).
    - Dados ficam em localStorage 'exoriPartyV1' (mesma fonte, mesmo Chromium:
      sempre compartilhado).
    - URL params ?title=&view=&quest=&v1=..l5= também são aceitos (fallback).
 --------------------------------------------------------------------------- */
 @font-face{font-family:Orbitron;font-weight:900;src:url(data:font/ttf;base64,AAEAAAAQAQAABAAAR0RFRgTaBPcAAAEMAAAAfEdQT1OKv35rAAABiAAACLxHU1VCuPy46gAACkQAAAAoT1MvMmIj/jIAAApsAAAAYFNUQVR5lWwRAAAKzAAAACpjbWFw2Hp8awAACvgAAAJYZ2FzcAAAABAAAA1QAAAACGdseWY2WgK1AAANWAAAJghoZWFkEoGk3wAANNgAAAA2aGhlYQg9AxAAADUQAAAAJGhtdHjB6huIAAA1NAAAAuxsb2NhVlNgQgAAM2AAAAF4bWF4cADHAJEAADggAAAAIG5hbWUyBV6JAAA4QAAAAnhwb3N0OBU18gAAOrgAAAHjcHJlcGgGjIUAADycAAAABwABAAAADAAAAAAAAAACABIAAQAHAAEACAALAAEADQARAAgAFQAfAAIAHwAlAQEAIAEAKgEAIwEoEoEAI4AuAEQAoACoAQgKjACAALQAtACAAMAAcALkAugL0SAFOBT1ZwgBAFuBT5YVaZUAAAAABFV0CA0AAAABFV0CBoAAAAAAAAAAAAAAAAAAAAAAABOTAAEAAAAAwAAAAEAAABAAAuBT04Dv1D+xT8xPzA/Lj8sPyI/HD8aPxg/FD8SPxA/Dz8OPww/CD8GPwY/BD8CPwA/AD4APgA<ADwAOAA4ADQANAAwADAALgAuACwALAAsACoAKgAoACgAJgAmACQAJAAiACIAIAAgAB4AHgAcABwAGgAaABYAFgAUABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAMAAsACgAKAAkACQAHgAeABwAHAEaABoAGQAZABcAFwAWABQAEgASABAAEAAOAA4ADQANAAoACgAIAAgABQAFAAQABAACAAIAAQABAAEAAQAA4ADgAQA') format('truetype')}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace}
-.wrap{position:fixed;left:50%;bottom:calc(6.8vh + 14px);transform:translateX(-50%) scale(var(--z,1));transform-origin:bottom center;z-index:2;transition:transform .2s ease}
+html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace;position:relative}
+#livezone{position:absolute;top:0;left:0;width:100%;height:1080px;overflow:hidden}
+.wrap{position:absolute;left:50%;bottom:87px;transform:translateX(-50%) scale(var(--z,1));transform-origin:bottom center;z-index:2;transition:transform .2s ease}
 .mline{display:flex;align-items:center;gap:12px;padding:9px 18px;white-space:nowrap;
  background:rgba(6,8,6,.72);border-top:1px solid rgba(180,255,0,.55);border-bottom:1px solid rgba(92,153,0,.65);
  backdrop-filter:blur(3px);animation:mlg 3.6s ease-in-out infinite}
@@ -56,9 +60,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 
 /* ─── PAINEL DE EDIÇÃO (só aparece quando editing=true) ─── */
 :root{--acid:#B4FF00;--toxic:#5C9900;--bg:#060806;--txt:#F2FFE8;--txt2:#9AA69A}
-#editor{position:fixed;inset:0;z-index:10;display:none;flex-direction:column;justify-content:flex-start;
- background:linear-gradient(180deg,rgba(6,8,6,.92) 0%,rgba(6,8,6,.78) 38%,rgba(6,8,6,.35) 100%);
- backdrop-filter:blur(4px);padding:18px 20px 12px;color:var(--txt);font-family:Chakra,monospace}
+#editor{position:absolute;top:1080px;left:0;width:100%;height:480px;z-index:10;display:none;flex-direction:column;justify-content:flex-start;
+ background:linear-gradient(180deg,rgba(6,8,6,.98) 0%,rgba(6,8,6,.96) 100%);
+ border-top:2px solid var(--acid);
+ backdrop-filter:blur(4px);padding:18px 20px 12px;color:var(--txt);font-family:Chakra,monospace;overflow-y:auto;box-sizing:border-box}
 #editor.on{display:flex}
 #editor .ebar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 #editor .etag{font-family:Orbitron;font-weight:900;font-size:14px;letter-spacing:.24em;color:var(--acid);
@@ -105,15 +110,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 #editor .ehint kbd{background:rgba(180,255,0,.1);color:var(--acid);padding:1px 6px;border-radius:2px;font-family:monospace}
 </style></head><body>
 
-<div class="wrap" id="wrap">
-  <div class="vhead" id="vhead"></div>
-  <div class="mline" id="mline"></div>
+<div id="livezone">
+  <div class="wrap" id="wrap">
+    <div class="vhead" id="vhead"></div>
+    <div class="mline" id="mline"></div>
+  </div>
 </div>
 
 <div id="editor">
   <div class="ebar">
     <span class="etag">🎮 MODO EDIÇÃO</span>
-    <span class="ewarn">⚠ PÚBLICO VÊ ESTE PAINEL — SAIA (E/ESC) ANTES DE DEIXAR A CENA NO AR</span>
+    <span class="ewarn" style="color:#9AA69A">🔒 Painel protegido pelo corte (crop) do OBS — nunca aparece na live, mesmo aberto</span>
     <span class="epos"><label>ZOOM</label><button id="zsub" type="button">−</button><input id="zoom" type="range" min="50" max="150" step="5" value="100"><button id="zadd" type="button">+</button><span class="vval" id="zval">100%</span></span>
   </div>
   <div class="egrid">
