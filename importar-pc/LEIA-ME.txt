@@ -1,5 +1,5 @@
 ================================================================================
-EXORISERVICE — v6.11
+EXORISERVICE — v6.12
 ================================================================================
 
 
@@ -15,7 +15,7 @@ a) Extraia este ZIP (ou esta pasta) para C:\twitch\ de forma que fique:
 
 b) Abra o OBS → "Coleção de Cenas" → "Importar" → escolha
    C:\twitch\exoriservice\exoriservice-cenas.json
-   Dê o nome que quiser (ex: "exori v6.11").
+   Dê o nome que quiser (ex: "exori v6.12").
 
 c) Ajustes únicos:
    · 🎮 CAPTURA · Tibia → Selecione a janela do jogo.
@@ -115,6 +115,11 @@ ficar duplicado.
 5. NOTAS DA VERSÃO (HISTÓRICO RESUMIDO)
 --------------------------------------------------------------------------------
 
+· v6.12 — Party Tracker: campos de VOC/LV/título mais longos, opção de fonte
+  (Orbitron, Arial, Calibri, Verdana, Tahoma, Georgia, Impact, Courier New)
+  e digitação sempre em MAIÚSCULAS. Todos os widgets com menu de edição
+  ganharam seletor de COR (verde limão, azul, ciano, roxo, vermelho, laranja,
+  rosa, dourado, branco) que pinta molduras e acentos daquele widget.
 · v6.11 — Party Tracker: no modo edição o quadro fica igual (sem borda extra),
   o foco não pula para Título, e há GROSSURA da moldura. Hazard removido de
   todos os widgets; no lugar: FINA e INTERNA. Menu de edição em tela cheia

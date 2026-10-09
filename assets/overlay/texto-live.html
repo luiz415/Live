@@ -5,37 +5,37 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace;
  -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
-:root{--acid:#B4FF00;--bg:#060806;--txt:#F2FFE8;--txt2:#9AA69A}
+:root{--acid:#B4FF00;--acid-rgb:180,255,0;--bg:#060806;--txt:#F2FFE8;--txt2:#9AA69A}
 #livezone{position:absolute;top:0;left:0;width:100%;height:1080px;overflow:hidden}
 #card{position:absolute;left:50%;top:42%;
  transform:translate3d(calc(-50% + var(--dx,0px)),calc(-50% + var(--dy,0px)),0);
  transform-origin:center center;backface-visibility:hidden}
-body.edit #card{cursor:grab;outline:2px dashed rgba(180,255,0,.85);outline-offset:10px}
+body.edit #card{cursor:grab;outline:2px dashed rgba(var(--acid-rgb),.85);outline-offset:10px}
 body.edit #card:active{cursor:grabbing}
 #txt{font-family:Orbitron,sans-serif;font-weight:900;letter-spacing:.08em;line-height:1.15;
  white-space:pre-wrap;text-align:center;max-width:1600px}
-#txt.c-acid{color:var(--acid);text-shadow:0 0 18px rgba(180,255,0,.45)}
+#txt.c-acid{color:var(--acid);text-shadow:0 0 18px rgba(var(--acid-rgb),.45)}
 #txt.c-white{color:#F2FFE8;text-shadow:0 0 14px rgba(242,255,232,.35)}
 #txt.c-gray{color:#9AA69A;text-shadow:0 0 10px rgba(154,166,154,.3)}
 #txt.c-sang{color:#e85858;text-shadow:0 0 16px rgba(232,88,88,.45)}
 #frame{display:inline-block}
 #frame.pf-none{padding:0;border:none;background:none;box-shadow:none}
 #frame.pf-neon{padding:22px 36px;border:2px solid var(--acid);border-radius:12px;
- background:rgba(6,8,6,.55);box-shadow:0 0 28px rgba(180,255,0,.32),inset 0 0 18px rgba(180,255,0,.08)}
+ background:rgba(6,8,6,.55);box-shadow:0 0 28px rgba(var(--acid-rgb),.32),inset 0 0 18px rgba(var(--acid-rgb),.08)}
 #frame.pf-chapa{padding:20px 34px;border:2px solid rgba(190,205,190,.9);background:rgba(10,12,10,.72);
  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
 #frame.pf-duplo{padding:24px 38px;border:1px solid rgba(92,153,0,.6);border-radius:10px;background:rgba(6,8,6,.55);
- box-shadow:0 0 0 6px rgba(6,8,6,.9),0 0 0 8px var(--acid),0 0 22px rgba(180,255,0,.25)}
-#frame.pf-fina{padding:16px 28px;border:2px solid rgba(180,255,0,.75);border-radius:2px;background:rgba(6,8,6,.3)}
+ box-shadow:0 0 0 6px rgba(6,8,6,.9),0 0 0 8px var(--acid),0 0 22px rgba(var(--acid-rgb),.25)}
+#frame.pf-fina{padding:16px 28px;border:2px solid rgba(var(--acid-rgb),.75);border-radius:2px;background:rgba(6,8,6,.3)}
 #frame.pf-inner{padding:22px 36px;border:none;border-radius:10px;background:rgba(6,8,6,.45);
- box-shadow:inset 0 0 0 3px var(--acid),inset 0 0 22px rgba(180,255,0,.22)}
+ box-shadow:inset 0 0 0 3px var(--acid),inset 0 0 22px rgba(var(--acid-rgb),.22)}
 #editor{position:absolute;top:1080px;left:0;width:100%;height:560px;z-index:10;display:none;flex-direction:column;
  background:linear-gradient(180deg,rgba(6,8,6,.98),rgba(6,8,6,.96));border-top:2px solid var(--acid);
  padding:16px 20px;color:var(--txt);overflow-y:auto;box-sizing:border-box}
 #editor.on{display:flex}
 #editor .ebar{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
 #editor .etag{font-family:Orbitron;font-weight:900;font-size:24px;letter-spacing:.18em;color:var(--acid);
- background:rgba(180,255,0,.08);padding:6px 12px;border-left:4px solid var(--acid)}
+ background:rgba(var(--acid-rgb),.08);padding:6px 12px;border-left:4px solid var(--acid)}
 #editor .ewarn{font-size:16px;color:#9AA69A}
 #editor .card{background:rgba(14,19,14,.92);border:1px solid rgba(92,153,0,.5);border-radius:6px;padding:14px 16px;max-width:1100px;margin-bottom:10px}
 #editor .card h3{font-size:18px;letter-spacing:.16em;color:var(--acid);margin-bottom:10px;text-transform:uppercase}
@@ -47,7 +47,7 @@ body.edit #card:active{cursor:grabbing}
 #editor .row > div{flex:1;min-width:160px}
 #editor .frow{display:flex;gap:8px;flex-wrap:wrap}
 #editor .fbtn{padding:10px 16px;font-size:16px;font-weight:700;letter-spacing:.1em;cursor:pointer;border-radius:4px;
- background:rgba(14,19,14,.75);color:var(--acid);border:1px solid rgba(180,255,0,.4);font-family:Chakra,monospace}
+ background:rgba(14,19,14,.75);color:var(--acid);border:1px solid rgba(var(--acid-rgb),.4);font-family:Chakra,monospace}
 #editor .fbtn.active{background:var(--acid);color:#060806}
 #editor .btn{padding:12px 20px;font-family:Chakra,monospace;font-weight:700;font-size:18px;letter-spacing:.12em;
  background:var(--acid);color:var(--bg);border:0;cursor:pointer;border-radius:3px;margin-right:8px}
@@ -84,6 +84,8 @@ body.edit #card:active{cursor:grabbing}
   <div class="card">
     <h3>moldura</h3>
     <div class="frow" id="framerow"></div>
+    <h3 style="margin-top:12px">cor do widget</h3>
+    <div class="frow" id="themerow"></div>
   </div>
   <div>
     <button class="btn" id="b-save">SALVAR</button>
@@ -95,17 +97,42 @@ body.edit #card:active{cursor:grabbing}
 </div>
 <script>
 "use strict";
+
+const EXO_THEMES=[{id:"lime",n:"VERDE LIMAO",acid:"#B4FF00",rgb:"180,255,0",toxic:"#5C9900"},{id:"blue",n:"AZUL",acid:"#3DA9FC",rgb:"61,169,252",toxic:"#155A99"},{id:"cyan",n:"CIANO",acid:"#00E5FF",rgb:"0,229,255",toxic:"#007A88"},{id:"purple",n:"ROXO",acid:"#B388FF",rgb:"179,136,255",toxic:"#5A2D9E"},{id:"red",n:"VERMELHO",acid:"#FF4D4D",rgb:"255,77,77",toxic:"#990000"},{id:"orange",n:"LARANJA",acid:"#FF9F1C",rgb:"255,159,28",toxic:"#A35A00"},{id:"pink",n:"ROSA",acid:"#FF5C8A",rgb:"255,92,138",toxic:"#A01D4A"},{id:"gold",n:"DOURADO",acid:"#FFD166",rgb:"255,209,102",toxic:"#8A6A00"},{id:"white",n:"BRANCO",acid:"#F2FFE8",rgb:"242,255,232",toxic:"#9AA69A"}];
+function exoApplyTheme(id){
+  var t=EXO_THEMES[0];
+  for(var i=0;i<EXO_THEMES.length;i++) if(EXO_THEMES[i].id===id) t=EXO_THEMES[i];
+  var r=document.documentElement;
+  r.style.setProperty("--acid", t.acid);
+  r.style.setProperty("--toxic", t.toxic);
+  r.style.setProperty("--acid-rgb", t.rgb);
+  return t.id;
+}
+function exoBuildThemes(hostId, current, onpick){
+  var host=document.getElementById(hostId); if(!host) return;
+  host.innerHTML="";
+  EXO_THEMES.forEach(function(t){
+    var b=document.createElement("button"); b.type="button"; b.className="fbtn tbtn"; b.textContent=t.n;
+    b.style.borderColor=t.acid; b.style.color=(current===t.id)?"#060806":t.acid;
+    if(current===t.id){ b.classList.add("active"); b.style.background=t.acid; }
+    else { b.style.background="transparent"; }
+    b.onclick=function(){ onpick(t.id); };
+    host.appendChild(b);
+  });
+}
+
 const KEY="exoriTextoV1";
 const FRAMES=[{id:"none",name:"SEM MOLDURA"},{id:"neon",name:"NEON"},{id:"chapa",name:"CHAPA"},{id:"duplo",name:"DUPLO"},{id:"fina",name:"FINA"},{id:"inner",name:"INTERNA"}];
 const FRAME_IDS=FRAMES.map(f=>f.id);
 const COLORS=["acid","white","gray","sang"];
-const FALLBACK={text:"EXORISERVICE",size:48,color:"acid",frame:"neon",posX:0,posY:0};
+const FALLBACK={text:"EXORISERVICE",size:48,color:"acid",frame:"neon",theme:"lime",posX:0,posY:0};
 function sanitize(d){
   const o=Object.assign({},FALLBACK);
   o.text=String(d&&d.text!=null?d.text:FALLBACK.text).slice(0,240);
   o.size=Math.max(18,Math.min(120,parseInt(d&&d.size,10)||48));
   o.color=COLORS.includes(d&&d.color)?d.color:"acid";
   o.frame=FRAME_IDS.includes(d&&d.frame)?d.frame:"neon"; if(d&&d.frame==="hazard") o.frame="neon";
+  o.theme=["lime","blue","cyan","purple","red","orange","pink","gold","white"].includes(d&&d.theme)?d.theme:"lime";
   o.posX=Math.max(-800,Math.min(800,parseInt(d&&d.posX,10)||0));
   o.posY=Math.max(-500,Math.min(500,parseInt(d&&d.posY,10)||0));
   return o;
@@ -124,6 +151,7 @@ function apply(){
   const card=$("card");
   card.style.setProperty("--dx",Math.round(DATA.posX)+"px");
   card.style.setProperty("--dy",Math.round(DATA.posY)+"px");
+  exoApplyTheme(DATA.theme||"lime");
   if($("t-x")) {$("t-x").value=DATA.posX; $("xval").textContent=Math.round(DATA.posX);}
   if($("t-y")) {$("t-y").value=DATA.posY; $("yval").textContent=Math.round(DATA.posY);}
 }
@@ -146,6 +174,8 @@ function readForm(){
 function syncFrameButtons(){
   document.querySelectorAll("#framerow .fbtn").forEach(b=>b.classList.toggle("active",b.dataset.frame===DATA.frame));
 }
+function pickTheme(id){DATA.theme=id; exoApplyTheme(id); exoBuildThemes("themerow", id, pickTheme); persist();}
+exoBuildThemes("themerow", DATA.theme||"lime", pickTheme);
 (function buildFrames(){
   const host=$("framerow");
   FRAMES.forEach(f=>{

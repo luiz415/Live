@@ -7,26 +7,26 @@
    - Dimensões LxA 480x270 (16:9). Se você redimensionar a fonte da câmera no OBS, esta
      moldura não acompanha — quem dimensiona é a cena aninhada inteira (ver snapshots 002+).
 ----------------------------------------------------- */
-:root{--acid:#B4FF00;--toxic:#5C9900;--bg:#060806}
+:root{--acid:#B4FF00;--acid-rgb:180,255,0;--toxic:#5C9900;--bg:#060806}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:"Chakra Petch",Chakra,monospace}
 .f{position:fixed;inset:0;pointer-events:none}
 
 /* aro principal: gradiente conic ácido — mesma família do "comet" do Party Tracker */
 .ring{position:absolute;inset:0;padding:2px;
- background:conic-gradient(from 210deg,transparent 0deg 295deg,rgba(187,255,0,.25) 295deg,
-  rgba(187,255,0,.95) 340deg,#F4FFD0 348deg,rgba(187,255,0,.95) 352deg,transparent 360deg);
+ background:conic-gradient(from 210deg,transparent 0deg 295deg,rgba(var(--acid-rgb),.25) 295deg,
+  rgba(var(--acid-rgb),.95) 340deg,#F4FFD0 348deg,rgba(var(--acid-rgb),.95) 352deg,transparent 360deg);
  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
  -webkit-mask-composite:xor;mask-composite:exclude;
- filter:drop-shadow(0 0 6px rgba(180,255,0,.55));
+ filter:drop-shadow(0 0 6px rgba(var(--acid-rgb),.55));
  animation:porbit 12s linear infinite}
 @keyframes porbit{to{--pa:360deg}}
 @property --pa{syntax:'<angle>';initial-value:0deg;inherits:false}
 
 /* canto hexagonal: só 4, deixa a moldura viva mas não poluída */
 .b{position:absolute;width:14%;height:20%;border:2px solid var(--acid);
- filter:drop-shadow(0 0 6px rgba(180,255,0,.6));animation:bpulse 2.4s ease-in-out infinite}
+ filter:drop-shadow(0 0 6px rgba(var(--acid-rgb),.6));animation:bpulse 2.4s ease-in-out infinite}
 .b1{left:-1px;top:-1px;border-right:0;border-bottom:0}
 .b2{right:-1px;top:-1px;border-left:0;border-bottom:0;animation-delay:.3s}
 .b3{left:-1px;bottom:-1px;border-right:0;border-top:0;animation-delay:.6s}
@@ -38,41 +38,41 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
  background:var(--acid);color:var(--bg);font:600 9px/1 Chakra,monospace;
  letter-spacing:.26em;padding:5px 9px 5px calc(9px + .26em);white-space:nowrap;
  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
- box-shadow:0 0 10px rgba(180,255,0,.45)}
+ box-shadow:0 0 10px rgba(var(--acid-rgb),.45)}
 .dot{width:6px;height:6px;background:var(--bg);border-radius:50%;animation:blink 1.4s infinite}
 @keyframes blink{50%{opacity:.25}}
 
 /* etiqueta "WEBCAM" no canto inferior direito — discreta, com glow verde */
 .label{position:absolute;bottom:-14px;right:8px;display:flex;align-items:center;gap:6px;
  color:var(--acid);font:600 9px/1 Orbitron,monospace;letter-spacing:.28em;
- padding:4px 8px;border:1px solid rgba(180,255,0,.45);background:rgba(6,8,6,.55);
- text-shadow:0 0 8px rgba(180,255,0,.5);
+ padding:4px 8px;border:1px solid rgba(var(--acid-rgb),.45);background:rgba(6,8,6,.55);
+ text-shadow:0 0 8px rgba(var(--acid-rgb),.5);
  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
 .label::before{content:"";width:4px;height:4px;background:var(--acid);border-radius:50%;
  box-shadow:0 0 6px var(--acid)}
 
 .f.fm-none .ring,.f.fm-none .b{display:none}
 .f.fm-neon .ring{display:none}
-.f.fm-neon{box-shadow:inset 0 0 0 3px var(--acid),0 0 16px rgba(180,255,0,.35)}
+.f.fm-neon{box-shadow:inset 0 0 0 3px var(--acid),0 0 16px rgba(var(--acid-rgb),.35)}
 .f.fm-duplo .ring{display:none}
-.f.fm-duplo{box-shadow:inset 0 0 0 2px rgba(6,8,6,.9),inset 0 0 0 5px var(--acid),0 0 14px rgba(180,255,0,.3)}
+.f.fm-duplo{box-shadow:inset 0 0 0 2px rgba(6,8,6,.9),inset 0 0 0 5px var(--acid),0 0 14px rgba(var(--acid-rgb),.3)}
 .f.fm-chapa .ring{display:none}
 .f.fm-chapa{box-shadow:inset 0 0 0 3px rgba(210,220,210,.9)}
 .f.fm-hazard .ring{display:none}
-.f.fm-fina{box-shadow:inset 0 0 0 2px rgba(180,255,0,.8)}
+.f.fm-fina{box-shadow:inset 0 0 0 2px rgba(var(--acid-rgb),.8)}
 .f.fm-fina .ring{display:none}
-.f.fm-inner{box-shadow:inset 0 0 0 3px var(--acid),inset 0 0 18px rgba(180,255,0,.3)}
+.f.fm-inner{box-shadow:inset 0 0 0 3px var(--acid),inset 0 0 18px rgba(var(--acid-rgb),.3)}
 .f.fm-inner .ring{display:none}
 #editor{position:fixed;inset:0;z-index:40;display:none;flex-direction:column;justify-content:flex-end;
  background:linear-gradient(180deg,rgba(6,8,6,.15),rgba(6,8,6,.92));padding:10px;color:#F2FFE8;font-family:Chakra,monospace;pointer-events:none}
 #editor.on{display:flex}
-#editor .box{pointer-events:auto;background:rgba(8,10,8,.96);border:1px solid #B4FF00;padding:10px;max-height:70%;overflow:auto}
-#editor .etag{font:900 14px/1.2 Orbitron,sans-serif;color:#B4FF00;letter-spacing:.14em;margin-bottom:8px}
+#editor .box{pointer-events:auto;background:rgba(8,10,8,.96);border:1px solid var(--acid);padding:10px;max-height:70%;overflow:auto}
+#editor .etag{font:900 14px/1.2 Orbitron,sans-serif;color:var(--acid);letter-spacing:.14em;margin-bottom:8px}
 #editor .frow{display:flex;flex-wrap:wrap;gap:6px}
 #editor .fbtn{padding:6px 8px;font:700 11px Chakra,monospace;letter-spacing:.06em;cursor:pointer;
- background:transparent;color:#B4FF00;border:1px solid rgba(180,255,0,.45)}
-#editor .fbtn.active{background:#B4FF00;color:#060806}
-#editor .btn{margin-top:8px;padding:6px 10px;font:700 11px Chakra,monospace;border:0;background:#B4FF00;color:#060806;cursor:pointer}
+ background:transparent;color:var(--acid);border:1px solid rgba(var(--acid-rgb),.45)}
+#editor .fbtn.active{background:var(--acid);color:#060806}
+#editor .btn{margin-top:8px;padding:6px 10px;font:700 11px Chakra,monospace;border:0;background:var(--acid);color:#060806;cursor:pointer}
 </style></head><body>
 <div class="f fm-comet" id="frame">
   <div class="ring"></div>
@@ -85,15 +85,45 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
   <div class="box">
     <div class="etag">MOLDURA WEBCAM</div>
     <div class="frow" id="framerow"></div>
+    <div style="margin:8px 0 4px;font-size:11px;color:#9AA69A">COR</div>
+    <div class="frow" id="themerow"></div>
     <button class="btn" id="b-exit">SAIR (E)</button>
   </div>
 </div>
 <script>
 "use strict";
+
+const EXO_THEMES=[{id:"lime",n:"VERDE LIMAO",acid:"#B4FF00",rgb:"180,255,0",toxic:"#5C9900"},{id:"blue",n:"AZUL",acid:"#3DA9FC",rgb:"61,169,252",toxic:"#155A99"},{id:"cyan",n:"CIANO",acid:"#00E5FF",rgb:"0,229,255",toxic:"#007A88"},{id:"purple",n:"ROXO",acid:"#B388FF",rgb:"179,136,255",toxic:"#5A2D9E"},{id:"red",n:"VERMELHO",acid:"#FF4D4D",rgb:"255,77,77",toxic:"#990000"},{id:"orange",n:"LARANJA",acid:"#FF9F1C",rgb:"255,159,28",toxic:"#A35A00"},{id:"pink",n:"ROSA",acid:"#FF5C8A",rgb:"255,92,138",toxic:"#A01D4A"},{id:"gold",n:"DOURADO",acid:"#FFD166",rgb:"255,209,102",toxic:"#8A6A00"},{id:"white",n:"BRANCO",acid:"#F2FFE8",rgb:"242,255,232",toxic:"#9AA69A"}];
+function exoApplyTheme(id){
+  var t=EXO_THEMES[0];
+  for(var i=0;i<EXO_THEMES.length;i++) if(EXO_THEMES[i].id===id) t=EXO_THEMES[i];
+  var r=document.documentElement;
+  r.style.setProperty("--acid", t.acid);
+  r.style.setProperty("--toxic", t.toxic);
+  r.style.setProperty("--acid-rgb", t.rgb);
+  return t.id;
+}
+function exoBuildThemes(hostId, current, onpick){
+  var host=document.getElementById(hostId); if(!host) return;
+  host.innerHTML="";
+  EXO_THEMES.forEach(function(t){
+    var b=document.createElement("button"); b.type="button"; b.className="fbtn tbtn"; b.textContent=t.n;
+    b.style.borderColor=t.acid; b.style.color=(current===t.id)?"#060806":t.acid;
+    if(current===t.id){ b.classList.add("active"); b.style.background=t.acid; }
+    else { b.style.background="transparent"; }
+    b.onclick=function(){ onpick(t.id); };
+    host.appendChild(b);
+  });
+}
+
 const KEY="exoriMoldWebcamV1";
 const FRAMES=[{id:"comet",name:"COMETA"},{id:"neon",name:"NEON"},{id:"duplo",name:"DUPLO"},{id:"chapa",name:"CHAPA"},{id:"fina",name:"FINA"},{id:"inner",name:"INTERNA"},{id:"none",name:"SEM MOLDURA"}];
-let frame="comet", editing=false;
-try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.frame==="hazard") frame="neon"; else if(s&&FRAMES.some(f=>f.id===s.frame)) frame=s.frame;}catch(e){}
+let frame="comet", theme="lime", editing=false;
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.frame==="hazard") frame="neon"; else if(s&&FRAMES.some(f=>f.id===s.frame)) frame=s.frame; if(s&&s.theme) theme=s.theme;}catch(e){}
+exoApplyTheme(theme);
+function persistMold(){try{localStorage.setItem(KEY,JSON.stringify({frame,theme}))}catch(e){}}
+function pickTheme(id){theme=id; exoApplyTheme(id); exoBuildThemes("themerow", id, pickTheme); persistMold();}
+setTimeout(function(){exoBuildThemes("themerow", theme, pickTheme)},0);
 const host=document.getElementById("framerow");
 const fr=document.getElementById("frame");
 function apply(){
@@ -102,7 +132,7 @@ function apply(){
 }
 FRAMES.forEach(f=>{
   const b=document.createElement("button"); b.type="button"; b.className="fbtn"; b.textContent=f.name; b.dataset.frame=f.id;
-  b.onclick=function(){frame=f.id; apply(); try{localStorage.setItem(KEY,JSON.stringify({frame}))}catch(e){}};
+  b.onclick=function(){frame=f.id; apply(); persistMold();};
   host.appendChild(b);
 });
 function toggle(){

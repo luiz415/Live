@@ -1,22 +1,22 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
 <title>Cobertura · Chat do Jogo — exoriservice</title>
 <style>
-:root{--acid:#B4FF00}
+ :root{--acid:#B4FF00;--acid-rgb:180,255,0}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace}
 .cover{position:fixed;inset:0;background:rgba(6,8,6,1)}
 .cover.flashon::after{content:'';position:fixed;inset:0;pointer-events:none;
- background:radial-gradient(ellipse 60% 40% at 50% 30%,rgba(220,255,220,.22) 0%,rgba(180,255,0,.08) 45%,transparent 80%);
+ background:radial-gradient(ellipse 60% 40% at 50% 30%,rgba(220,255,220,.22) 0%,rgba(var(--acid-rgb),.08) 45%,transparent 80%);
  mix-blend-mode:screen;animation:flash 7.3s linear infinite;z-index:9;opacity:var(--flashop,.9)}
 @keyframes flash{0%,92%,100%{opacity:0}93%{opacity:var(--flashop,.9)}93.6%{opacity:.25}94.2%{opacity:calc(var(--flashop,.9)*.8)}94.8%{opacity:0}}
 .fx{position:fixed;inset:0;overflow:hidden;pointer-events:none}
-.drop{position:absolute;top:-18%;border-radius:2px;background:linear-gradient(180deg,transparent,rgba(190,255,10,var(--op)));animation:fall linear infinite}
+.drop{position:absolute;top:-18%;border-radius:2px;background:linear-gradient(180deg,transparent,rgba(var(--acid-rgb),var(--op)));animation:fall linear infinite}
 @keyframes fall{from{transform:translateY(-18vh) rotate(var(--ra))}to{transform:translateY(138vh) rotate(var(--ra))}}
-.ff{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:rgba(198,255,30,.95);box-shadow:0 0 calc(var(--s)*2.6) rgba(180,255,0,.8);
+.ff{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:rgba(var(--acid-rgb),.95);box-shadow:0 0 calc(var(--s)*2.6) rgba(var(--acid-rgb),.8);
  animation:drift var(--dd) ease-in-out infinite alternate,ffpulse var(--pp) ease-in-out infinite;opacity:0}
 @keyframes drift{from{transform:translate(0,0)}to{transform:translate(var(--dx),var(--dy))}}
 @keyframes ffpulse{0%,100%{opacity:.06}45%{opacity:var(--pk)}60%{opacity:.25}}
-.dust{position:absolute;bottom:-3%;width:var(--s);height:var(--s);border-radius:50%;background:rgba(180,255,0,var(--op));
+.dust{position:absolute;bottom:-3%;width:var(--s);height:var(--s);border-radius:50%;background:rgba(var(--acid-rgb),var(--op));
  animation:rise var(--rd) linear infinite,sway var(--sd) ease-in-out infinite alternate}
 @keyframes rise{to{transform:translateY(-116vh)}}
 @keyframes sway{from{margin-left:0}to{margin-left:14px}}
@@ -24,13 +24,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
  filter:blur(30px);opacity:var(--mop,.14);animation:mdrift 36s ease-in-out infinite alternate}
 @keyframes mdrift{from{transform:translate(-4%,3%) scale(1)}to{transform:translate(5%,-4%) scale(1.15)}}
 .snow{position:absolute;top:-8%;width:var(--s);height:var(--s);border-radius:50%;background:rgba(230,255,210,var(--op));
- box-shadow:0 0 4px rgba(180,255,0,.35);animation:snowf linear infinite}
+ box-shadow:0 0 4px rgba(var(--acid-rgb),.35);animation:snowf linear infinite}
 @keyframes snowf{from{transform:translateY(-10vh) translateX(0)}to{transform:translateY(120vh) translateX(var(--sx))}}
-.spark{position:absolute;bottom:0;width:2px;height:var(--h);border-radius:2px;background:linear-gradient(180deg,rgba(180,255,0,0),rgba(180,255,0,var(--op)));
+.spark{position:absolute;bottom:0;width:2px;height:var(--h);border-radius:2px;background:linear-gradient(180deg,rgba(var(--acid-rgb),0),rgba(var(--acid-rgb),var(--op)));
  animation:sparkup linear infinite}
 @keyframes sparkup{from{transform:translateY(0) scaleY(1);opacity:1}to{transform:translateY(-80vh) scaleY(.3);opacity:0}}
 .scan{position:fixed;inset:0;pointer-events:none;z-index:8;opacity:var(--sop,.12);
- background:repeating-linear-gradient(180deg,transparent 0 2px,rgba(180,255,0,.12) 2px 3px);animation:scanm 8s linear infinite}
+ background:repeating-linear-gradient(180deg,transparent 0 2px,rgba(var(--acid-rgb),.12) 2px 3px);animation:scanm 8s linear infinite}
 @keyframes scanm{from{background-position:0 0}to{background-position:0 40px}}
 .vig{position:fixed;inset:0;pointer-events:none;z-index:7;
  background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,var(--vop,.55)) 100%)}
@@ -38,21 +38,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 #editor{position:fixed;inset:0;z-index:80;display:none;flex-direction:column;justify-content:flex-end;
  background:linear-gradient(180deg,rgba(6,8,6,.2),rgba(6,8,6,.94));padding:8px;color:#F2FFE8;pointer-events:none}
 #editor.on{display:flex}
-#editor .box{pointer-events:auto;background:rgba(8,10,8,.96);border:1px solid #B4FF00;padding:10px 12px;max-height:92%;overflow:auto}
-#editor .etag{font:900 13px/1 Orbitron,sans-serif;color:#B4FF00;letter-spacing:.14em;margin-bottom:8px}
+#editor .box{pointer-events:auto;background:rgba(8,10,8,.96);border:1px solid var(--acid);padding:10px 12px;max-height:92%;overflow:auto}
+#editor .etag{font:900 13px/1 Orbitron,sans-serif;color:var(--acid);letter-spacing:.14em;margin-bottom:8px}
 #editor .hint{font-size:11px;color:#9AA69A;margin-bottom:8px}
 #editor .grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px}
 #editor label{font-size:11px;letter-spacing:.08em;color:#9AA69A;display:flex;justify-content:space-between;align-items:center}
-#editor label span.v{color:#B4FF00;font:700 11px Orbitron,monospace;min-width:36px;text-align:right}
-#editor input[type=range]{width:100%;accent-color:#B4FF00}
+#editor label span.v{color:var(--acid);font:700 11px Orbitron,monospace;min-width:36px;text-align:right}
+#editor input[type=range]{width:100%;accent-color:var(--acid)}
 #editor .tog{display:flex;align-items:center;gap:6px;font-size:11px;color:#9AA69A}
-#editor .btn{margin-top:8px;padding:6px 10px;font:700 11px Chakra,monospace;border:0;background:#B4FF00;color:#060806;cursor:pointer;margin-right:6px}
-#editor .btn.ghost{background:transparent;color:#B4FF00;border:1px solid #B4FF00}
+#editor .btn{margin-top:8px;padding:6px 10px;font:700 11px Chakra,monospace;border:0;background:var(--acid);color:#060806;cursor:pointer;margin-right:6px}
+#editor .btn.ghost{background:transparent;color:var(--acid);border:1px solid var(--acid)}
 </style></head><body>
 <div class="cover" id="cover"><div class="fx" id="fx"></div></div>
 <div id="editor">
   <div class="box">
     <div class="etag">COBERTURA · EFEITOS</div>
+    <div class="hint">COR</div>
+    <div class="frow" id="themerow"></div>
     <div class="hint">E abre/fecha. Intensidade 0 desliga o efeito. Salva sozinho.</div>
     <div class="grid">
       <div><label>FUNDO <span class="v" id="v-forca">100</span></label><input id="e-forca" type="range" min="40" max="100" value="100"></div>
@@ -76,12 +78,39 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 </div>
 <script>
 "use strict";
+
+const EXO_THEMES=[{id:"lime",n:"VERDE LIMAO",acid:"#B4FF00",rgb:"180,255,0",toxic:"#5C9900"},{id:"blue",n:"AZUL",acid:"#3DA9FC",rgb:"61,169,252",toxic:"#155A99"},{id:"cyan",n:"CIANO",acid:"#00E5FF",rgb:"0,229,255",toxic:"#007A88"},{id:"purple",n:"ROXO",acid:"#B388FF",rgb:"179,136,255",toxic:"#5A2D9E"},{id:"red",n:"VERMELHO",acid:"#FF4D4D",rgb:"255,77,77",toxic:"#990000"},{id:"orange",n:"LARANJA",acid:"#FF9F1C",rgb:"255,159,28",toxic:"#A35A00"},{id:"pink",n:"ROSA",acid:"#FF5C8A",rgb:"255,92,138",toxic:"#A01D4A"},{id:"gold",n:"DOURADO",acid:"#FFD166",rgb:"255,209,102",toxic:"#8A6A00"},{id:"white",n:"BRANCO",acid:"#F2FFE8",rgb:"242,255,232",toxic:"#9AA69A"}];
+function exoApplyTheme(id){
+  var t=EXO_THEMES[0];
+  for(var i=0;i<EXO_THEMES.length;i++) if(EXO_THEMES[i].id===id) t=EXO_THEMES[i];
+  var r=document.documentElement;
+  r.style.setProperty("--acid", t.acid);
+  r.style.setProperty("--toxic", t.toxic);
+  r.style.setProperty("--acid-rgb", t.rgb);
+  return t.id;
+}
+function exoBuildThemes(hostId, current, onpick){
+  var host=document.getElementById(hostId); if(!host) return;
+  host.innerHTML="";
+  EXO_THEMES.forEach(function(t){
+    var b=document.createElement("button"); b.type="button"; b.className="fbtn tbtn"; b.textContent=t.n;
+    b.style.borderColor=t.acid; b.style.color=(current===t.id)?"#060806":t.acid;
+    if(current===t.id){ b.classList.add("active"); b.style.background=t.acid; }
+    else { b.style.background="transparent"; }
+    b.onclick=function(){ onpick(t.id); };
+    host.appendChild(b);
+  });
+}
+
 const KEY="exoriCoverV1";
-const DEF={forca:100,chuva:72,vento:12,vagalumes:9,poeira:14,nevoa:true,neve:0,faiscas:0,vinheta:0,scan:0,flash:40};
+const DEF={forca:100,chuva:72,vento:12,vagalumes:9,poeira:14,nevoa:true,neve:0,faiscas:0,vinheta:0,scan:0,flash:40,theme:"lime"};
 function load(){
   try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); return s?Object.assign({},DEF,s):Object.assign({},DEF)}catch(e){return Object.assign({},DEF)}
 }
 let CFG=load();
+CFG.theme=CFG.theme||"lime"; exoApplyTheme(CFG.theme);
+function pickTheme(id){CFG.theme=id; exoApplyTheme(id); exoBuildThemes("themerow", id, pickTheme); save(); rebuild();}
+setTimeout(function(){exoBuildThemes("themerow", CFG.theme||"lime", pickTheme)},0);
 const $=id=>document.getElementById(id);
 function save(){try{localStorage.setItem(KEY,JSON.stringify(CFG))}catch(e){}}
 function fill(){
