@@ -1,5 +1,5 @@
 ================================================================================
-EXORISERVICE — v6.9
+EXORISERVICE — v6.10
 ================================================================================
 
 
@@ -15,7 +15,7 @@ a) Extraia este ZIP (ou esta pasta) para C:\twitch\ de forma que fique:
 
 b) Abra o OBS → "Coleção de Cenas" → "Importar" → escolha
    C:\twitch\exoriservice\exoriservice-cenas.json
-   Dê o nome que quiser (ex: "exori v6.9").
+   Dê o nome que quiser (ex: "exori v6.10").
 
 c) Ajustes únicos:
    · 🎮 CAPTURA · Tibia → Selecione a janela do jogo.
@@ -115,6 +115,12 @@ ficar duplicado.
 5. NOTAS DA VERSÃO (HISTÓRICO RESUMIDO)
 --------------------------------------------------------------------------------
 
+· v6.10 — Texto Live agora edita embaixo (corte OBS, como o Party Tracker)
+  com sliders e arraste de posição. Party Tracker: fontes do menu ainda
+  maiores. Overlay Gameplay: no modo E, escolha moldura das bordas e a
+  grossura. Cobertura do chat: removido o "EXORISERVICE" do canto.
+  Moldura Webcam e Moldura Just Chatting: menu Interagir (E) com tipos
+  de moldura (COMETA / NEON / DUPLO / CHAPA / HAZARD / SEM).
 · v6.9 — Party Tracker: fontes do menu de edição bem maiores; quadro estável
   (sem o "tremido" das linhas — animações de brilho contínuo e blur foram
   removidas, renderização em pixels inteiros). Novo widget ✎ TEXTO LIVE:
@@ -249,20 +255,35 @@ Fonte: ✎ WIDGET · Texto Live (já está nas cenas 02 · GAMEPLAY e 03 · JUST
 Serve para escrever qualquer texto e mostrar direto na live — aviso, call to
 action, nome de quest, o que precisar. É simples de propósito.
 
+O layout é o MESMO do Party Tracker: o texto fica nos primeiros 1080px (o
+que vai ao ar) e o menu de edição fica EMBAIXO (1080–1640px). O OBS corta
+crop_bottom = 560px, então o painel NUNCA aparece na live.
+
 COMO EDITAR:
 
 1. Botão direito na fonte → "Interagir".
-2. Aperte a letra "E" para abrir o painel — ele aparece POR CIMA da tela
-   (igual Rodapé/Carrossel; diferente do Party Tracker). Saia do modo edição
-   (E ou Esc) antes de deixar a cena no ar.
+2. Aperte a letra "E" para abrir o painel na parte de baixo.
 3. No painel:
    · TEXTO — até 240 caracteres (quebra de linha permitida).
    · TAMANHO — slider 18 a 120 px.
    · COR / DESTAQUE — verde ácido, branco, cinza ou vermelho.
+   · POSIÇÃO X / Y — sliders para mover o quadro (também pode ARRASTAR
+     o texto na parte de cima).
    · MOLDURA — SEM MOLDURA, NEON, CHAPA, DUPLO ou HAZARD (padrão NEON).
-4. Com o modo edição aberto, ARRASTE o quadro do texto para posicioná-lo.
-   "RESETAR POSIÇÃO" volta ao centro.
-5. SALVAR grava no navegador (localStorage). LIMPAR volta ao padrão
-   "EXORISERVICE".
+4. "RESETAR POSIÇÃO" volta ao centro. SALVAR grava no navegador.
+   LIMPAR volta ao padrão "EXORISERVICE".
+
+--------------------------------------------------------------------------------
+10. OVERLAY GAMEPLAY, MOLDURA WEBCAM e JUST CHATTING
+--------------------------------------------------------------------------------
+
+Overlay Gameplay: Interagir → E. Além de mover/redimensionar o quadro da
+marca, o menu agora tem MOLDURA das bordas da tela (SEM / NEON / GLOW /
+DUPLO / CHAPA / HAZARD) e GROSSURA (1–16 px).
+
+Moldura Webcam e Moldura Just Chatting: Interagir → E. Escolha o tipo:
+COMETA (padrão, luz percorrendo), NEON, DUPLO, CHAPA, HAZARD ou SEM MOLDURA.
+Salva sozinho no navegador. No Just Chatting o painel abre embaixo da fonte
+(por cima); saia com E/Esc antes de ir ao ar.
 
 ================================================================================

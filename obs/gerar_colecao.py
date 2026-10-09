@@ -150,9 +150,11 @@ PARTY_CROP = 780
 sources.append(browser("🐺 WIDGET · Party Tracker", IDS["party"],
                        local=f"{A}/overlay/party-tracker.html",
                        w=1920, h=PARTY_H, control_level=2))
+TEXTO_H = 1080 + 560
+TEXTO_CROP = 560
 sources.append(browser("✎ WIDGET · Texto Live", IDS["texto"],
                        local=f"{A}/overlay/texto-live.html",
-                       w=1920, h=1080, control_level=2))
+                       w=1920, h=TEXTO_H, control_level=2))
 
 # ── ÁUDIO (Mixer) - conforme solicitado ──
 # Cada app é capturado via WASAPI output; o usuário preenche o device_id ou
@@ -209,7 +211,7 @@ sources.append(scene("02 · GAMEPLAY", IDS["sc2"], [
     item("🔔 ALERTAS · StreamElements ⚠️ TROCAR URL", IDS["alerts"], x=520, y=36, iid=11),
     item("💚 WIDGET · LivePIX ⚠️ TROCAR URL", IDS["livepix"], x=520, y=260, iid=12),
     item("📨 TICKER · Comandos",          IDS["tick"],  x=0, y=1008, iid=13),
-    item("✎ WIDGET · Texto Live",         IDS["texto"], iid=15),
+    item("✎ WIDGET · Texto Live",         IDS["texto"], iid=15, crop_bottom=560),
 ]))
 
 sources.append(scene("03 · JUST CHATTING", IDS["sc3"], [

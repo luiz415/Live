@@ -50,11 +50,68 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
 .label::before{content:"";width:4px;height:4px;background:var(--acid);border-radius:50%;
  box-shadow:0 0 6px var(--acid)}
+
+.f.fm-none .ring,.f.fm-none .b{display:none}
+.f.fm-neon .ring{display:none}
+.f.fm-neon{box-shadow:inset 0 0 0 3px var(--acid),0 0 16px rgba(180,255,0,.35)}
+.f.fm-duplo .ring{display:none}
+.f.fm-duplo{box-shadow:inset 0 0 0 2px rgba(6,8,6,.9),inset 0 0 0 5px var(--acid),0 0 14px rgba(180,255,0,.3)}
+.f.fm-chapa .ring{display:none}
+.f.fm-chapa{box-shadow:inset 0 0 0 3px rgba(210,220,210,.9)}
+.f.fm-hazard .ring{display:none}
+.f.fm-hazard{border:5px solid transparent;background-image:linear-gradient(transparent,transparent),repeating-linear-gradient(45deg,var(--acid) 0 10px,#141414 10px 20px);background-origin:border-box;background-clip:padding-box,border-box}
+#editor{position:fixed;inset:0;z-index:40;display:none;flex-direction:column;justify-content:flex-end;
+ background:linear-gradient(180deg,rgba(6,8,6,.15),rgba(6,8,6,.92));padding:10px;color:#F2FFE8;font-family:Chakra,monospace;pointer-events:none}
+#editor.on{display:flex}
+#editor .box{pointer-events:auto;background:rgba(8,10,8,.96);border:1px solid #B4FF00;padding:10px;max-height:70%;overflow:auto}
+#editor .etag{font:900 14px/1.2 Orbitron,sans-serif;color:#B4FF00;letter-spacing:.14em;margin-bottom:8px}
+#editor .frow{display:flex;flex-wrap:wrap;gap:6px}
+#editor .fbtn{padding:6px 8px;font:700 11px Chakra,monospace;letter-spacing:.06em;cursor:pointer;
+ background:transparent;color:#B4FF00;border:1px solid rgba(180,255,0,.45)}
+#editor .fbtn.active{background:#B4FF00;color:#060806}
+#editor .btn{margin-top:8px;padding:6px 10px;font:700 11px Chakra,monospace;border:0;background:#B4FF00;color:#060806;cursor:pointer}
 </style></head><body>
-<div class="f">
+<div class="f fm-comet" id="frame">
   <div class="ring"></div>
   <div class="b b1"></div><div class="b b2"></div><div class="b b3"></div><div class="b b4"></div>
   <div class="tag"><span class="dot"></span>LIVE</div>
   <div class="label">WEBCAM</div>
 </div>
+
+<div id="editor">
+  <div class="box">
+    <div class="etag">MOLDURA WEBCAM</div>
+    <div class="frow" id="framerow"></div>
+    <button class="btn" id="b-exit">SAIR (E)</button>
+  </div>
+</div>
+<script>
+"use strict";
+const KEY="exoriMoldWebcamV1";
+const FRAMES=[{id:"comet",name:"COMETA"},{id:"neon",name:"NEON"},{id:"duplo",name:"DUPLO"},{id:"chapa",name:"CHAPA"},{id:"hazard",name:"HAZARD"},{id:"none",name:"SEM MOLDURA"}];
+let frame="comet", editing=false;
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&FRAMES.some(f=>f.id===s.frame)) frame=s.frame;}catch(e){}
+const host=document.getElementById("framerow");
+const fr=document.getElementById("frame");
+function apply(){
+  FRAMES.forEach(f=>fr.classList.toggle("fm-"+f.id,f.id===frame));
+  host.querySelectorAll(".fbtn").forEach(b=>b.classList.toggle("active",b.dataset.frame===frame));
+}
+FRAMES.forEach(f=>{
+  const b=document.createElement("button"); b.type="button"; b.className="fbtn"; b.textContent=f.name; b.dataset.frame=f.id;
+  b.onclick=function(){frame=f.id; apply(); try{localStorage.setItem(KEY,JSON.stringify({frame}))}catch(e){}};
+  host.appendChild(b);
+});
+function toggle(){
+  editing=!editing;
+  document.getElementById("editor").classList.toggle("on",editing);
+  document.body.classList.toggle("edit",editing);
+}
+document.addEventListener("keydown",function(ev){
+  if(ev.key==="Escape"&&editing){ev.preventDefault();toggle();return;}
+  if(ev.key==="e"||ev.key==="E"){ev.preventDefault();toggle();}
+});
+document.getElementById("b-exit").onclick=function(){if(editing)toggle();};
+apply();
+</script>
 </body></html>

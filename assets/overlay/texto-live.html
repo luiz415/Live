@@ -6,10 +6,10 @@
 html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Chakra,monospace;
  -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
 :root{--acid:#B4FF00;--bg:#060806;--txt:#F2FFE8;--txt2:#9AA69A}
-#stage{position:absolute;inset:0;pointer-events:none}
+#livezone{position:absolute;top:0;left:0;width:100%;height:1080px;overflow:hidden}
 #card{position:absolute;left:50%;top:42%;
  transform:translate3d(calc(-50% + var(--dx,0px)),calc(-50% + var(--dy,0px)),0);
- transform-origin:center center;pointer-events:auto;backface-visibility:hidden}
+ transform-origin:center center;backface-visibility:hidden}
 body.edit #card{cursor:grab;outline:2px dashed rgba(180,255,0,.85);outline-offset:10px}
 body.edit #card:active{cursor:grabbing}
 #txt{font-family:Orbitron,sans-serif;font-weight:900;letter-spacing:.08em;line-height:1.15;
@@ -29,21 +29,20 @@ body.edit #card:active{cursor:grabbing}
 #frame.pf-hazard{padding:22px 36px;border-radius:6px;background-image:linear-gradient(rgba(6,8,6,.62),rgba(6,8,6,.62)),
  repeating-linear-gradient(45deg,var(--acid) 0 14px,#1a1a1a 14px 28px);
  background-origin:border-box;background-clip:padding-box,border-box;border:5px solid transparent}
-#editor{position:fixed;inset:0;z-index:20;display:none;flex-direction:column;justify-content:flex-start;
- background:linear-gradient(180deg,rgba(6,8,6,.94) 0%,rgba(6,8,6,.72) 42%,rgba(6,8,6,.18) 100%);
- padding:18px 22px 12px;color:var(--txt);overflow-y:auto;pointer-events:none}
+#editor{position:absolute;top:1080px;left:0;width:100%;height:560px;z-index:10;display:none;flex-direction:column;
+ background:linear-gradient(180deg,rgba(6,8,6,.98),rgba(6,8,6,.96));border-top:2px solid var(--acid);
+ padding:16px 20px;color:var(--txt);overflow-y:auto;box-sizing:border-box}
 #editor.on{display:flex}
-#editor>*{pointer-events:auto}
 #editor .ebar{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
 #editor .etag{font-family:Orbitron;font-weight:900;font-size:24px;letter-spacing:.18em;color:var(--acid);
  background:rgba(180,255,0,.08);padding:6px 12px;border-left:4px solid var(--acid)}
-#editor .ewarn{font-size:16px;color:#FFC107}
-#editor .card{background:rgba(14,19,14,.92);border:1px solid rgba(92,153,0,.5);border-radius:6px;padding:14px 16px;max-width:920px;margin-bottom:10px}
+#editor .ewarn{font-size:16px;color:#9AA69A}
+#editor .card{background:rgba(14,19,14,.92);border:1px solid rgba(92,153,0,.5);border-radius:6px;padding:14px 16px;max-width:1100px;margin-bottom:10px}
 #editor .card h3{font-size:18px;letter-spacing:.16em;color:var(--acid);margin-bottom:10px;text-transform:uppercase}
 #editor label{font-size:16px;letter-spacing:.1em;color:var(--txt2);display:block;margin:8px 0 4px}
 #editor textarea,#editor input,#editor select{background:#060806;border:1px solid rgba(92,153,0,.55);color:var(--txt);
  outline:none;font-family:Orbitron,monospace;font-weight:900;padding:10px 12px;border-radius:3px;font-size:20px;width:100%}
-#editor textarea{min-height:90px;resize:vertical;letter-spacing:.04em}
+#editor textarea{min-height:72px;resize:vertical;letter-spacing:.04em}
 #editor .row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
 #editor .row > div{flex:1;min-width:160px}
 #editor .frow{display:flex;gap:8px;flex-wrap:wrap}
@@ -58,14 +57,14 @@ body.edit #card:active{cursor:grabbing}
 #editor .status.ok{color:var(--acid)}
 #editor input[type=range]{accent-color:var(--acid);cursor:pointer}
 </style></head><body>
-<div id="stage"><div id="card"><div id="frame"><div id="txt"></div></div></div></div>
+<div id="livezone"><div id="card"><div id="frame"><div id="txt"></div></div></div></div>
 <div id="editor">
   <div class="ebar">
     <span class="etag">TEXTO LIVE</span>
-    <span class="ewarn">Painel por cima da tela — saia do modo edição (E / Esc) antes de ir ao ar. Arraste o texto para mover.</span>
+    <span class="ewarn">Painel abaixo do corte OBS — nunca aparece na live. Arraste o texto acima para mover. E / Esc fecha.</span>
   </div>
   <div class="card">
-    <h3>mensagem</h3>
+    <h3>mensagem e posicao</h3>
     <label>TEXTO</label>
     <textarea id="t-text" maxlength="240" placeholder="Digite o texto da live"></textarea>
     <div class="row">
@@ -78,6 +77,8 @@ body.edit #card:active{cursor:grabbing}
           <option value="sang">VERMELHO</option>
         </select>
       </div>
+      <div><label>POSICAO X</label><input id="t-x" type="range" min="-800" max="800" step="1" value="0"><div id="xval" style="color:var(--acid);font:700 18px Orbitron;margin-top:4px">0</div></div>
+      <div><label>POSICAO Y</label><input id="t-y" type="range" min="-500" max="500" step="1" value="0"><div id="yval" style="color:var(--acid);font:700 18px Orbitron;margin-top:4px">0</div></div>
     </div>
   </div>
   <div class="card">
@@ -123,6 +124,8 @@ function apply(){
   const card=$("card");
   card.style.setProperty("--dx",Math.round(DATA.posX)+"px");
   card.style.setProperty("--dy",Math.round(DATA.posY)+"px");
+  if($("t-x")) {$("t-x").value=DATA.posX; $("xval").textContent=Math.round(DATA.posX);}
+  if($("t-y")) {$("t-y").value=DATA.posY; $("yval").textContent=Math.round(DATA.posY);}
 }
 function persist(){
   try{localStorage.setItem(KEY,JSON.stringify(DATA)); setStatus("SALVO",true)}catch(e){setStatus("ERRO",false)}
@@ -130,12 +133,14 @@ function persist(){
 function setStatus(m,ok){const s=$("status"); s.textContent=m; s.className="status"+(ok?" ok":"")}
 function fillForm(){
   $("t-text").value=DATA.text; $("t-size").value=DATA.size; $("sval").textContent=DATA.size+"px";
-  $("t-color").value=DATA.color; syncFrameButtons();
+  $("t-color").value=DATA.color; syncFrameButtons(); apply();
 }
 function readForm(){
   DATA.text=$("t-text").value.slice(0,240);
   DATA.size=parseInt($("t-size").value,10)||48;
   DATA.color=$("t-color").value;
+  DATA.posX=parseInt($("t-x").value,10)||0;
+  DATA.posY=parseInt($("t-y").value,10)||0;
   apply();
 }
 function syncFrameButtons(){
@@ -165,6 +170,8 @@ document.addEventListener("keydown",function(ev){
 $("t-text").addEventListener("input",readForm);
 $("t-size").addEventListener("input",function(){$("sval").textContent=this.value+"px"; readForm();});
 $("t-color").addEventListener("change",readForm);
+$("t-x").addEventListener("input",readForm);
+$("t-y").addEventListener("input",readForm);
 $("b-save").onclick=function(){readForm(); persist();};
 $("b-clear").onclick=function(){if(!confirm("Voltar ao texto padrao?"))return; DATA=sanitize(FALLBACK); fillForm(); apply(); persist();};
 $("b-exit").onclick=function(){if(editing) toggleEdit();};
