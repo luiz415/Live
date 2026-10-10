@@ -129,7 +129,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 .edit .rz{display:block}
 .edit .bar{display:flex}
 
-body.colorfx-on .slide img{filter:sepia(1) saturate(4) hue-rotate(var(--cf-hue,70deg)) brightness(1.05)}
+body.colorfx-on .slide.loaded::after{
+  content:"";position:absolute;inset:0;background:rgb(var(--acid-rgb));
+  mix-blend-mode:color;pointer-events:none;opacity:.92}
+body.colorfx-on .slide img{filter:none}
+.box.empty{opacity:0;box-shadow:none;background:transparent;pointer-events:none}
+body.edit .box.empty{opacity:1;pointer-events:auto;outline:2px dashed rgba(var(--acid-rgb),.9)}
+.imgs .pick{display:flex;align-items:center;gap:8px;margin:4px 0}
+.imgs .pick input{width:16px;height:16px;accent-color:var(--acid);cursor:pointer}
+
 
 </style></head><body>
 
@@ -193,9 +201,7 @@ body.colorfx-on .slide img{filter:sepia(1) saturate(4) hue-rotate(var(--cf-hue,7
       <h3>imagens detectadas (<span id="nimg">0</span>)</h3>
       <div class="imgs" id="imgs">Procurando slide-1.png, slide-2.png … na pasta assets/carrossel/</div>
       <div style="font-size:11px;color:var(--txt2);margin-top:8px;line-height:1.6">
-        O carrossel carrega <b>automaticamente</b> todas as imagens <code>slide-1.png, slide-2.png, slide-3.png …</code> encontradas na pasta
-        — basta colocar/remover arquivos em <code>assets/carrossel/</code> e dar F5 na fonte (ou desligar/ligar a fonte no OBS).
-        Não exibirá mais quadros pretos por imagem faltando.
+        Marque quais slides entram no loop. Sem nenhuma marcada, o widget some (não fica tela preta). Novos arquivos <code>slide-N.png</code> aparecem após Rescanear / F5.
       </div>
     </div>
   </div>
@@ -238,7 +244,7 @@ function exoBuildThemes(hostId, current, onpick){
   });
 }
 
-var KEY='exoCarrossel2',S={fx:'fade',dur:7,fd:.8,x:null,y:null,w:26,theme:'lime',frame:'neon',imgfx:'shine',colorfx:true};
+var KEY='exoCarrossel2',S={fx:'fade',dur:7,fd:.8,x:null,y:null,w:26,theme:'lime',frame:'neon',imgfx:'shine',colorfx:true,on:{}};
 try{var v=JSON.parse(localStorage.getItem(KEY)||'null');if(v)Object.assign(S,v)}catch(e){}
 S.theme=S.theme||'lime'; exoApplyTheme(S.theme);
 function pickTheme(id){S.theme=id; exoApplyTheme(id); applyColorFx(); exoBuildThemes('themerow', id, pickTheme); try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -394,19 +400,30 @@ function drag(el,mode){el.addEventListener('pointerdown',function(e){
 drag(box,'move');drag(document.querySelector('.rz'),'size');
 
 /* ============ CARREGAMENTO DINÂMICO DE IMAGENS ============ */
-var slides=[],curIdx=0,timer=null;
+var found=[],slides=[],curIdx=0,timer=null;
+if(!S.on||typeof S.on!=='object') S.on={};
+function isOn(n){ return S.on[String(n)]!==false; }
+function setOn(n,v){ S.on[String(n)]=!!v; try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){} }
+function activeList(){ return found.filter(function(s){return s.ok && isOn(s.n)}); }
 function renderImgsInfo(){
   var info=document.getElementById('imgs'),n=document.getElementById('nimg');
-  n.textContent=slides.length;
-  if(!slides.length){info.innerHTML='<span class=err>Nenhuma imagem slide-N.png encontrada em assets/carrossel/</span>';return}
-  info.innerHTML=slides.map(function(s,i){
-    return '<div><b>slide-'+(i+1)+'.png</b> → <span class="'+(s.ok?'ok':'err')+'">'+(s.ok?'OK ✓':'FALHOU ✗')+'</span>'+
-      (s.ok?' ('+s.w+'×'+s.h+')':' (ignorado)')+'</div>'}).join('');
+  n.textContent=found.length;
+  if(!found.length){info.innerHTML='<span class=err>Nenhuma imagem slide-N.png encontrada em assets/carrossel/</span>';return}
+  info.innerHTML=found.map(function(s){
+    var chk=isOn(s.n)?'checked':'';
+    return '<label class="pick"><input type="checkbox" data-n="'+s.n+'" '+chk+'> <b>slide-'+s.n+'.png</b> → <span class="ok">OK ✓</span> ('+s.w+'×'+s.h+')</label>';
+  }).join('');
+  info.querySelectorAll('input[type=checkbox]').forEach(function(cb){
+    cb.addEventListener('change',function(){
+      setOn(+cb.dataset.n, cb.checked);
+      applySelection();
+    });
+  });
 }
 function clearStage(){while(stage.firstChild)stage.removeChild(stage.firstChild)}
 function buildStage(){
   clearStage();
-  slides.forEach(function(s,i){
+  slides.forEach(function(s){
     var d=document.createElement('div');d.className='slide'+(s.ok?' loaded':' err');
     if(s.ok){var im=document.createElement('img');im.src=s.src;im.alt='';d.appendChild(im)}
     stage.appendChild(d);s.el=d;
@@ -416,7 +433,7 @@ function show(i){
   if(!slides.length)return;
   i=((i%slides.length)+slides.length)%slides.length;
   slides.forEach(function(s,j){
-    if(!s.ok)return;
+    if(!s.el)return;
     s.el.style.removeProperty('opacity');
     s.el.classList.remove('on','off');
     if(j===i)s.el.classList.add('on');
@@ -430,6 +447,15 @@ function restartTimer(){
   var ms=Math.max(1000,Math.round((+S.dur)*1000));
   timer=setInterval(function(){show(curIdx+1)},ms);
 }
+function applySelection(){
+  slides=activeList();
+  buildStage();
+  box.classList.toggle('empty', slides.length===0);
+  curIdx=0;
+  if(slides.length){ show(0); restartTimer(); }
+  else { if(timer){clearInterval(timer);timer=null} }
+  setStatus(slides.length? (slides.length+' no ar'):'nenhum slide — widget oculto', slides.length>0);
+}
 function scanImages(force){
   var MAX=20,cacheBust=force?'?t='+Date.now():'';
   var base='../carrossel/slide-',ext='.png';
@@ -438,7 +464,7 @@ function scanImages(force){
     (function(n){
       var im=new Image();
       function done(ok,w,h){
-        if(!finished && ok){loaded.push({n:n,src:base+n+ext+cacheBust,ok:true,w:w,h:h})}
+        if(!finished && ok){loaded.push({n:n,src:base+n+ext+cacheBust,ok:true,w:w,h:h,el:null})}
         pending--;
         if(pending<=0 && !finished){finished=true;finish()}
       }
@@ -447,14 +473,12 @@ function scanImages(force){
       im.src=base+n+ext+cacheBust;
     })(n);
   }
-  /* fallback: mesmo que alguma imagem demore, finaliza em 4s */
   setTimeout(function(){if(!finished){finished=true;finish()}},4000);
   function finish(){
     loaded.sort(function(a,b){return a.n-b.n});
-    slides=loaded.map(function(o){return {src:o.src,ok:true,w:o.w,h:o.h,el:null}});
-    buildStage();renderImgsInfo();
-    curIdx=0;show(0);restartTimer();
-    setStatus(slides.length+' imagem(ns) carregada(s)',slides.length>0);
+    found=loaded;
+    renderImgsInfo();
+    applySelection();
   }
 }
 syncUI();

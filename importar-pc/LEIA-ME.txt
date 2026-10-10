@@ -1,9 +1,9 @@
 ================================================================================
-EXORISERVICE — v6.17
+EXORISERVICE — v6.18
 ================================================================================
 
 --------------------------------------------------------------------------------
-0. v6.17
+0. v6.18
 --------------------------------------------------------------------------------
 Starting Soon / BRB / Encerramento: menu E (textos, cores, intensidade dos FX).
 Encerramento: ligar/desligar logo. Moldura Monitor: mesmo editor da JC (moldura+cor).
@@ -23,7 +23,7 @@ a) Extraia este ZIP (ou esta pasta) para C:\twitch\ de forma que fique:
 
 b) Abra o OBS → "Coleção de Cenas" → "Importar" → escolha
    C:\twitch\exoriservice\exoriservice-cenas.json
-   Dê o nome que quiser (ex: "exori v6.17").
+   Dê o nome que quiser (ex: "exori v6.18").
 
 c) Ajustes únicos:
    · 🎮 CAPTURA · Tibia → Selecione a janela do jogo.
@@ -123,7 +123,7 @@ ficar duplicado.
 5. NOTAS DA VERSÃO (HISTÓRICO RESUMIDO)
 --------------------------------------------------------------------------------
 
-· v6.17 — Overlay: texto editável, separador em losango, brilho das letras em
+· v6.18 — Overlay: texto editável, separador em losango, brilho das letras em
   loop contínuo (BRILHO/REFLEXO/AURORA/GLOW/PULSO) e bordas do quadro de texto
   corrigidas (sem clip que escondia o efeito). Carrossel: mais efeitos tipo
   brilho (reflexo, aurora, véu, flash), suaves e infinitos.
