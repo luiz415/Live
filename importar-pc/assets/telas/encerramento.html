@@ -126,10 +126,16 @@ body.ignite .scan{animation-duration:2.2s}
 /* faixa inferior (6,8vh) reservada ao TICKER · Comandos — nenhum efeito ali */
 .fx{position:fixed;inset:0 0 6.8vh 0;overflow:hidden;transform:translateZ(0);z-index:0}
 
-:root{--acid-rgb:180,255,0;--fx-int:1}
-body.hidelogo .embwrap{display:none}
-#editor{position:fixed;inset:auto 0 0 0;z-index:80;display:none;flex-direction:column;
- background:rgba(6,8,6,.94);border-top:2px solid var(--acid);padding:14px 18px;color:#F2FFE8;font-family:Chakra,monospace;max-height:46vh;overflow:auto}
+
+#editfab{position:fixed;right:18px;bottom:18px;z-index:90;display:flex;align-items:center;gap:10px;
+ padding:14px 22px;background:var(--acid);color:#060806;border:0;cursor:pointer;
+ font:900 18px/1 Orbitron,sans-serif;letter-spacing:.12em;box-shadow:0 0 24px rgba(var(--acid-rgb),.55);
+ pointer-events:auto}
+#editfab span{font:700 12px Chakra,monospace;letter-spacing:.08em;opacity:.8}
+body.editing #editfab{display:none}
+#editor{position:fixed;inset:auto 0 0 0;z-index:95;display:none;flex-direction:column;
+ background:rgba(6,8,6,.96);border-top:2px solid var(--acid);padding:14px 18px 18px;color:#F2FFE8;
+ font-family:Chakra,monospace;max-height:52vh;overflow:auto;pointer-events:auto}
 #editor.on{display:flex}
 #editor .etag{font:900 20px/1 Orbitron,sans-serif;color:var(--acid);letter-spacing:.16em;margin-bottom:8px}
 #editor .frow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
@@ -138,11 +144,17 @@ body.hidelogo .embwrap{display:none}
 #editor .fbtn.active{background:var(--acid);color:#060806}
 #editor .btn{margin-top:8px;padding:10px 16px;font:700 14px Chakra,monospace;border:0;background:var(--acid);color:#060806;cursor:pointer;width:max-content}
 #editor .hint{font-size:13px;color:#9AA69A;margin:0 0 8px}
-#editor .row{display:flex;align-items:center;gap:8px;margin:6px 0}
+#editor .row{display:flex;align-items:center;gap:8px;margin:6px 0;flex-wrap:wrap}
 #editor .row label{min-width:110px;font-size:12px;letter-spacing:.1em;color:#9AA69A}
-#editor .row input[type=text]{flex:1;max-width:420px;background:#0e130e;border:1px solid rgba(var(--acid-rgb),.4);color:#F2FFE8;padding:6px 8px;font:600 14px Chakra,monospace}
+#editor .row input[type=text],#editor .row input[type=number]{flex:1;max-width:420px;background:#0e130e;border:1px solid rgba(var(--acid-rgb),.4);color:#F2FFE8;padding:6px 8px;font:600 14px Chakra,monospace}
 #editor .row input[type=range]{flex:1;max-width:260px;accent-color:var(--acid)}
-.fx{opacity:var(--fx-int)}
+.fx{opacity:var(--fx-int,1)}
+body.hidelogo .embwrap{display:none}
+body.norain #rain{display:none!important}
+body.noshard .shard{display:none!important}
+body.nodot .dot{display:none!important}
+body.nostrobe #strobe,.strobe{ }
+body.nostrobe #strobe{display:none!important}
 
 </style></head><body>
 <div class="fx">
@@ -170,15 +182,21 @@ body.hidelogo .embwrap{display:none}
   <div class="chips"><div class="chip"><b>SEG–SÁB</b>&nbsp;·&nbsp;08H–22H</div><div class="chip">TIBIA&nbsp;·&nbsp;RUBINOT</div></div>
 </div>
 
+
+<button type="button" id="editfab">EDITAR <span>E · INTERAGIR</span></button>
 <div id="editor">
   <div class="etag">ENCERRAMENTO</div>
-  <div class="hint">Aperte E para abrir/fechar. Painel por cima — saia do modo edição antes de ir ao ar.</div>
-  <div class="row"><label>STATUS</label><input id="in-status" type="text"></div><div class="row"><label>MARCA</label><input id="in-wm" type="text"></div><div class="row"><label>CHIPS</label><input id="in-chips" type="text" placeholder="chip1 | chip2"></div>
-  <div class="row"><label>LOGO</label><button type="button" class="fbtn" id="b-logo">LIGADA</button></div>
-  <div class="row"><label>INTENSIDADE FX</label><input id="fxint" type="range" min="0" max="100" value="100"><span id="fxintv">100%</span></div>
+  <div class="hint">Clique em EDITAR ou aperte E. Painel por cima — saia (E/Esc) antes de ir ao ar.</div>
+  <div class="row"><label>STATUS</label><input id="in-status" type="text"></div><div class="row"><label>MARCA</label><input id="in-wm" type="text"></div><div class="row"><label>CHIPS</label><input id="in-chips" type="text" placeholder="chip 1 | chip 2"></div><div class="row"><label>LOGO</label><button type="button" class="fbtn" id="b-logo">LIGADA</button></div><div class="row"><label>INTENSIDADE</label><input id="fxint" type="range" min="0" max="100" value="100"><span id="fxintv">100%</span></div><div class="hint">EFEITOS</div>
+  <div class="frow">
+    <button type="button" class="fbtn" id="t-rain">CHUVA</button>
+    <button type="button" class="fbtn" id="t-shard">SHARDS</button>
+    <button type="button" class="fbtn" id="t-dot">PARTÍCULAS</button>
+    <button type="button" class="fbtn" id="t-strobe">STROBE</button>
+  </div>
   <div class="hint">COR</div>
   <div class="frow" id="themerow"></div>
-  <button class="btn" id="b-exit">SAIR (E)</button>
+  <button class="btn" id="b-exit" type="button">SAIR (E)</button>
 </div>
 
 <script>
@@ -215,8 +233,7 @@ FX.appendChild(s)}
 /* ── partículas ── */
 for(let i=0;i<22;i++){const p=document.createElement('div');p.className='dot';
 const sz=2+Math.random()*3.5;
-p.style.cssText='left:'+(Math.random()*100)+'%;bottom:-10px;width:'+sz+'px;height:'+sz+'px;'+
-var rgb=getComputedStyle(document.documentElement).getPropertyValue('--acid-rgb').trim()||'180,255,0';p.style.cssText='left:'+(Math.random()*100)+'%;bottom:-10px;width:'+sz+'px;height:'+sz+'px;'+'box-shadow:0 0 '+(sz*3)+'px rgba('+rgb+',.8);opacity:'+(.3+Math.random()*.5)+';'+'animation-duration:'+(9+Math.random()*14)+'s,'+(1.5+Math.random()*2)+'s;animation-delay:-'+(Math.random()*20)+'s,0s';
+var rgb=getComputedStyle(document.documentElement).getPropertyValue('--acid-rgb').trim()||'180,255,0';p.style.cssText='left:'+(Math.random()*100)+'%;bottom:-10px;width:'+sz+'px;height:'+sz+'px;box-shadow:0 0 '+(sz*3)+'px rgba('+rgb+',.8);opacity:'+(.3+Math.random()*.5)+';animation-duration:'+(9+Math.random()*14)+'s,'+(1.5+Math.random()*2)+'s;animation-delay:-'+(Math.random()*20)+'s,0s';
 FX.appendChild(p)}
 
 /* ── glitch ambiente + strobe ── */
@@ -224,6 +241,7 @@ FX.appendChild(p)}
 setTimeout(()=>document.body.classList.remove('glitching'),230);amb()},4200+Math.random()*5200)})();
 (function st(){setTimeout(()=>{const s=document.getElementById('strobe');let n=0;
 const iv=setInterval(()=>{s.style.opacity=n%2?0:.08;if(++n>5){clearInterval(iv);s.style.opacity=0}},55);st()},7000+Math.random()*6000)})();
+
 
 
 const EXO_THEMES=[{id:"lime",n:"VERDE LIMAO",acid:"#B4FF00",rgb:"180,255,0",toxic:"#5C9900"},{id:"blue",n:"AZUL",acid:"#3DA9FC",rgb:"61,169,252",toxic:"#155A99"},{id:"cyan",n:"CIANO",acid:"#00E5FF",rgb:"0,229,255",toxic:"#007A88"},{id:"purple",n:"ROXO",acid:"#5B21B6",rgb:"91,33,182",toxic:"#2E1065"},{id:"red",n:"VERMELHO",acid:"#FF4D4D",rgb:"255,77,77",toxic:"#990000"},{id:"orange",n:"LARANJA",acid:"#FF9F1C",rgb:"255,159,28",toxic:"#A35A00"},{id:"pink",n:"ROSA",acid:"#FF5C8A",rgb:"255,92,138",toxic:"#A01D4A"},{id:"gold",n:"DOURADO",acid:"#FFD166",rgb:"255,209,102",toxic:"#8A6A00"},{id:"white",n:"BRANCO",acid:"#F2FFE8",rgb:"242,255,232",toxic:"#9AA69A"}];
@@ -250,17 +268,26 @@ function exoBuildThemes(hostId, current, onpick){
 }
 
 (function(){
-const KEY="exoTelaEncV1";
-const DEF={theme:"lime",status:"obrigado pela live",wm:"<b>EXORI</b>SERVICE",chips:"<b>SEG–SÁB</b> · 08H–22H|TIBIA · RUBINOT",fxint:100,hideLogo:false};
+const KEY="exoTelaEncV2";
+const DEF={theme:"lime",status:"obrigado pela live",wm:"<b>EXORI</b>SERVICE",chips:"<b>SEG–SÁB</b> · 08H–22H|TIBIA · RUBINOT",fxint:100,hideLogo:false,rain:true,shard:true,dot:true,strobe:true};
 let S=Object.assign({},DEF);
 try{var v=JSON.parse(localStorage.getItem(KEY)||"null"); if(v) Object.assign(S,v);}catch(e){}
+if(S.rain==null) S.rain=true;
+if(S.shard==null) S.shard=true;
+if(S.dot==null) S.dot=true;
+if(S.strobe==null) S.strobe=true;
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function setBtn(id, on){ var b=document.getElementById(id); if(!b) return; b.classList.toggle("active", !!on); }
 function applyLive(){
   exoApplyTheme(S.theme||"lime");
   document.documentElement.style.setProperty("--fx-int", String((S.fxint==null?100:S.fxint)/100));
   document.body.classList.toggle("hidelogo", !!S.hideLogo);
+  document.body.classList.toggle("norain", S.rain===false);
+  document.body.classList.toggle("noshard", S.shard===false);
+  document.body.classList.toggle("nodot", S.dot===false);
+  document.body.classList.toggle("nostrobe", S.strobe===false);
   var st=document.getElementById("status"); if(st && S.status!=null) st.textContent=S.status;
-  var wm=document.querySelector(".wm"); if(wm && S.wm){ wm.innerHTML=S.wm; wm.setAttribute("data-text", wm.textContent); }
+  var wm=document.querySelector(".wm"); if(wm && S.wm){ wm.innerHTML=S.wm; wm.setAttribute("data-text", (wm.textContent||"").trim()); }
   var sub=document.querySelector(".sub"); if(sub && S.sub!=null) sub.textContent=S.sub;
   var chips=document.querySelector(".chips");
   if(chips && S.chips!=null){
@@ -270,35 +297,49 @@ function applyLive(){
     });
   }
   var fv=document.getElementById("fxintv"); if(fv) fv.textContent=(S.fxint==null?100:S.fxint)+"%";
-  var fi=document.getElementById("fxint"); if(fi) fi.value=S.fxint==null?100:S.fxint;
+  var fi=document.getElementById("fxint"); if(fi && document.activeElement!==fi) fi.value=S.fxint==null?100:S.fxint;
   var lg=document.getElementById("b-logo"); if(lg){ lg.textContent=S.hideLogo?"DESLIGADA":"LIGADA"; lg.classList.toggle("active",!S.hideLogo); }
-  var i;
-  i=document.getElementById("in-status"); if(i) i.value=S.status||"";
-  i=document.getElementById("in-wm"); if(i) i.value=S.wm||"";
-  i=document.getElementById("in-sub"); if(i) i.value=S.sub||"";
-  i=document.getElementById("in-chips"); if(i) i.value=S.chips||"";
-  exoBuildThemes("themerow", S.theme||"lime", function(id){S.theme=id; persist(); applyLive();});
+  setBtn("t-rain", S.rain!==false); setBtn("t-shard", S.shard!==false); setBtn("t-dot", S.dot!==false); setBtn("t-strobe", S.strobe!==false);
+  function fill(id, val){ var i=document.getElementById(id); if(i && document.activeElement!==i) i.value=val==null?"":val; }
+  fill("in-status", S.status); fill("in-wm", S.wm); fill("in-sub", S.sub); fill("in-chips", S.chips); fill("in-mins", S.mins==null?10:S.mins);
 }
+exoBuildThemes("themerow", S.theme||"lime", function(id){S.theme=id; persist(); applyLive();});
 applyLive();
 function bind(id, key){ var el=document.getElementById(id); if(!el) return;
-  el.addEventListener("input", function(){ S[key]=el.value; persist(); applyLive(); });
+  el.addEventListener("input", function(){ S[key]=el.type==="number"? +el.value : el.value; persist(); applyLive(); });
 }
-bind("in-status","status"); bind("in-wm","wm"); bind("in-sub","sub"); bind("in-chips","chips");
+bind("in-status","status"); bind("in-wm","wm"); bind("in-sub","sub"); bind("in-chips","chips"); bind("in-mins","mins");
 var fi=document.getElementById("fxint");
 if(fi) fi.addEventListener("input", function(){ S.fxint=+fi.value; persist(); applyLive(); });
 var lg=document.getElementById("b-logo");
 if(lg) lg.onclick=function(){ S.hideLogo=!S.hideLogo; persist(); applyLive(); };
+function tog(id, key){ var b=document.getElementById(id); if(!b) return;
+  b.onclick=function(){ S[key]=S[key]===false; persist(); applyLive(); };
+}
+tog("t-rain","rain"); tog("t-shard","shard"); tog("t-dot","dot"); tog("t-strobe","strobe");
 let editing=false;
-function toggle(){ editing=!editing; document.getElementById("editor").classList.toggle("on",editing); }
-document.addEventListener("keydown",function(ev){
-  if(ev.target && (ev.target.tagName==="INPUT"||ev.target.tagName==="TEXTAREA")){
-    if(ev.key==="Escape"){ ev.target.blur(); if(editing) toggle(); }
+function toggle(force){
+  if(typeof force==="boolean") editing=force; else editing=!editing;
+  document.body.classList.toggle("editing", editing);
+  var ed=document.getElementById("editor"); if(ed) ed.classList.toggle("on", editing);
+}
+window.addEventListener("keydown", function(ev){
+  var tag=(ev.target && ev.target.tagName)||"";
+  if(tag==="INPUT"||tag==="TEXTAREA"){
+    if(ev.key==="Escape"){ ev.target.blur(); toggle(false); }
     return;
   }
-  if(ev.key==="Escape"&&editing){ev.preventDefault();toggle();return;}
-  if(ev.key==="e"||ev.key==="E"){ev.preventDefault();toggle();}
+  if(ev.key==="Escape"){ ev.preventDefault(); toggle(false); return; }
+  if(ev.key==="e"||ev.key==="E"){ ev.preventDefault(); toggle(); }
+}, true);
+var fab=document.getElementById("editfab");
+if(fab) fab.onclick=function(e){ e.preventDefault(); e.stopPropagation(); toggle(true); };
+var bx=document.getElementById("b-exit");
+if(bx) bx.onclick=function(){ toggle(false); };
+document.addEventListener("dblclick", function(ev){
+  if(ev.target && ev.target.closest && ev.target.closest("#editor")) return;
+  toggle();
 });
-document.getElementById("b-exit").onclick=function(){if(editing)toggle();};
 })();
 
 </script></body></html>
