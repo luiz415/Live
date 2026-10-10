@@ -134,15 +134,8 @@ body.ignite .scan{animation-duration:2.2s}
 .fx{position:fixed;inset:0 0 6.8vh 0;overflow:hidden;transform:translateZ(0);z-index:0}
 
 
-#editfab{position:fixed;right:18px;bottom:18px;z-index:90;display:flex;align-items:center;gap:10px;
- padding:14px 22px;background:var(--acid);color:#060806;border:0;cursor:pointer;
- font:900 18px/1 Orbitron,sans-serif;letter-spacing:.12em;box-shadow:0 0 24px rgba(var(--acid-rgb),.55);
- pointer-events:auto}
-#editfab span{font:700 12px Chakra,monospace;letter-spacing:.08em;opacity:.8}
-body.editing #editfab{display:none}
-#editor{position:fixed;inset:auto 0 0 0;z-index:95;display:none;flex-direction:column;
- background:rgba(6,8,6,.96);border-top:2px solid var(--acid);padding:14px 18px 18px;color:#F2FFE8;
- font-family:Chakra,monospace;max-height:52vh;overflow:auto;pointer-events:auto}
+
+body.editing 
 #editor.on{display:flex}
 #editor .etag{font:900 20px/1 Orbitron,sans-serif;color:var(--acid);letter-spacing:.16em;margin-bottom:8px}
 #editor .frow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
@@ -190,10 +183,9 @@ body.nostrobe #strobe{display:none!important}
 </div>
 
 
-<button type="button" id="editfab">EDITAR <span>E · INTERAGIR</span></button>
 <div id="editor">
   <div class="etag">ENCERRAMENTO</div>
-  <div class="hint">Clique em EDITAR ou aperte E. Painel por cima — saia (E/Esc) antes de ir ao ar.</div>
+  <div class="hint">Aperte E para abrir/fechar. Painel por cima — saia (E/Esc) antes de ir ao ar.</div>
   <div class="row"><label>STATUS</label><input id="in-status" type="text"></div><div class="row"><label>MARCA</label><input id="in-wm" type="text"></div><div class="row"><label>CHIPS</label><input id="in-chips" type="text" placeholder="chip 1 | chip 2"></div><div class="row"><label>LOGO</label><button type="button" class="fbtn" id="b-logo">LIGADA</button></div><div class="row"><label>INTENSIDADE</label><input id="fxint" type="range" min="0" max="100" value="100"><span id="fxintv">100%</span></div><div class="hint">EFEITOS</div>
   <div class="frow">
     <button type="button" class="fbtn" id="t-rain">CHUVA</button>
@@ -340,8 +332,6 @@ window.addEventListener("keydown", function(ev){
   if(ev.key==="Escape"){ ev.preventDefault(); toggle(false); return; }
   if(ev.key==="e"||ev.key==="E"){ ev.preventDefault(); toggle(); }
 }, true);
-var fab=document.getElementById("editfab");
-if(fab) fab.onclick=function(e){ e.preventDefault(); e.stopPropagation(); toggle(true); };
 var bx=document.getElementById("b-exit");
 if(bx) bx.onclick=function(){ toggle(false); };
 document.addEventListener("dblclick", function(ev){
