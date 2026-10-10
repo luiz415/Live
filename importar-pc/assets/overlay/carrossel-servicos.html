@@ -10,7 +10,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 .car{position:fixed;inset:0;pointer-events:none}
 .box{position:absolute;right:2%;bottom:4%;width:26%;aspect-ratio:880/480;overflow:hidden;
  background:#060806;border-radius:4px;
- box-shadow:0 6px 24px rgba(0,0,0,.55),0 0 0 1px rgba(var(--acid-rgb),.3)}
+ box-shadow:0 6px 24px rgba(0,0,0,.55),0 0 0 2px var(--acid)}
+.box.bf-none{box-shadow:0 6px 24px rgba(0,0,0,.55)}
+.box.bf-neon{box-shadow:0 6px 24px rgba(0,0,0,.55),0 0 0 2px var(--acid),0 0 18px rgba(var(--acid-rgb),.4)}
+.box.bf-glow{box-shadow:0 0 0 2px var(--acid),0 0 26px rgba(var(--acid-rgb),.65)}
+.box.bf-duplo{box-shadow:0 0 0 3px #060806,0 0 0 6px var(--acid),0 0 16px rgba(var(--acid-rgb),.3)}
+.box.bf-fina{box-shadow:0 6px 24px rgba(0,0,0,.45),0 0 0 1px var(--acid)}
+.box.bf-inner{box-shadow:inset 0 0 0 3px var(--acid),0 6px 24px rgba(0,0,0,.55)}
+.box.bf-chapa{box-shadow:0 6px 24px rgba(0,0,0,.55);border:3px solid rgba(210,220,210,.9);border-radius:0}
+.box.ifx-shine .stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:5;
+ background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);
+ background-size:220% 100%;animation:cshine 4s linear infinite}
+@keyframes cshine{0%{background-position:130% 0}100%{background-position:-130% 0}}
+.box.ifx-pulse{animation:cpulse 2.8s ease-in-out infinite}
+@keyframes cpulse{50%{filter:brightness(1.12)}}
+.box.ifx-ken .slide.on img{animation:cken 12s ease-in-out infinite alternate;transform-origin:center}
+@keyframes cken{from{transform:scale(1)}to{transform:scale(1.08)}}
+.box.ifx-scan .stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:5;
+ background:repeating-linear-gradient(180deg,transparent 0 3px,rgba(var(--acid-rgb),.08) 3px 4px);opacity:.7}
 
 /* container de slides (para transições de slide/zoom) */
 .stage{position:absolute;inset:0}
@@ -71,6 +88,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 #editor.on{display:flex}
 #editor>*{pointer-events:auto}
 #editor .ebar{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+#editor .frow{display:flex;flex-wrap:wrap;gap:6px}
+#editor .fbtn{padding:6px 10px;font:700 11px Chakra,monospace;cursor:pointer;border:1px solid var(--acid);background:transparent;color:var(--acid)}
+#editor .fbtn.active{background:var(--acid);color:#060806}
 #editor .etag{font-weight:900;font-size:14px;letter-spacing:.24em;color:var(--acid);
  background:rgba(var(--acid-rgb),.08);padding:6px 12px;border-left:4px solid var(--acid)}
 #editor .ewarn{font-size:12px;color:#FFC107;margin-left:auto}
@@ -125,6 +145,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
     <span class="hint">Ajuste posição/tamanho/transições · aperte <kbd>E</kbd> para sair · imagens: <code>assets/carrossel/slide-N.png</code></span>
   </div>
   <div class="card" style="margin-bottom:10px"><h3>cor do carrossel</h3><div class="frow" id="themerow"></div></div>
+  <div class="card" style="margin-bottom:10px"><h3>moldura das imagens</h3><div class="frow" id="framerow"></div></div>
+  <div class="card" style="margin-bottom:10px"><h3>efeito nas imagens</h3><div class="frow" id="imgfxrow"></div></div>
   <div class="grid">
     <div class="card">
       <h3>posição / tamanho</h3>
@@ -208,11 +230,33 @@ function exoBuildThemes(hostId, current, onpick){
   });
 }
 
-var KEY='exoCarrossel2',S={fx:'fade',dur:7,fd:.8,x:null,y:null,w:26,theme:'lime'};
+var KEY='exoCarrossel2',S={fx:'fade',dur:7,fd:.8,x:null,y:null,w:26,theme:'lime',frame:'neon',imgfx:'shine'};
 try{var v=JSON.parse(localStorage.getItem(KEY)||'null');if(v)Object.assign(S,v)}catch(e){}
 S.theme=S.theme||'lime'; exoApplyTheme(S.theme);
 function pickTheme(id){S.theme=id; exoApplyTheme(id); exoBuildThemes('themerow', id, pickTheme); try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 setTimeout(function(){exoBuildThemes('themerow', S.theme||'lime', pickTheme)},0);
+(function(){
+  var FR=[{id:'none',n:'SEM'},{id:'neon',n:'NEON'},{id:'glow',n:'GLOW'},{id:'duplo',n:'DUPLO'},{id:'fina',n:'FINA'},{id:'inner',n:'INTERNA'},{id:'chapa',n:'CHAPA'}];
+  var host=document.getElementById('framerow'); if(!host)return;
+  function sync(){ host.querySelectorAll('.fbtn').forEach(function(b){b.classList.toggle('active', b.dataset.f===S.frame)}); applyFrame(); }
+  FR.forEach(function(f){
+    var b=document.createElement('button'); b.type='button'; b.className='fbtn'; b.textContent=f.n; b.dataset.f=f.id;
+    b.onclick=function(){S.frame=f.id; sync(); try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+    host.appendChild(b);
+  });
+  S.frame=S.frame||'neon'; sync();
+})();
+(function(){
+  var FX=[{id:'none',n:'SEM'},{id:'shine',n:'BRILHO'},{id:'pulse',n:'PULSO'},{id:'ken',n:'ZOOM LENTO'},{id:'scan',n:'SCAN'}];
+  var host=document.getElementById('imgfxrow'); if(!host)return;
+  function sync(){ host.querySelectorAll('.fbtn').forEach(function(b){b.classList.toggle('active', b.dataset.f===S.imgfx)}); applyFrame(); }
+  FX.forEach(function(f){
+    var b=document.createElement('button'); b.type='button'; b.className='fbtn'; b.textContent=f.n; b.dataset.f=f.id;
+    b.onclick=function(){S.imgfx=f.id; sync(); try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+    host.appendChild(b);
+  });
+  S.imgfx=S.imgfx||'shine'; sync();
+})();
 
 var FXS=[
  {id:'fade',   name:'FADE'},
@@ -245,7 +289,14 @@ function syncUI(){
 function setDur(v){S.dur=Math.min(15,Math.max(2,+v));syncUI();restartTimer();save()}
 function setFd(v){S.fd=Math.min(2,Math.max(.2,+v));syncUI();save()}
 
+function applyFrame(){
+  var FR=['none','neon','glow','duplo','fina','inner','chapa'];
+  var FX=['none','shine','pulse','ken','scan'];
+  FR.forEach(function(f){box.classList.toggle('bf-'+f, f===(S.frame||'neon'))});
+  FX.forEach(function(f){box.classList.toggle('ifx-'+f, f===(S.imgfx||'shine'))});
+}
 function apply(){
+  applyFrame();
   if(S.x!=null){box.style.right='auto';box.style.bottom='auto';
    box.style.left=S.x+'%';box.style.top=S.y+'%';box.style.width=S.w+'%'}}
 function ensureXY(){if(box.style.left)return;var p=pct();box.style.right='auto';box.style.bottom='auto';
