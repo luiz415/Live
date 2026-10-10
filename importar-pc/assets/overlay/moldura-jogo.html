@@ -56,15 +56,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent}
 .frame.fm-inner .rail{border:none;box-shadow:inset 0 0 0 4px var(--acid),inset 0 0 30px rgba(var(--acid-rgb),.2)}
 body.hidetag .tag{display:none}
 #editor{position:fixed;inset:auto 0 0 0;z-index:80;display:none;flex-direction:column;
- background:rgba(6,8,6,.94);border-top:2px solid var(--acid);padding:16px 20px;color:#F2FFE8;font-family:Chakra,monospace;max-height:42vh;overflow:auto;pointer-events:auto}
+ background:rgba(6,8,6,.94);border-top:1px solid var(--acid);padding:6px 8px 8px;color:#F2FFE8;font-family:Chakra,monospace;max-height:88%;overflow:auto;pointer-events:auto;
+ font-size:10px}
 #editor.on{display:flex}
-#editor .etag{font:900 22px/1 Orbitron,sans-serif;color:var(--acid);letter-spacing:.16em;margin-bottom:10px}
-#editor .frow{display:flex;flex-wrap:wrap;gap:8px}
-#editor .fbtn{padding:10px 16px;font:700 16px Chakra,monospace;letter-spacing:.08em;cursor:pointer;
+#editor .etag{font:900 11px/1.1 Orbitron,sans-serif;color:var(--acid);letter-spacing:.1em;margin-bottom:4px}
+#editor .frow{display:flex;flex-wrap:wrap;gap:3px}
+#editor .fbtn{padding:3px 6px;font:700 9px/1.2 Chakra,monospace;letter-spacing:.04em;cursor:pointer;
  background:transparent;color:var(--acid);border:1px solid rgba(var(--acid-rgb),.45)}
 #editor .fbtn.active{background:var(--acid);color:#060806}
-#editor .btn{margin-top:12px;padding:10px 16px;font:700 16px Chakra,monospace;border:0;background:var(--acid);color:#060806;cursor:pointer;width:max-content}
-#editor .hint{font-size:14px;color:#9AA69A;margin:0 0 10px}
+#editor .btn{margin-top:6px;padding:4px 8px;font:700 9px Chakra,monospace;border:0;background:var(--acid);color:#060806;cursor:pointer;width:max-content}
+#editor .hint{font-size:8px;color:#9AA69A;margin:0 0 4px}
 
 </style></head><body>
 <div class="frame fm-comet" id="frame">
