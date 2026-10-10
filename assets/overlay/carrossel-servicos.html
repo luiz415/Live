@@ -18,16 +18,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 .box.bf-fina{box-shadow:0 6px 24px rgba(0,0,0,.45),0 0 0 1px var(--acid)}
 .box.bf-inner{box-shadow:inset 0 0 0 3px var(--acid),0 6px 24px rgba(0,0,0,.55)}
 .box.bf-chapa{box-shadow:0 6px 24px rgba(0,0,0,.55);border:3px solid rgba(210,220,210,.9);border-radius:0}
-.box.ifx-shine .stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:5;
- background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);
- background-size:220% 100%;animation:cshine 4s linear infinite}
-@keyframes cshine{0%{background-position:130% 0}100%{background-position:-130% 0}}
+.box .fxlayer{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden}
+.box .fxlayer i{position:absolute;top:-20%;bottom:-20%;width:42%;left:-50%;
+ background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0) 25%,rgba(255,255,255,.55) 50%,rgba(255,255,255,0) 75%,transparent 100%);
+ animation:csweep 3.2s linear infinite;opacity:0}
+.box.ifx-shine .fxlayer i,.box.ifx-gleam .fxlayer i,.box.ifx-aurora .fxlayer i,.box.ifx-veil .fxlayer i,.box.ifx-flash .fxlayer i{opacity:1}
+.box.ifx-gleam .fxlayer i{width:65%;animation-duration:4.4s;opacity:.8}
+.box.ifx-aurora .fxlayer i{background:linear-gradient(90deg,transparent,rgba(var(--acid-rgb),0) 20%,rgba(var(--acid-rgb),.45) 48%,rgba(255,255,255,.35) 55%,transparent);animation-duration:3.6s}
+.box.ifx-veil .fxlayer i{width:100%;left:-100%;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.12) 50%,transparent 100%);animation-duration:5s}
+.box.ifx-flash .fxlayer i{animation-duration:2.2s;opacity:.9}
+@keyframes csweep{0%{transform:translateX(0)}100%{transform:translateX(280%)}}
 .box.ifx-pulse{animation:cpulse 2.8s ease-in-out infinite}
-@keyframes cpulse{50%{filter:brightness(1.12)}}
-.box.ifx-ken .slide.on img{animation:cken 12s ease-in-out infinite alternate;transform-origin:center}
-@keyframes cken{from{transform:scale(1)}to{transform:scale(1.08)}}
-.box.ifx-scan .stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:5;
- background:repeating-linear-gradient(180deg,transparent 0 3px,rgba(var(--acid-rgb),.08) 3px 4px);opacity:.7}
+@keyframes cpulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.1)}}
+.box.ifx-ken .slide.on img{animation:cken 14s ease-in-out infinite alternate;transform-origin:center}
+@keyframes cken{from{transform:scale(1)}to{transform:scale(1.06)}}
 
 /* container de slides (para transições de slide/zoom) */
 .stage{position:absolute;inset:0}
@@ -129,6 +133,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 <div class="car fx-fade" id="car">
  <div class="box" id="box">
   <div class="stage" id="stage"></div>
+  <div class="fxlayer" id="fxlayer"><i></i></div>
   <div class="rz"></div>
  </div>
  <div class="bar">
@@ -247,7 +252,7 @@ setTimeout(function(){exoBuildThemes('themerow', S.theme||'lime', pickTheme)},0)
   S.frame=S.frame||'neon'; sync();
 })();
 (function(){
-  var FX=[{id:'none',n:'SEM'},{id:'shine',n:'BRILHO'},{id:'pulse',n:'PULSO'},{id:'ken',n:'ZOOM LENTO'},{id:'scan',n:'SCAN'}];
+  var FX=[{id:'none',n:'SEM'},{id:'shine',n:'BRILHO'},{id:'gleam',n:'REFLEXO'},{id:'aurora',n:'AURORA'},{id:'veil',n:'VEU'},{id:'flash',n:'FLASH'},{id:'pulse',n:'PULSO'},{id:'ken',n:'ZOOM LENTO'}];
   var host=document.getElementById('imgfxrow'); if(!host)return;
   function sync(){ host.querySelectorAll('.fbtn').forEach(function(b){b.classList.toggle('active', b.dataset.f===S.imgfx)}); applyFrame(); }
   FX.forEach(function(f){
@@ -291,7 +296,7 @@ function setFd(v){S.fd=Math.min(2,Math.max(.2,+v));syncUI();save()}
 
 function applyFrame(){
   var FR=['none','neon','glow','duplo','fina','inner','chapa'];
-  var FX=['none','shine','pulse','ken','scan'];
+  var FX=['none','shine','gleam','aurora','veil','flash','pulse','ken'];
   FR.forEach(function(f){box.classList.toggle('bf-'+f, f===(S.frame||'neon'))});
   FX.forEach(function(f){box.classList.toggle('ifx-'+f, f===(S.imgfx||'shine'))});
 }

@@ -1,5 +1,5 @@
 ================================================================================
-EXORISERVICE — v6.13
+EXORISERVICE — v6.14
 ================================================================================
 
 
@@ -15,7 +15,7 @@ a) Extraia este ZIP (ou esta pasta) para C:\twitch\ de forma que fique:
 
 b) Abra o OBS → "Coleção de Cenas" → "Importar" → escolha
    C:\twitch\exoriservice\exoriservice-cenas.json
-   Dê o nome que quiser (ex: "exori v6.13").
+   Dê o nome que quiser (ex: "exori v6.14").
 
 c) Ajustes únicos:
    · 🎮 CAPTURA · Tibia → Selecione a janela do jogo.
@@ -115,6 +115,10 @@ ficar duplicado.
 5. NOTAS DA VERSÃO (HISTÓRICO RESUMIDO)
 --------------------------------------------------------------------------------
 
+· v6.14 — Overlay: texto editável, separador em losango, brilho das letras em
+  loop contínuo (BRILHO/REFLEXO/AURORA/GLOW/PULSO) e bordas do quadro de texto
+  corrigidas (sem clip que escondia o efeito). Carrossel: mais efeitos tipo
+  brilho (reflexo, aurora, véu, flash), suaves e infinitos.
 · v6.13 — Rodapé: borda inferior segue a cor escolhida. Overlay Gameplay: só o
   texto EXORISERVICE - LUIZ, com brilho suave e infinito, e opções de borda do
   texto (COMETA/NEON/GLOW/DUPLO/PULSO/FINA/SEM). Carrossel: moldura nas imagens
