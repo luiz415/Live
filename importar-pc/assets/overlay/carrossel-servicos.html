@@ -128,6 +128,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 .edit .box:active{cursor:grabbing}
 .edit .rz{display:block}
 .edit .bar{display:flex}
+
+body.colorfx-on .slide img{filter:sepia(1) saturate(4) hue-rotate(var(--cf-hue,70deg)) brightness(1.05)}
+
 </style></head><body>
 
 <div class="car fx-fade" id="car">
@@ -149,7 +152,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
     <span class="ewarn">⚠ PÚBLICO VÊ ESTE PAINEL — SAIA (E/ESC) ANTES DE DEIXAR A CENA NO AR</span>
     <span class="hint">Ajuste posição/tamanho/transições · aperte <kbd>E</kbd> para sair · imagens: <code>assets/carrossel/slide-N.png</code></span>
   </div>
-  <div class="card" style="margin-bottom:10px"><h3>cor do carrossel</h3><div class="frow" id="themerow"></div></div>
+  <div class="card" style="margin-bottom:10px"><h3>cor do carrossel</h3><div class="frow" id="themerow"></div><div class="row" style="margin-top:8px"><label>FILTRO DE COR NAS IMAGENS</label><button type="button" class="fbtn" id="b-colorfx">LIGADO</button><span class="hint" style="margin:0">tinge os slides com a cor do tema</span></div></div>
   <div class="card" style="margin-bottom:10px"><h3>moldura das imagens</h3><div class="frow" id="framerow"></div></div>
   <div class="card" style="margin-bottom:10px"><h3>efeito nas imagens</h3><div class="frow" id="imgfxrow"></div></div>
   <div class="grid">
@@ -235,11 +238,25 @@ function exoBuildThemes(hostId, current, onpick){
   });
 }
 
-var KEY='exoCarrossel2',S={fx:'fade',dur:7,fd:.8,x:null,y:null,w:26,theme:'lime',frame:'neon',imgfx:'shine'};
+var KEY='exoCarrossel2',S={fx:'fade',dur:7,fd:.8,x:null,y:null,w:26,theme:'lime',frame:'neon',imgfx:'shine',colorfx:true};
 try{var v=JSON.parse(localStorage.getItem(KEY)||'null');if(v)Object.assign(S,v)}catch(e){}
 S.theme=S.theme||'lime'; exoApplyTheme(S.theme);
-function pickTheme(id){S.theme=id; exoApplyTheme(id); exoBuildThemes('themerow', id, pickTheme); try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function pickTheme(id){S.theme=id; exoApplyTheme(id); applyColorFx(); exoBuildThemes('themerow', id, pickTheme); try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 setTimeout(function(){exoBuildThemes('themerow', S.theme||'lime', pickTheme)},0);
+
+S.colorfx=(S.colorfx!==false);
+function themeHue(id){var m={lime:70,blue:190,cyan:170,purple:250,red:340,orange:20,pink:320,gold:40,white:70};return m[id]||70;}
+function applyColorFx(){
+  var on=S.colorfx!==false;
+  document.body.classList.toggle('colorfx-on', on);
+  document.documentElement.style.setProperty('--cf-hue', themeHue(S.theme||'lime')+'deg');
+  var b=document.getElementById('b-colorfx');
+  if(b){ b.textContent=on?'LIGADO':'DESLIGADO'; b.classList.toggle('active',on); }
+}
+applyColorFx();
+var bcf=document.getElementById('b-colorfx');
+if(bcf) bcf.onclick=function(){ S.colorfx=!(S.colorfx!==false); try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){} applyColorFx(); };
+
 (function(){
   var FR=[{id:'none',n:'SEM'},{id:'neon',n:'NEON'},{id:'glow',n:'GLOW'},{id:'duplo',n:'DUPLO'},{id:'fina',n:'FINA'},{id:'inner',n:'INTERNA'},{id:'chapa',n:'CHAPA'}];
   var host=document.getElementById('framerow'); if(!host)return;
