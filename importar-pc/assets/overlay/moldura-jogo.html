@@ -27,13 +27,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent}
 /* ── trilho fixo sutil (por onde o cometa corre) ── */
 .rail{position:absolute;inset:0 0 0 0;border:1px solid rgba(var(--acid-rgb),.22)}
 
-/* ── brackets pulsantes nos cantos (não percorrem a borda) ── */
-.b{position:absolute;width:5vh;height:5vh;border:.75vh solid var(--acid);filter:drop-shadow(0 0 1.4vh rgba(var(--acid-rgb),.55));animation:bpulse 2.2s ease-in-out infinite}
-.b1{top:.9vh;left:.9vh;border-right:0;border-bottom:0}
-.b2{top:.9vh;right:.9vh;border-left:0;border-bottom:0;animation-delay:.28s}
-.b3{bottom:calc(0 + .9vh);left:.9vh;border-right:0;border-top:0;animation-delay:.56s}
-.b4{bottom:calc(0 + .9vh);right:.9vh;border-left:0;border-top:0;animation-delay:.84s}
-@keyframes bpulse{50%{opacity:.45;transform:scale(.9)}}
+/* ── brackets nos 4 cantos (px: fonte 480×270; origin no canto p/ não sair do lugar) ── */
+.b{position:absolute;width:20px;height:20px;box-sizing:border-box;
+  border:2px solid var(--acid);background:transparent;
+  filter:drop-shadow(0 0 3px rgba(var(--acid-rgb),.55));
+  animation:bpulse 2.2s ease-in-out infinite}
+.b1{top:2px;left:2px;border-right:0;border-bottom:0;transform-origin:0 0}
+.b2{top:2px;right:2px;border-left:0;border-bottom:0;transform-origin:100% 0;animation-delay:.28s}
+.b3{bottom:2px;left:2px;border-right:0;border-top:0;transform-origin:0 100%;animation-delay:.56s}
+.b4{bottom:2px;right:2px;border-left:0;border-top:0;transform-origin:100% 100%;animation-delay:.84s}
+@keyframes bpulse{50%{opacity:.5}}
 
 .tag{position:absolute;top:1.1vh;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:1vh;
  background:var(--acid);color:#060806;font-family:Chakra;font-weight:600;font-size:2.3vh;
@@ -56,16 +59,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent}
 .frame.fm-inner .rail{border:none;box-shadow:inset 0 0 0 4px var(--acid),inset 0 0 30px rgba(var(--acid-rgb),.2)}
 body.hidetag .tag{display:none}
 #editor{position:fixed;inset:auto 0 0 0;z-index:80;display:none;flex-direction:column;
- background:rgba(6,8,6,.94);border-top:1px solid var(--acid);padding:6px 8px 8px;color:#F2FFE8;font-family:Chakra,monospace;max-height:88%;overflow:auto;pointer-events:auto;
- font-size:10px}
+ background:rgba(6,8,6,.94);border-top:1px solid var(--acid);padding:4px 6px 6px;color:#F2FFE8;font-family:Chakra,monospace;max-height:72%;overflow:auto;pointer-events:auto;
+ font-size:8px}
 #editor.on{display:flex}
-#editor .etag{font:900 11px/1.1 Orbitron,sans-serif;color:var(--acid);letter-spacing:.1em;margin-bottom:4px}
-#editor .frow{display:flex;flex-wrap:wrap;gap:3px}
-#editor .fbtn{padding:3px 6px;font:700 9px/1.2 Chakra,monospace;letter-spacing:.04em;cursor:pointer;
+#editor .etag{font:900 9px/1.1 Orbitron,sans-serif;color:var(--acid);letter-spacing:.08em;margin-bottom:3px}
+#editor .frow{display:flex;flex-wrap:wrap;gap:2px}
+#editor .fbtn{padding:2px 5px;font:700 8px/1.2 Chakra,monospace;letter-spacing:.03em;cursor:pointer;
  background:transparent;color:var(--acid);border:1px solid rgba(var(--acid-rgb),.45)}
 #editor .fbtn.active{background:var(--acid);color:#060806}
-#editor .btn{margin-top:6px;padding:4px 8px;font:700 9px Chakra,monospace;border:0;background:var(--acid);color:#060806;cursor:pointer;width:max-content}
-#editor .hint{font-size:8px;color:#9AA69A;margin:0 0 4px}
+#editor .btn{margin-top:4px;padding:3px 6px;font:700 8px Chakra,monospace;border:0;background:var(--acid);color:#060806;cursor:pointer;width:max-content}
+#editor .hint{font-size:7px;color:#9AA69A;margin:0 0 3px}
 
 </style></head><body>
 <div class="frame fm-comet" id="frame">
@@ -79,9 +82,9 @@ body.hidetag .tag{display:none}
   <div class="etag">MOLDURA JOGO (MINI)</div>
   <div class="hint">Aperte E para abrir/fechar. Painel por cima — saia do modo edicao antes de ir ao ar.</div>
   <div class="frow" id="framerow"></div>
-  <div class="hint" style="margin-top:10px">COR</div>
+  <div class="hint" style="margin-top:4px">COR</div>
   <div class="frow" id="themerow"></div>
-  <div class="hint" style="margin-top:10px">ETIQUETA</div>
+  <div class="hint" style="margin-top:4px">ETIQUETA</div>
   <div class="frow"><button type="button" class="fbtn" id="b-tag">JOGO</button></div>
   <button class="btn" id="b-exit" type="button">SAIR (E)</button>
 </div>
