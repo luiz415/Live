@@ -135,7 +135,11 @@ body.ignite .scan{animation-duration:2.2s}
 
 
 
-body.editing 
+
+#editor{position:fixed;left:0;right:0;bottom:0;z-index:95;display:none;flex-direction:column;
+ background:rgba(6,8,6,.96);border-top:2px solid var(--acid);padding:14px 18px 18px;color:#F2FFE8;
+ font-family:Chakra,monospace;max-height:52vh;overflow:auto;pointer-events:auto}
+#editor.on{display:flex}
 #editor.on{display:flex}
 #editor .etag{font:900 20px/1 Orbitron,sans-serif;color:var(--acid);letter-spacing:.16em;margin-bottom:8px}
 #editor .frow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
@@ -329,15 +333,26 @@ function toggle(force){
   document.body.classList.toggle("editing", editing);
   var ed=document.getElementById("editor"); if(ed) ed.classList.toggle("on", editing);
 }
-window.addEventListener("keydown", function(ev){
+function isEditKey(ev){
+  var k=(ev.key||"").toLowerCase();
+  var c=ev.code||"";
+  return k==="e"||c==="KeyE"||ev.keyCode===69||ev.which===69;
+}
+function onKey(ev){
   var tag=(ev.target && ev.target.tagName)||"";
   if(tag==="INPUT"||tag==="TEXTAREA"){
-    if(ev.key==="Escape"){ ev.target.blur(); toggle(false); }
+    if((ev.key||"").toLowerCase()==="escape"||ev.keyCode===27){ ev.target.blur(); toggle(false); }
     return;
   }
-  if(ev.key==="Escape"){ ev.preventDefault(); toggle(false); return; }
-  if(ev.key==="e"||ev.key==="E"){ ev.preventDefault(); toggle(); }
-}, true);
+  if((ev.key||"").toLowerCase()==="escape"||ev.keyCode===27){ try{ev.preventDefault()}catch(e){} toggle(false); return; }
+  if(isEditKey(ev)){ try{ev.preventDefault()}catch(e){} toggle(); }
+}
+window.addEventListener("keydown", onKey, true);
+document.addEventListener("keydown", onKey);
+document.addEventListener("keyup", function(ev){ if(isEditKey(ev)) try{ev.preventDefault()}catch(e){} }, true);
+document.body.setAttribute("tabindex","0");
+document.addEventListener("pointerdown", function(){ try{document.body.focus()}catch(e){} }, true);
+try{document.body.focus()}catch(e){}
 var bx=document.getElementById("b-exit");
 if(bx) bx.onclick=function(){ toggle(false); };
 document.addEventListener("dblclick", function(ev){
