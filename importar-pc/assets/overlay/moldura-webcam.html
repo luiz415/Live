@@ -7,7 +7,7 @@
    - Dimensões LxA 480x270 (16:9). Se você redimensionar a fonte da câmera no OBS, esta
      moldura não acompanha — quem dimensiona é a cena aninhada inteira (ver snapshots 002+).
 ----------------------------------------------------- */
-:root{--acid:#B4FF00;--acid-rgb:180,255,0;--toxic:#5C9900;--bg:#060806;--bw:2px;--fx-int:1}
+:root{--acid:#B4FF00;--acid-rgb:180,255,0;--toxic:#5C9900;--bg:#060806;--bw:2px;--fx-int:1;--txt:#F2FFE8;--txt-acid:#B4FF00;--txt-rgb:180,255,0;--badge-acid:#B4FF00;--badge-rgb:180,255,0;--ms:.7}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:"Chakra Petch",Chakra,monospace}
 .f{position:fixed;inset:0;pointer-events:none}
@@ -76,6 +76,67 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 #editor .row input[type=range]{flex:1;accent-color:var(--acid)}
 #editor .row .v{font:700 10px/1 monospace;color:var(--acid);min-width:36px}
 #editor .hint{font-size:10px;color:#9AA69A;margin:6px 0 4px}
+
+@property --ma{syntax:'<angle>';initial-value:0deg;inherits:false}
+.head{position:absolute;left:4%;bottom:10%;display:flex;align-items:center;
+ padding:0;background:transparent;cursor:default;overflow:visible;pointer-events:auto;z-index:6;
+ transform:scale(var(--ms,.7));transform-origin:left bottom}
+.head .hin{position:relative;display:flex;align-items:center;padding:8px 14px 8px 12px;
+ background:rgba(6,8,6,.88);overflow:hidden}
+.head .name{position:relative;font-family:Orbitron,Chakra,sans-serif;font-weight:900;font-size:16px;
+ letter-spacing:.14em;color:var(--txt);text-shadow:0 2px 8px rgba(0,0,0,.85);white-space:nowrap;
+ display:flex;align-items:center;z-index:1}
+.head .name .n1{color:var(--txt-acid);text-shadow:0 0 10px rgba(var(--txt-rgb),.55)}
+.head .name .n2{color:var(--txt)}
+.head .hsep{display:inline-block;width:6px;height:6px;margin:0 8px;flex:0 0 6px;
+ background:var(--txt-acid);transform:rotate(45deg);box-shadow:0 0 8px rgba(var(--txt-rgb),.85)}
+.head .name .n1,.head .name .n2{position:relative;display:inline-block;-webkit-background-clip:text;background-clip:text}
+.head .name.tx-shine .n1{color:transparent;-webkit-text-fill-color:transparent;
+  background-image:linear-gradient(90deg,var(--txt-acid) 0%,var(--txt-acid) 38%,#fff 50%,var(--txt-acid) 62%,var(--txt-acid) 100%);
+  background-size:220% 100%;animation:letshine 2.8s linear infinite;filter:drop-shadow(0 0 8px rgba(var(--txt-rgb),.45))}
+.head .name.tx-shine .n2{color:transparent;-webkit-text-fill-color:transparent;
+  background-image:linear-gradient(90deg,var(--txt) 0%,var(--txt) 38%,#fff 50%,var(--txt) 62%,var(--txt) 100%);
+  background-size:220% 100%;animation:letshine 2.8s linear infinite}
+.head .name.tx-gleam .n1{color:transparent;-webkit-text-fill-color:transparent;
+  background-image:linear-gradient(100deg,var(--txt-acid) 0%,#fff 42%,var(--txt-acid) 58%,var(--txt-acid) 100%);
+  background-size:260% 100%;animation:letshine 4.2s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(var(--txt-rgb),.4))}
+.head .name.tx-gleam .n2{color:transparent;-webkit-text-fill-color:transparent;
+  background-image:linear-gradient(100deg,var(--txt) 0%,#fff 42%,var(--txt) 58%,var(--txt) 100%);
+  background-size:260% 100%;animation:letshine 4.2s ease-in-out infinite}
+.head .name.tx-aurora .n1{color:transparent;-webkit-text-fill-color:transparent;
+  background-image:linear-gradient(90deg,var(--txt-acid),#fff,var(--txt-acid),#F4FFD0,var(--txt-acid));
+  background-size:300% 100%;animation:letaurora 5s linear infinite;filter:drop-shadow(0 0 10px rgba(var(--txt-rgb),.5))}
+.head .name.tx-aurora .n2{color:transparent;-webkit-text-fill-color:transparent;
+  background-image:linear-gradient(90deg,var(--txt),#fff,var(--txt));
+  background-size:300% 100%;animation:letaurora 5s linear infinite}
+@keyframes letshine{0%{background-position:120% 0}100%{background-position:-20% 0}}
+@keyframes letaurora{0%{background-position:0 0}100%{background-position:200% 0}}
+.head .name.tx-glow .n1{animation:txglow 2.6s ease-in-out infinite}
+@keyframes txglow{0%,100%{text-shadow:0 0 6px rgba(var(--txt-rgb),.35),0 2px 8px #000}50%{text-shadow:0 0 18px rgba(var(--txt-rgb),.95),0 2px 8px #000}}
+.head .name.tx-pulse .n1,.head .name.tx-pulse .n2{animation:txpulse 1.9s ease-in-out infinite}
+@keyframes txpulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.28)}}
+.head .name.tx-none .n1,.head .name.tx-none .n2{-webkit-text-fill-color:unset;color:inherit;background:none;animation:none;filter:none}
+.head .name.tx-none .n1{color:var(--txt-acid)}
+.head .name.tx-none .n2{color:var(--txt)}
+.head.hb-comet .hin::before{content:'';position:absolute;inset:0;padding:2px;pointer-events:none;z-index:2;
+ background:conic-gradient(from var(--ma),transparent 0deg 200deg,rgba(var(--badge-rgb),.12) 200deg,rgba(var(--badge-rgb),.85) 328deg,#fff 342deg,rgba(var(--badge-rgb),.85) 350deg,transparent 360deg);
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+ mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+ -webkit-mask-composite:xor;mask-composite:exclude;
+ filter:drop-shadow(0 0 5px rgba(var(--badge-rgb),.55));animation:ma 6s linear infinite}
+@keyframes ma{to{--ma:360deg}}
+.head.hb-neon .hin{box-shadow:inset 0 0 0 2px var(--badge-acid),0 0 16px rgba(var(--badge-rgb),.45)}
+.head.hb-glow .hin{box-shadow:inset 0 0 0 2px var(--badge-acid),0 0 28px rgba(var(--badge-rgb),.75);animation:hinglow 2.4s ease-in-out infinite}
+@keyframes hinglow{50%{box-shadow:inset 0 0 0 2px var(--badge-acid),0 0 40px rgba(var(--badge-rgb),1)}}
+.head.hb-duplo .hin{box-shadow:inset 0 0 0 1px rgba(6,8,6,.9),0 0 0 2px #060806,0 0 0 4px var(--badge-acid)}
+.head.hb-pulse .hin{box-shadow:inset 0 0 0 2px var(--badge-acid);animation:hbp 1.8s ease-in-out infinite}
+@keyframes hbp{50%{box-shadow:inset 0 0 0 2px var(--badge-acid),0 0 24px rgba(var(--badge-rgb),.9)}}
+.head.hb-fina .hin{box-shadow:inset 0 0 0 1px var(--badge-acid)}
+.head.hb-none .hin{box-shadow:none}
+body.edit .head{cursor:grab;outline:2px dashed rgba(var(--acid-rgb),.9);outline-offset:3px}
+body.edit .head:active{cursor:grabbing}
+#editor .row input[type=text]{flex:1;min-width:0;background:#060806;border:1px solid var(--acid);color:var(--txt);font:700 10px Orbitron,sans-serif;padding:4px 6px}
+
 </style></head><body>
 <div class="f fm-comet" id="frame">
   <div class="rail"></div>
@@ -83,6 +144,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
   <div class="b b1"></div><div class="b b2"></div><div class="b b3"></div><div class="b b4"></div>
   <div class="tag"><span class="dot"></span>LIVE</div>
   <div class="label">WEBCAM</div>
+  <div class="head hb-comet" id="head">
+    <div class="hin"><div class="name tx-shine" id="hname"><span class="n1">EXORISERVICE</span><span class="hsep"></span><span class="n2">LUIZ</span></div></div>
+  </div>
 </div>
 
 <div id="editor">
@@ -94,6 +158,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
     <div class="hint">EFEITO / BORDA</div>
     <div class="row"><label>INTENSIDADE</label><input id="fxint" type="range" min="0" max="100" value="70"><span class="v" id="fxintv">70%</span></div>
     <div class="row"><label>GROSSURA</label><input id="bw" type="range" min="1" max="8" value="2"><span class="v" id="bwv">2px</span></div>
+    <div class="hint">BADGE DE TEXTO</div>
+    <div class="row"><label>TEXTO</label><input id="htxt" type="text" maxlength="48" value="EXORISERVICE - LUIZ"></div>
+    <div class="row"><label>TAMANHO</label><input id="bsrng" type="range" min="40" max="160" step="5" value="70"><span class="v" id="bsval">70%</span></div>
+    <div class="hint">COR BADGE</div>
+    <div class="frow" id="badgerow"></div>
+    <div class="hint">COR TEXTO</div>
+    <div class="frow" id="txtthemerow"></div>
+    <div class="hint">LETRAS</div>
+    <div class="frow" id="txrow"></div>
+    <div class="hint">BORDA DO TEXTO</div>
+    <div class="frow" id="hbrow"></div>
     <button class="btn" id="b-exit">SAIR (E)</button>
   </div>
 </div>
@@ -123,25 +198,59 @@ function exoBuildThemes(hostId, current, onpick){
   });
 }
 
-const KEY="exoriMoldWebcamV2";
+const KEY="exoriMoldWebcamV3";
 const FRAMES=[{id:"comet",name:"COMETA"},{id:"neon",name:"NEON"},{id:"duplo",name:"DUPLO"},{id:"chapa",name:"CHAPA"},{id:"fina",name:"FINA"},{id:"inner",name:"INTERNA"},{id:"none",name:"SEM MOLDURA"}];
 let frame="comet", theme="lime", fxint=70, bw=2, editing=false;
-try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.frame==="hazard") frame="neon"; else if(s&&FRAMES.some(f=>f.id===s.frame)) frame=s.frame; if(s&&s.theme) theme=s.theme; if(s&&s.fxint!=null) fxint=+s.fxint; if(s&&s.bw!=null) bw=+s.bw;}catch(e){}
+let BADGETHEME="lime", TXTHEME="lime", HBEDGE="comet", LABEL="EXORISERVICE - LUIZ", TXFX="shine", BS=70, BX=4, BY=null;
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.frame==="hazard") frame="neon"; else if(s&&FRAMES.some(f=>f.id===s.frame)) frame=s.frame; if(s&&s.theme) theme=s.theme; if(s&&s.fxint!=null) fxint=+s.fxint; if(s&&s.bw!=null) bw=+s.bw;
+ if(s&&s.badgetheme) BADGETHEME=s.badgetheme; if(s&&s.txttheme) TXTHEME=s.txttheme; if(s&&s.hbedge) HBEDGE=s.hbedge; if(s&&s.label) LABEL=s.label; if(s&&s.txfx) TXFX=s.txfx; if(s&&s.bs!=null) BS=+s.bs; if(s&&s.bx!=null) BX=+s.bx; if(s&&s.by!=null) BY=+s.by;}catch(e){}
 exoApplyTheme(theme);
-function persistMold(){try{localStorage.setItem(KEY,JSON.stringify({frame,theme,fxint,bw}))}catch(e){}}
+function exoFind(id){var t=EXO_THEMES[0]; for(var i=0;i<EXO_THEMES.length;i++) if(EXO_THEMES[i].id===id) t=EXO_THEMES[i]; return t;}
+function exoApplyBadgeTheme(id){var t=exoFind(id); var r=document.documentElement; r.style.setProperty("--badge-acid", t.acid); r.style.setProperty("--badge-rgb", t.rgb);}
+function exoApplyTextTheme(id){var t=exoFind(id); var r=document.documentElement; r.style.setProperty("--txt-acid", t.acid); r.style.setProperty("--txt-rgb", t.rgb);}
+exoApplyBadgeTheme(BADGETHEME); exoApplyTextTheme(TXTHEME);
+function persistMold(){try{localStorage.setItem(KEY,JSON.stringify({frame,theme,fxint,bw,badgetheme:BADGETHEME,txttheme:TXTHEME,hbedge:HBEDGE,label:LABEL,txfx:TXFX,bs:BS,bx:BX,by:BY}))}catch(e){}}
 function pickTheme(id){theme=id; exoApplyTheme(id); exoBuildThemes("themerow", id, pickTheme); persistMold();}
-setTimeout(function(){exoBuildThemes("themerow", theme, pickTheme)},0);
+function pickBadgeTheme(id){BADGETHEME=id; exoApplyBadgeTheme(id); exoBuildThemes("badgerow", id, pickBadgeTheme); persistMold();}
+function pickTxtTheme(id){TXTHEME=id; exoApplyTextTheme(id); exoBuildThemes("txtthemerow", id, pickTxtTheme); persistMold();}
+setTimeout(function(){exoBuildThemes("themerow", theme, pickTheme); exoBuildThemes("badgerow", BADGETHEME, pickBadgeTheme); exoBuildThemes("txtthemerow", TXTHEME, pickTxtTheme);},0);
 const host=document.getElementById("framerow");
 const fr=document.getElementById("frame");
+var HBEDGES=[{id:"comet",n:"COMETA"},{id:"neon",n:"NEON"},{id:"glow",n:"GLOW"},{id:"duplo",n:"DUPLO"},{id:"pulse",n:"PULSO"},{id:"fina",n:"FINA"},{id:"none",n:"SEM"}];
+var TXFXS=[{id:"shine",n:"BRILHO"},{id:"gleam",n:"REFLEXO"},{id:"aurora",n:"AURORA"},{id:"glow",n:"GLOW"},{id:"pulse",n:"PULSO"},{id:"none",n:"SEM"}];
+function esc(s){return String(s||"").replace(/[&<>"']/g,function(c){return ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]);});}
+function renderName(){
+  var el=document.getElementById("hname"); if(!el)return;
+  var raw=LABEL||"EXORISERVICE - LUIZ";
+  var parts=raw.split(/\s*[-–—·|]\s*/);
+  var html;
+  if(parts.length>=2){ html='<span class="n1">'+esc(parts.slice(0,-1).join(" "))+'</span><span class="hsep"></span><span class="n2">'+esc(parts[parts.length-1])+'</span>'; }
+  else { html='<span class="n1">'+esc(raw)+'</span>'; }
+  el.innerHTML=html;
+  TXFXS.forEach(function(f){el.classList.toggle("tx-"+f.id, f.id===TXFX)});
+}
+function applyHb(){
+  var hd=document.getElementById("head"); if(!hd)return;
+  HBEDGES.forEach(function(e){hd.classList.toggle("hb-"+e.id, e.id===HBEDGE)});
+  document.querySelectorAll("#hbrow .fbtn").forEach(function(b){b.classList.toggle("active", b.dataset.e===HBEDGE)});
+  document.querySelectorAll("#txrow .fbtn").forEach(function(b){b.classList.toggle("active", b.dataset.e===TXFX)});
+  renderName();
+}
 function apply(){
   FRAMES.forEach(f=>fr.classList.toggle("fm-"+f.id,f.id===frame));
   host.querySelectorAll(".fbtn").forEach(b=>b.classList.toggle("active",b.dataset.frame===frame));
   document.documentElement.style.setProperty("--fx-int", String((fxint||0)/100));
   document.documentElement.style.setProperty("--bw", (bw||2)+"px");
+  document.documentElement.style.setProperty("--ms", String((BS||70)/100));
   var a=document.getElementById("fxint"),av=document.getElementById("fxintv");
   if(a) a.value=fxint; if(av) av.textContent=fxint+"%";
   var b=document.getElementById("bw"),bv=document.getElementById("bwv");
   if(b) b.value=bw; if(bv) bv.textContent=bw+"px";
+  var bs=document.getElementById("bsrng"), bsv=document.getElementById("bsval");
+  if(bs) bs.value=BS; if(bsv) bsv.textContent=BS+"%";
+  var hd=document.getElementById("head");
+  if(hd){ hd.style.left=BX+"%"; if(BY!=null){ hd.style.top=BY+"%"; hd.style.bottom="auto"; } }
+  applyHb();
 }
 FRAMES.forEach(f=>{
   const b=document.createElement("button"); b.type="button"; b.className="fbtn"; b.textContent=f.name; b.dataset.frame=f.id;
@@ -162,6 +271,42 @@ var fi=document.getElementById("fxint");
 if(fi) fi.addEventListener("input",function(){fxint=+fi.value; persistMold(); apply();});
 var bi=document.getElementById("bw");
 if(bi) bi.addEventListener("input",function(){bw=+bi.value; persistMold(); apply();});
+(function(){
+  var host=document.getElementById("hbrow"); if(!host)return;
+  HBEDGES.forEach(function(e){
+    var b=document.createElement("button"); b.type="button"; b.className="fbtn"; b.textContent=e.n; b.dataset.e=e.id;
+    b.onclick=function(){HBEDGE=e.id; applyHb(); persistMold();};
+    host.appendChild(b);
+  });
+})();
+(function(){
+  var host=document.getElementById("txrow"); if(!host)return;
+  TXFXS.forEach(function(e){
+    var b=document.createElement("button"); b.type="button"; b.className="fbtn"; b.textContent=e.n; b.dataset.e=e.id;
+    b.onclick=function(){TXFX=e.id; applyHb(); persistMold();};
+    host.appendChild(b);
+  });
+})();
+var htxt=document.getElementById("htxt");
+if(htxt){ htxt.value=LABEL; htxt.addEventListener("input",function(){LABEL=this.value.slice(0,48); renderName();}); htxt.addEventListener("change",function(){persistMold();}); }
+var bsr=document.getElementById("bsrng");
+if(bsr) bsr.addEventListener("input",function(){BS=+this.value; persistMold(); apply();});
+var hd=document.getElementById("head");
+if(hd){
+  hd.addEventListener("pointerdown",function(e){
+    if(!editing)return; e.preventDefault(); e.stopPropagation();
+    try{hd.setPointerCapture(e.pointerId)}catch(x){}
+    var r=hd.parentElement.getBoundingClientRect();
+    var sx=e.clientX, sy=e.clientY, ox=BX, oy=(BY!=null?BY: ((r.height-hd.offsetHeight)/r.height*100));
+    function mv(e2){
+      BX=Math.min(90,Math.max(0, ox+(e2.clientX-sx)/r.width*100));
+      BY=Math.min(90,Math.max(0, oy+(e2.clientY-sy)/r.height*100));
+      hd.style.left=BX+"%"; hd.style.top=BY+"%"; hd.style.bottom="auto";
+    }
+    function up(){ persistMold(); window.removeEventListener("pointermove",mv); window.removeEventListener("pointerup",up); }
+    window.addEventListener("pointermove",mv); window.addEventListener("pointerup",up);
+  });
+}
 apply();
 </script>
 </body></html>
