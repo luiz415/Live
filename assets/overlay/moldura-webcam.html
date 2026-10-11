@@ -7,74 +7,78 @@
    - Dimensões LxA 480x270 (16:9). Se você redimensionar a fonte da câmera no OBS, esta
      moldura não acompanha — quem dimensiona é a cena aninhada inteira (ver snapshots 002+).
 ----------------------------------------------------- */
-:root{--acid:#B4FF00;--acid-rgb:180,255,0;--toxic:#5C9900;--bg:#060806}
+:root{--acid:#B4FF00;--acid-rgb:180,255,0;--toxic:#5C9900;--bg:#060806;--bw:2px;--fx-int:1}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:"Chakra Petch",Chakra,monospace}
 .f{position:fixed;inset:0;pointer-events:none}
-
-/* aro principal: gradiente conic ácido — mesma família do "comet" do Party Tracker */
-.ring{position:absolute;inset:0;padding:2px;
- background:conic-gradient(from 210deg,transparent 0deg 295deg,rgba(var(--acid-rgb),.25) 295deg,
-  rgba(var(--acid-rgb),.95) 340deg,#F4FFD0 348deg,rgba(var(--acid-rgb),.95) 352deg,transparent 360deg);
+@property --pa{syntax:'<angle>';initial-value:0deg;inherits:false}
+.ring{position:absolute;inset:0;padding:var(--bw);
+ background:conic-gradient(from var(--pa),
+  transparent 0deg 150deg,
+  rgba(var(--acid-rgb),calc(.14 * var(--fx-int))) 150deg,
+  rgba(var(--acid-rgb),calc(.9 * var(--fx-int))) 342deg,
+  #F4FFD0 350deg,
+  rgba(var(--acid-rgb),calc(.9 * var(--fx-int))) 353deg,
+  transparent 360deg);
  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
  -webkit-mask-composite:xor;mask-composite:exclude;
- filter:drop-shadow(0 0 6px rgba(var(--acid-rgb),.55));
- animation:porbit 12s linear infinite}
+ filter:drop-shadow(0 0 calc(5px * var(--fx-int)) rgba(var(--acid-rgb),calc(.6 * var(--fx-int))));
+ animation:porbit 8s linear infinite}
 @keyframes porbit{to{--pa:360deg}}
-@property --pa{syntax:'<angle>';initial-value:0deg;inherits:false}
-
-/* canto hexagonal: só 4, deixa a moldura viva mas não poluída */
-.b{position:absolute;width:14%;height:20%;border:2px solid var(--acid);
- filter:drop-shadow(0 0 6px rgba(var(--acid-rgb),.6));animation:bpulse 2.4s ease-in-out infinite}
-.b1{left:-1px;top:-1px;border-right:0;border-bottom:0}
-.b2{right:-1px;top:-1px;border-left:0;border-bottom:0;animation-delay:.3s}
-.b3{left:-1px;bottom:-1px;border-right:0;border-top:0;animation-delay:.6s}
-.b4{right:-1px;bottom:-1px;border-left:0;border-top:0;animation-delay:.9s}
-@keyframes bpulse{50%{opacity:.4;transform:scale(.92)}}
-
-/* tag LIVE no canto superior esquerdo */
-.tag{position:absolute;top:-14px;left:8px;display:flex;align-items:center;gap:6px;
+.rail{position:absolute;inset:0;border:var(--bw) solid rgba(var(--acid-rgb),.28);pointer-events:none}
+.b{position:absolute;width:18px;height:18px;box-sizing:border-box;
+  border:var(--bw) solid var(--acid);background:transparent;
+  filter:drop-shadow(0 0 calc(3px * var(--fx-int)) rgba(var(--acid-rgb),calc(.55 * var(--fx-int))));
+  animation:bpulse 2.4s ease-in-out infinite}
+.b1{top:2px;left:2px;border-right:0;border-bottom:0;transform-origin:0 0}
+.b2{top:2px;right:2px;border-left:0;border-bottom:0;transform-origin:100% 0;animation-delay:.3s}
+.b3{bottom:2px;left:2px;border-right:0;border-top:0;transform-origin:0 100%;animation-delay:.6s}
+.b4{bottom:2px;right:2px;border-left:0;border-top:0;transform-origin:100% 100%;animation-delay:.9s}
+@keyframes bpulse{50%{opacity:calc(.35 + .3 * var(--fx-int))}}
+.tag{position:absolute;top:6px;left:8px;display:flex;align-items:center;gap:5px;
  background:var(--acid);color:var(--bg);font:600 9px/1 Chakra,monospace;
- letter-spacing:.26em;padding:5px 9px 5px calc(9px + .26em);white-space:nowrap;
- clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
- box-shadow:0 0 10px rgba(var(--acid-rgb),.45)}
-.dot{width:6px;height:6px;background:var(--bg);border-radius:50%;animation:blink 1.4s infinite}
+ letter-spacing:.2em;padding:4px 8px;white-space:nowrap;
+ clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
+ box-shadow:0 0 calc(8px * var(--fx-int)) rgba(var(--acid-rgb),calc(.4 * var(--fx-int)))}
+.dot{width:5px;height:5px;background:var(--bg);border-radius:50%;animation:blink 1.4s infinite}
 @keyframes blink{50%{opacity:.25}}
-
-/* etiqueta "WEBCAM" no canto inferior direito — discreta, com glow verde */
-.label{position:absolute;bottom:-14px;right:8px;display:flex;align-items:center;gap:6px;
- color:var(--acid);font:600 9px/1 Orbitron,monospace;letter-spacing:.28em;
- padding:4px 8px;border:1px solid rgba(var(--acid-rgb),.45);background:rgba(6,8,6,.55);
- text-shadow:0 0 8px rgba(var(--acid-rgb),.5);
- clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.label{position:absolute;bottom:6px;right:8px;display:flex;align-items:center;gap:5px;
+ color:var(--acid);font:600 8px/1 Orbitron,monospace;letter-spacing:.2em;
+ padding:3px 7px;border:1px solid rgba(var(--acid-rgb),.45);background:rgba(6,8,6,.55);
+ text-shadow:0 0 calc(6px * var(--fx-int)) rgba(var(--acid-rgb),calc(.5 * var(--fx-int)));
+ clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px)}
 .label::before{content:"";width:4px;height:4px;background:var(--acid);border-radius:50%;
- box-shadow:0 0 6px var(--acid)}
-
-.f.fm-none .ring,.f.fm-none .b{display:none}
+ box-shadow:0 0 calc(5px * var(--fx-int)) var(--acid)}
+.f.fm-none .ring,.f.fm-none .rail,.f.fm-none .b{display:none}
 .f.fm-neon .ring{display:none}
-.f.fm-neon{box-shadow:inset 0 0 0 3px var(--acid),0 0 16px rgba(var(--acid-rgb),.35)}
+.f.fm-neon{box-shadow:inset 0 0 0 var(--bw) var(--acid),0 0 calc(14px * var(--fx-int)) rgba(var(--acid-rgb),calc(.35 * var(--fx-int)))}
 .f.fm-duplo .ring{display:none}
-.f.fm-duplo{box-shadow:inset 0 0 0 2px rgba(6,8,6,.9),inset 0 0 0 5px var(--acid),0 0 14px rgba(var(--acid-rgb),.3)}
+.f.fm-duplo{box-shadow:inset 0 0 0 calc(var(--bw) + 2px) rgba(6,8,6,.9),inset 0 0 0 calc(var(--bw) + 5px) var(--acid)}
 .f.fm-chapa .ring{display:none}
-.f.fm-chapa{box-shadow:inset 0 0 0 3px rgba(210,220,210,.9)}
-.f.fm-hazard .ring{display:none}
-.f.fm-fina{box-shadow:inset 0 0 0 2px rgba(var(--acid-rgb),.8)}
+.f.fm-chapa{box-shadow:inset 0 0 0 calc(var(--bw) + 1px) rgba(210,220,210,.9)}
 .f.fm-fina .ring{display:none}
-.f.fm-inner{box-shadow:inset 0 0 0 3px var(--acid),inset 0 0 18px rgba(var(--acid-rgb),.3)}
+.f.fm-fina{box-shadow:inset 0 0 0 var(--bw) rgba(var(--acid-rgb),.85)}
 .f.fm-inner .ring{display:none}
+.f.fm-inner{box-shadow:inset 0 0 0 var(--bw) var(--acid),inset 0 0 calc(16px * var(--fx-int)) rgba(var(--acid-rgb),calc(.28 * var(--fx-int)))}
 #editor{position:fixed;inset:0;z-index:40;display:none;flex-direction:column;justify-content:flex-end;
- background:linear-gradient(180deg,rgba(6,8,6,.15),rgba(6,8,6,.92));padding:10px;color:#F2FFE8;font-family:Chakra,monospace;pointer-events:none}
+ background:linear-gradient(180deg,rgba(6,8,6,.12),rgba(6,8,6,.92));padding:8px;color:#F2FFE8;font-family:Chakra,monospace;pointer-events:none}
 #editor.on{display:flex}
-#editor .box{pointer-events:auto;background:rgba(8,10,8,.96);border:1px solid var(--acid);padding:10px;max-height:70%;overflow:auto}
-#editor .etag{font:900 14px/1.2 Orbitron,sans-serif;color:var(--acid);letter-spacing:.14em;margin-bottom:8px}
-#editor .frow{display:flex;flex-wrap:wrap;gap:6px}
-#editor .fbtn{padding:6px 8px;font:700 11px Chakra,monospace;letter-spacing:.06em;cursor:pointer;
+#editor .box{pointer-events:auto;background:rgba(8,10,8,.96);border:1px solid var(--acid);padding:8px;max-height:78%;overflow:auto}
+#editor .etag{font:900 13px/1.2 Orbitron,sans-serif;color:var(--acid);letter-spacing:.12em;margin-bottom:6px}
+#editor .frow{display:flex;flex-wrap:wrap;gap:5px}
+#editor .fbtn{padding:5px 7px;font:700 10px Chakra,monospace;letter-spacing:.05em;cursor:pointer;
  background:transparent;color:var(--acid);border:1px solid rgba(var(--acid-rgb),.45)}
 #editor .fbtn.active{background:var(--acid);color:#060806}
 #editor .btn{margin-top:8px;padding:6px 10px;font:700 11px Chakra,monospace;border:0;background:var(--acid);color:#060806;cursor:pointer}
+#editor .row{display:flex;align-items:center;gap:6px;margin:6px 0}
+#editor .row label{min-width:92px;font-size:10px;letter-spacing:.08em;color:#9AA69A}
+#editor .row input[type=range]{flex:1;accent-color:var(--acid)}
+#editor .row .v{font:700 10px/1 monospace;color:var(--acid);min-width:36px}
+#editor .hint{font-size:10px;color:#9AA69A;margin:6px 0 4px}
 </style></head><body>
 <div class="f fm-comet" id="frame">
+  <div class="rail"></div>
   <div class="ring"></div>
   <div class="b b1"></div><div class="b b2"></div><div class="b b3"></div><div class="b b4"></div>
   <div class="tag"><span class="dot"></span>LIVE</div>
@@ -87,6 +91,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
     <div class="frow" id="framerow"></div>
     <div style="margin:8px 0 4px;font-size:11px;color:#9AA69A">COR</div>
     <div class="frow" id="themerow"></div>
+    <div class="hint">EFEITO / BORDA</div>
+    <div class="row"><label>INTENSIDADE</label><input id="fxint" type="range" min="0" max="100" value="70"><span class="v" id="fxintv">70%</span></div>
+    <div class="row"><label>GROSSURA</label><input id="bw" type="range" min="1" max="8" value="2"><span class="v" id="bwv">2px</span></div>
     <button class="btn" id="b-exit">SAIR (E)</button>
   </div>
 </div>
@@ -116,12 +123,12 @@ function exoBuildThemes(hostId, current, onpick){
   });
 }
 
-const KEY="exoriMoldWebcamV1";
+const KEY="exoriMoldWebcamV2";
 const FRAMES=[{id:"comet",name:"COMETA"},{id:"neon",name:"NEON"},{id:"duplo",name:"DUPLO"},{id:"chapa",name:"CHAPA"},{id:"fina",name:"FINA"},{id:"inner",name:"INTERNA"},{id:"none",name:"SEM MOLDURA"}];
-let frame="comet", theme="lime", editing=false;
-try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.frame==="hazard") frame="neon"; else if(s&&FRAMES.some(f=>f.id===s.frame)) frame=s.frame; if(s&&s.theme) theme=s.theme;}catch(e){}
+let frame="comet", theme="lime", fxint=70, bw=2, editing=false;
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.frame==="hazard") frame="neon"; else if(s&&FRAMES.some(f=>f.id===s.frame)) frame=s.frame; if(s&&s.theme) theme=s.theme; if(s&&s.fxint!=null) fxint=+s.fxint; if(s&&s.bw!=null) bw=+s.bw;}catch(e){}
 exoApplyTheme(theme);
-function persistMold(){try{localStorage.setItem(KEY,JSON.stringify({frame,theme}))}catch(e){}}
+function persistMold(){try{localStorage.setItem(KEY,JSON.stringify({frame,theme,fxint,bw}))}catch(e){}}
 function pickTheme(id){theme=id; exoApplyTheme(id); exoBuildThemes("themerow", id, pickTheme); persistMold();}
 setTimeout(function(){exoBuildThemes("themerow", theme, pickTheme)},0);
 const host=document.getElementById("framerow");
@@ -129,6 +136,12 @@ const fr=document.getElementById("frame");
 function apply(){
   FRAMES.forEach(f=>fr.classList.toggle("fm-"+f.id,f.id===frame));
   host.querySelectorAll(".fbtn").forEach(b=>b.classList.toggle("active",b.dataset.frame===frame));
+  document.documentElement.style.setProperty("--fx-int", String((fxint||0)/100));
+  document.documentElement.style.setProperty("--bw", (bw||2)+"px");
+  var a=document.getElementById("fxint"),av=document.getElementById("fxintv");
+  if(a) a.value=fxint; if(av) av.textContent=fxint+"%";
+  var b=document.getElementById("bw"),bv=document.getElementById("bwv");
+  if(b) b.value=bw; if(bv) bv.textContent=bw+"px";
 }
 FRAMES.forEach(f=>{
   const b=document.createElement("button"); b.type="button"; b.className="fbtn"; b.textContent=f.name; b.dataset.frame=f.id;
@@ -145,6 +158,10 @@ document.addEventListener("keydown",function(ev){
   if(ev.key==="e"||ev.key==="E"){ev.preventDefault();toggle();}
 });
 document.getElementById("b-exit").onclick=function(){if(editing)toggle();};
+var fi=document.getElementById("fxint");
+if(fi) fi.addEventListener("input",function(){fxint=+fi.value; persistMold(); apply();});
+var bi=document.getElementById("bw");
+if(bi) bi.addEventListener("input",function(){bw=+bi.value; persistMold(); apply();});
 apply();
 </script>
 </body></html>
