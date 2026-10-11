@@ -78,9 +78,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 #editor .hint{font-size:10px;color:#9AA69A;margin:6px 0 4px}
 
 @property --ma{syntax:'<angle>';initial-value:0deg;inherits:false}
-.head{position:absolute;left:4%;bottom:10%;display:flex;align-items:center;
+.head{position:absolute;left:50%;top:90%;display:flex;align-items:center;
  padding:0;background:transparent;cursor:default;overflow:visible;pointer-events:auto;z-index:6;
- transform:scale(var(--ms,.7));transform-origin:left bottom}
+ transform:translate(-50%,-100%) scale(var(--ms,.7));transform-origin:center bottom}
 .head .hin{position:relative;display:flex;align-items:center;padding:8px 14px 8px 12px;
  background:rgba(6,8,6,.88);overflow:hidden}
 .head .name{position:relative;font-family:Orbitron,Chakra,sans-serif;font-weight:900;font-size:16px;
@@ -161,6 +161,8 @@ body.edit .head:active{cursor:grabbing}
     <div class="hint">BADGE DE TEXTO</div>
     <div class="row"><label>TEXTO</label><input id="htxt" type="text" maxlength="48" value="EXORISERVICE - LUIZ"></div>
     <div class="row"><label>TAMANHO</label><input id="bsrng" type="range" min="40" max="160" step="5" value="70"><span class="v" id="bsval">70%</span></div>
+    <div class="row"><label>POSIÇÃO X</label><input id="bxrng" type="range" min="0" max="100" step="1" value="50"><span class="v" id="bxval">50%</span></div>
+    <div class="row"><label>POSIÇÃO Y</label><input id="byrng" type="range" min="0" max="100" step="1" value="90"><span class="v" id="byval">90%</span></div>
     <div class="hint">COR BADGE</div>
     <div class="frow" id="badgerow"></div>
     <div class="hint">COR TEXTO</div>
@@ -198,12 +200,12 @@ function exoBuildThemes(hostId, current, onpick){
   });
 }
 
-const KEY="exoriMoldWebcamV3";
+const KEY="exoriMoldWebcamV4";
 const FRAMES=[{id:"comet",name:"COMETA"},{id:"neon",name:"NEON"},{id:"duplo",name:"DUPLO"},{id:"chapa",name:"CHAPA"},{id:"fina",name:"FINA"},{id:"inner",name:"INTERNA"},{id:"none",name:"SEM MOLDURA"}];
 let frame="comet", theme="lime", fxint=70, bw=2, editing=false;
-let BADGETHEME="lime", TXTHEME="lime", HBEDGE="comet", LABEL="EXORISERVICE - LUIZ", TXFX="shine", BS=70, BX=4, BY=null;
+let BADGETHEME="lime", TXTHEME="lime", HBEDGE="comet", LABEL="EXORISERVICE - LUIZ", TXFX="shine", BS=70, BX=50, BY=90;
 try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.frame==="hazard") frame="neon"; else if(s&&FRAMES.some(f=>f.id===s.frame)) frame=s.frame; if(s&&s.theme) theme=s.theme; if(s&&s.fxint!=null) fxint=+s.fxint; if(s&&s.bw!=null) bw=+s.bw;
- if(s&&s.badgetheme) BADGETHEME=s.badgetheme; if(s&&s.txttheme) TXTHEME=s.txttheme; if(s&&s.hbedge) HBEDGE=s.hbedge; if(s&&s.label) LABEL=s.label; if(s&&s.txfx) TXFX=s.txfx; if(s&&s.bs!=null) BS=+s.bs; if(s&&s.bx!=null) BX=+s.bx; if(s&&s.by!=null) BY=+s.by;}catch(e){}
+ if(s&&s.badgetheme) BADGETHEME=s.badgetheme; if(s&&s.txttheme) TXTHEME=s.txttheme; if(s&&s.hbedge) HBEDGE=s.hbedge; if(s&&s.label) LABEL=s.label; if(s&&s.txfx) TXFX=s.txfx; if(s&&s.bs!=null) BS=+s.bs; if(s&&s.bx!=null) BX=+s.bx; if(s&&s.by!=null) BY=+s.by; if(BY==null) BY=90; if(BX==null) BX=50;}catch(e){}
 exoApplyTheme(theme);
 function exoFind(id){var t=EXO_THEMES[0]; for(var i=0;i<EXO_THEMES.length;i++) if(EXO_THEMES[i].id===id) t=EXO_THEMES[i]; return t;}
 function exoApplyBadgeTheme(id){var t=exoFind(id); var r=document.documentElement; r.style.setProperty("--badge-acid", t.acid); r.style.setProperty("--badge-rgb", t.rgb);}
@@ -249,7 +251,16 @@ function apply(){
   var bs=document.getElementById("bsrng"), bsv=document.getElementById("bsval");
   if(bs) bs.value=BS; if(bsv) bsv.textContent=BS+"%";
   var hd=document.getElementById("head");
-  if(hd){ hd.style.left=BX+"%"; if(BY!=null){ hd.style.top=BY+"%"; hd.style.bottom="auto"; } }
+  if(hd){
+    hd.style.left=BX+"%";
+    hd.style.top=BY+"%";
+    hd.style.bottom="auto";
+    hd.style.transform="translate(-50%,-100%) scale("+((BS||70)/100)+")";
+  }
+  var bxr=document.getElementById("bxrng"), bxv=document.getElementById("bxval");
+  if(bxr) bxr.value=BX; if(bxv) bxv.textContent=Math.round(BX)+"%";
+  var byr=document.getElementById("byrng"), byv=document.getElementById("byval");
+  if(byr) byr.value=BY; if(byv) byv.textContent=Math.round(BY)+"%";
   applyHb();
 }
 FRAMES.forEach(f=>{
@@ -291,17 +302,21 @@ var htxt=document.getElementById("htxt");
 if(htxt){ htxt.value=LABEL; htxt.addEventListener("input",function(){LABEL=this.value.slice(0,48); renderName();}); htxt.addEventListener("change",function(){persistMold();}); }
 var bsr=document.getElementById("bsrng");
 if(bsr) bsr.addEventListener("input",function(){BS=+this.value; persistMold(); apply();});
+var bxr=document.getElementById("bxrng");
+if(bxr) bxr.addEventListener("input",function(){BX=+this.value; persistMold(); apply();});
+var byr=document.getElementById("byrng");
+if(byr) byr.addEventListener("input",function(){BY=+this.value; persistMold(); apply();});
 var hd=document.getElementById("head");
 if(hd){
   hd.addEventListener("pointerdown",function(e){
     if(!editing)return; e.preventDefault(); e.stopPropagation();
     try{hd.setPointerCapture(e.pointerId)}catch(x){}
     var r=hd.parentElement.getBoundingClientRect();
-    var sx=e.clientX, sy=e.clientY, ox=BX, oy=(BY!=null?BY: ((r.height-hd.offsetHeight)/r.height*100));
+    var sx=e.clientX, sy=e.clientY, ox=BX, oy=BY;
     function mv(e2){
-      BX=Math.min(90,Math.max(0, ox+(e2.clientX-sx)/r.width*100));
-      BY=Math.min(90,Math.max(0, oy+(e2.clientY-sy)/r.height*100));
-      hd.style.left=BX+"%"; hd.style.top=BY+"%"; hd.style.bottom="auto";
+      BX=Math.min(100,Math.max(0, ox+(e2.clientX-sx)/r.width*100));
+      BY=Math.min(100,Math.max(0, oy+(e2.clientY-sy)/r.height*100));
+      persistMold(); apply();
     }
     function up(){ persistMold(); window.removeEventListener("pointermove",mv); window.removeEventListener("pointerup",up); }
     window.addEventListener("pointermove",mv); window.addEventListener("pointerup",up);
