@@ -271,10 +271,13 @@ function render(flashFirst){
 
 /* ─── Persistência ─── */
 let saveTimer=null;
-function persist(flash){
+function persist(flash, rebuild){
   DATA=sanitize(readForm());
   try{localStorage.setItem(KEY,JSON.stringify(DATA)); setStatus('SALVO ✓',true)}catch(e){setStatus('ERRO: '+e.message)}
-  buildRows(); render(flash!==false);
+  var ae=document.activeElement;
+  var typing=ae && ae.tagName==='INPUT' && ae.closest && ae.closest('#editor');
+  if(rebuild!==false && !typing) buildRows();
+  render(flash!==false);
 }
 function setStatus(m,ok){const s=$('status'); if(!s)return; s.textContent=m; s.className='status'+(ok?' ok':'')}
 
@@ -417,22 +420,29 @@ if($('b-clear')) $('b-clear').onclick=function(){
 };
 if($('b-exit')) $('b-exit').onclick=closeEdit;
 
-/* Auto-save enquanto edita (4 s de inatividade) */
+/* Auto-save / atualiza o quadro a cada 60 s — não reconstrói inputs (não rouba o cursor). */
 let lastJSON=JSON.stringify(DATA);
 setInterval(()=>{
   if(!editing){lastJSON=JSON.stringify(DATA); return;}
   const atual=JSON.stringify(readForm());
-  if(atual!==lastJSON){lastJSON=atual; persist(false);}
-},4000);
+  if(atual!==lastJSON){lastJSON=atual; persist(false, false);}
+},60000);
 
-/* Polling do localStorage (2 s): pega mudanças feitas em outras abas do mesmo
-   arquivo ou após reload; útil quando o OBS troca de cena. */
+/* Polling do localStorage (60 s) quando NÃO está editando. */
 setInterval(()=>{
-  if(editing) return; /* não puxa enquanto estamos editando */
+  if(editing) return;
   const ls=fromLS(); if(!ls) return;
   const next=sanitize(ls);
   if(JSON.stringify(next)!==JSON.stringify(DATA)){DATA=next; render(true)}
-},2000);
+},60000);
+
+
+document.getElementById('editor').addEventListener('focusin',function(e){
+  var el=e.target;
+  if(!el || el.tagName!=='INPUT') return;
+  if(el.type==='range' || el.type==='checkbox') return;
+  try{ el.select(); }catch(err){}
+});
 
 render(false);
 </script></body></html>
