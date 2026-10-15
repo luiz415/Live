@@ -67,58 +67,58 @@ body.edit .wrap:active{cursor:grabbing}
 
 /* ─── PAINEL DE EDIÇÃO (só aparece quando editing=true) ─── */
 :root{--acid:#B4FF00;--acid-rgb:180,255,0;--toxic:#5C9900;--bg:#060806;--txt:#F2FFE8;--txt2:#9AA69A}
-#editor{position:absolute;top:1080px;left:0;width:100%;height:780px;z-index:10;display:none;flex-direction:column;justify-content:flex-start;
+#editor{position:absolute;top:960px;left:0;width:100%;height:880px;z-index:10;display:none;flex-direction:column;justify-content:flex-start;
  background:linear-gradient(180deg,rgba(6,8,6,.98) 0%,rgba(6,8,6,.96) 100%);
  border-top:2px solid var(--acid);
- backdrop-filter:blur(4px);padding:18px 20px 12px;color:var(--txt);font-family:Chakra,monospace;overflow-y:auto;box-sizing:border-box}
+ backdrop-filter:blur(4px);padding:10px 14px 10px;color:var(--txt);font-family:Chakra,monospace;overflow-y:auto;box-sizing:border-box}
 #editor.on{display:flex}
-#editor .ebar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-#editor .etag{font-family:Orbitron;font-weight:900;font-size:36px;letter-spacing:.2em;color:var(--acid);
- background:rgba(var(--acid-rgb),.08);padding:6px 12px;border-left:4px solid var(--acid)}
-#editor .ewarn{font-size:26px;color:#FFC107;margin-left:auto}
-#editor .egrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;max-width:1100px}
-#editor .card{background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.5);border-radius:5px;padding:10px 12px}
-#editor .card h3{font-size:30px;letter-spacing:.16em;color:var(--acid);margin-bottom:10px;font-weight:700;text-transform:uppercase}
-#editor .row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-#editor .row label{font-size:26px;letter-spacing:.1em;color:var(--txt2);min-width:76px}
+#editor .ebar{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+#editor .etag{font-family:Orbitron;font-weight:900;font-size:18px;letter-spacing:.16em;color:var(--acid);
+ background:rgba(var(--acid-rgb),.08);padding:4px 8px;border-left:3px solid var(--acid)}
+#editor .ewarn{font-size:13px;color:#FFC107;margin-left:auto}
+#editor .egrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;max-width:1100px}
+#editor .card{background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.5);border-radius:5px;padding:8px 10px}
+#editor .card h3{font-size:13px;letter-spacing:.14em;color:var(--acid);margin-bottom:6px;font-weight:700;text-transform:uppercase}
+#editor .row{display:flex;gap:6px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
+#editor .row label{font-size:12px;letter-spacing:.1em;color:var(--txt2);min-width:64px}
 #editor .row input,#editor .row select{background:#060806;border:1px solid rgba(92,153,0,.55);color:var(--txt);
- outline:none;font-family:Orbitron,monospace;font-weight:900;letter-spacing:.1em;padding:9px 10px;
- border-radius:3px;font-size:34px}
-#editor .row input:focus,#editor .row select:focus{border-color:var(--acid);box-shadow:0 0 10px rgba(var(--acid-rgb),.3)}
-#editor input.vin{width:170px;text-align:center}
-#editor input.lin{width:200px;text-align:center}
-#editor input.title{width:380px}
-#editor select.quest{min-width:170px;cursor:pointer}
-#editor .erows{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:1100px}
-#editor .erows .prow{background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.4);border-radius:4px;padding:6px 8px}
-#editor .erows .prow .plbl{font-size:24px;letter-spacing:.16em;color:var(--txt2);margin-bottom:5px}
+ outline:none;font-family:Orbitron,monospace;font-weight:900;letter-spacing:.08em;padding:5px 8px;
+ border-radius:3px;font-size:16px}
+#editor .row input:focus,#editor .row select:focus{border-color:var(--acid);box-shadow:0 0 8px rgba(var(--acid-rgb),.3)}
+#editor input.vin{width:88px;text-align:center}
+#editor input.lin{width:100px;text-align:center}
+#editor input.title{width:220px}
+#editor select.quest{min-width:140px;cursor:pointer}
+#editor .erows{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:1100px}
+#editor .erows .prow{background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.4);border-radius:4px;padding:5px 6px}
+#editor .erows .prow .plbl{font-size:11px;letter-spacing:.14em;color:var(--txt2);margin-bottom:4px}
 #editor .erows .prow .pins{display:flex;gap:4px}
 #editor .erows .prow input{background:#060806;border:1px solid rgba(92,153,0,.55);color:var(--txt);
- outline:none;font-family:Orbitron,monospace;font-weight:900;padding:7px 6px;border-radius:3px;text-align:center;font-size:32px}
+ outline:none;font-family:Orbitron,monospace;font-weight:900;padding:5px 4px;border-radius:3px;text-align:center;font-size:16px}
 #editor .erows .prow input:focus{border-color:var(--acid)}
 #editor .erows .prow input.vin{width:100%}
 #editor .erows .prow input.lin{width:100%}
-#editor .efoot{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-#editor .btn{padding:16px 24px;font-family:Chakra,monospace;font-weight:700;font-size:30px;letter-spacing:.12em;
+#editor .efoot{margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#editor .btn{padding:8px 14px;font-family:Chakra,monospace;font-weight:700;font-size:14px;letter-spacing:.1em;
  background:var(--acid);color:var(--bg);border:0;cursor:pointer;border-radius:3px;
  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
 #editor .btn.ghost{background:transparent;color:var(--acid);border:1px solid var(--acid)}
 #editor .btn.danger{background:transparent;color:#FF5252;border:1px solid #FF5252}
-#editor .status{font-size:26px;color:var(--txt2);margin-left:6px}
+#editor .status{font-size:13px;color:var(--txt2);margin-left:6px}
 #editor .status.ok{color:var(--acid)}
 
-#editor .epos{margin-left:auto;display:flex;align-items:center;gap:6px;background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.5);padding:6px 10px;border-radius:3px}
-#editor .epos label{font-size:26px;letter-spacing:.12em;color:var(--txt2)}
-#editor .epos input[type=range]{width:180px;accent-color:var(--acid);cursor:pointer}
-#editor .epos button{width:28px;height:28px;border:0;background:var(--acid);color:#060806;font:700 15px/28px monospace;cursor:pointer;padding:0;border-radius:2px}
+#editor .epos{margin-left:auto;display:flex;align-items:center;gap:6px;background:rgba(14,19,14,.9);border:1px solid rgba(92,153,0,.5);padding:4px 8px;border-radius:3px}
+#editor .epos label{font-size:12px;letter-spacing:.1em;color:var(--txt2)}
+#editor .epos input[type=range]{width:160px;accent-color:var(--acid);cursor:pointer}
+#editor .epos button{width:26px;height:26px;border:0;background:var(--acid);color:#060806;font:700 14px/26px monospace;cursor:pointer;padding:0;border-radius:2px}
 #editor .epos button:active{transform:scale(.9)}
-#editor .vval{font:700 32px/1 Orbitron;color:var(--acid);min-width:58px;text-align:center}
-#editor .ehint{font-size:24px;color:var(--txt2);margin-left:auto;line-height:1.4}
+#editor .vval{font:700 16px/1 Orbitron;color:var(--acid);min-width:48px;text-align:center}
+#editor .ehint{font-size:12px;color:var(--txt2);margin-left:auto;line-height:1.4}
 #editor .ehint kbd{background:rgba(var(--acid-rgb),.1);color:var(--acid);padding:1px 6px;border-radius:2px;font-family:monospace}
-#editor .frow{display:flex;gap:8px;flex-wrap:wrap}
-#editor .fbtn{padding:14px 22px;font-size:28px;font-weight:700;letter-spacing:.1em;cursor:pointer;border-radius:4px;
+#editor .frow{display:flex;gap:6px;flex-wrap:wrap}
+#editor .fbtn{padding:6px 10px;font-size:12px;font-weight:700;letter-spacing:.08em;cursor:pointer;border-radius:4px;
  background:rgba(14,19,14,.75);color:var(--acid);border:1px solid rgba(var(--acid-rgb),.4);font-family:Chakra,monospace}
-#editor .fbtn.active{background:var(--acid);color:#060806;box-shadow:0 0 12px rgba(var(--acid-rgb),.6);border-color:var(--acid)}
+#editor .fbtn.active{background:var(--acid);color:#060806;box-shadow:0 0 10px rgba(var(--acid-rgb),.55);border-color:var(--acid)}
 </style></head><body>
 
 <div id="livezone">
@@ -140,7 +140,7 @@ body.edit .wrap:active{cursor:grabbing}
     <div class="card">
       <h3>cabeçalho</h3>
       <div class="row"><label>TÍTULO</label><input id="t-title" class="title" type="text" maxlength="14" placeholder="PARTY"></div>
-      <div class="row"><label>VISÃO</label><input id="t-view" class="vin" type="text" maxlength="2" placeholder="··"><span style="font-size:22px;color:var(--txt2)">2 letras</span></div>
+      <div class="row"><label>VISÃO</label><input id="t-view" class="vin" type="text" maxlength="2" placeholder="··"><span style="font-size:12px;color:var(--txt2)">2 letras</span></div>
       <div class="row"><label>QUEST</label>
         <select id="t-quest" class="quest"><option value="sw">SOUL WAR</option><option value="sa">SANGUINE</option></select>
       </div>
@@ -154,13 +154,13 @@ body.edit .wrap:active{cursor:grabbing}
       <div class="row" style="margin-top:10px"><label>COR</label></div>
       <div class="frow" id="themerow"></div>
       <div class="row" style="margin-top:10px"><label>GROSSURA</label><input id="t-fw" type="range" min="1" max="12" step="1" value="2" style="width:180px"><span class="vval" id="fwval">2px</span></div>
-      <div style="font-size:22px;color:var(--txt2);margin-top:8px">Escolha um estilo e a grossura da moldura.</div>
+      <div style="font-size:12px;color:var(--txt2);margin-top:8px">Escolha um estilo e a grossura da moldura.</div>
     </div>
   </div>
   <div class="card" style="margin-top:8px;max-width:900px">
     <h3>jogadores (até 5)</h3>
     <div class="erows" id="erows"></div>
-    <div style="font-size:22px;color:var(--txt2);margin-top:6px">VOC = 2 letras; LV = número (até 4 dígitos).</div>
+    <div style="font-size:12px;color:var(--txt2);margin-top:6px">VOC = 2 letras; LV = número (até 4 dígitos).</div>
   </div>
   <div class="efoot">
     <button class="btn" id="b-save">SALVAR</button>
