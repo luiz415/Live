@@ -51,8 +51,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
  display:inline-block;vertical-align:middle;padding:.12em .62em .12em calc(.62em + .12em);letter-spacing:.1em;
  clip-path:polygon(.4em 0,100% 0,100% calc(100% - .4em),calc(100% - .4em) 100%,0 100%,0 .4em);
  box-shadow:0 0 .5em rgba(var(--acid-rgb),.5)}
-.roll .it{flex:0 0 auto;white-space:nowrap}
-.roll .it>b:first-of-type{color:var(--acid);margin-right:.35em}
+.roll .it,.roll .fitem{display:inline-flex;align-items:baseline;flex:0 0 auto;white-space:nowrap;gap:.42em}
+.roll .it>b:first-of-type{color:var(--acid)}
+.roll .it .mid,.roll .it strong,.roll .it b,.roll .fitem .mid,.roll .fitem strong,.roll .fitem b{white-space:pre}
 .roll strong{font-weight:600;color:#F2FFE8;text-shadow:0 .08em .25em rgba(0,0,0,.95)}
 .roll strong.hi-soul{color:#9AA69A;text-shadow:0 0 6px rgba(154,166,154,.6),0 .08em .25em rgba(0,0,0,.95)}
 .roll strong.hi-sang{color:#e85858;text-shadow:0 0 10px rgba(160,20,20,.85),0 .08em .25em rgba(0,0,0,.95)}
@@ -120,7 +121,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
  clip-path:none;border-radius:2px;min-width:48px}
 #editor .pitem .preview{grid-column:1/-1;font-size:11px;color:var(--txt2);padding:4px 6px;background:rgba(0,0,0,.3);
  border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#editor .pitem .preview b{color:var(--acid);margin-right:.35em}
+#editor .pitem .preview{display:inline-flex;align-items:baseline;gap:.42em;flex-wrap:wrap}
+#editor .pitem .preview b{color:var(--acid)}
+#editor .pitem .preview .mid,#editor .pitem .preview strong,#editor .pitem .preview b{white-space:pre}
 #editor .pitem .preview em{font-style:normal;font-size:.85em;color:var(--toxic);margin:0 .5em}
 #editor .pitem .preview strong.hi-soul{color:#9AA69A}
 #editor .pitem .preview strong.hi-sang{color:#e85858}
@@ -266,15 +269,20 @@ FXS.forEach(function(f){
 });
 
 function hiClass(theme){return theme==='soul'?'hi-soul':theme==='sang'?'hi-sang':'hi-acid'}
+function keepSpaces(s){
+  return String(s==null?'':s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/ /g,'&nbsp;');
+}
 function renderItemHTML(it){
-  var sep=' <em>•</em> ';
-  var h='<span class="it">'+(it.emoji||'')+'&nbsp;&nbsp;<b>'+(it.title||'')+'</b>';
-  if(it.mid)h+=sep+it.mid;
-  if(it.hi)h+=' <strong class="'+hiClass(it.hitheme||'acid')+'">'+it.hi+'</strong>';
-  if(it.hi2)h+=sep+'<strong class="'+hiClass(it.hitheme2||'acid')+'">'+it.hi2+'</strong>';
-  if(it.cmd)h+=' <b>→</b> <i>'+it.cmd+'</i>';
-  h+='</span>';
-  return h;
+  var bits=[];
+  if(it.emoji) bits.push('<span class="emj">'+keepSpaces(it.emoji)+'</span>');
+  if(it.title) bits.push('<b>'+keepSpaces(it.title)+'</b>');
+  if(it.mid) bits.push('<span class="mid">'+keepSpaces(it.mid)+'</span>');
+  if(it.hi) bits.push('<strong class="'+hiClass(it.hitheme||'acid')+'">'+keepSpaces(it.hi)+'</strong>');
+  if(it.hi2) bits.push('<strong class="'+hiClass(it.hitheme2||'acid')+'">'+keepSpaces(it.hi2)+'</strong>');
+  if(it.cmd) bits.push('<span class="arr">→</span><i>'+keepSpaces(it.cmd)+'</i>');
+  return '<span class="it">'+bits.join('')+'</span>';
 }
 function sepHTML(){return '<span class="sep"><span class="sd"></span><span class="dm"></span><span class="sd"></span></span>'}
 
