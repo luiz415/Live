@@ -100,6 +100,26 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 @keyframes hbp{50%{box-shadow:inset 0 0 0 2px var(--badge-acid),0 0 24px rgba(var(--badge-rgb),.9)}}
 .head.hb-fina .hin{box-shadow:inset 0 0 0 1px var(--badge-acid)}
 .head.hb-none .hin{box-shadow:none}
+
+.rlogo{position:fixed;left:82%;top:10%;width:16vw;max-width:420px;height:auto;z-index:8;
+ pointer-events:none;user-select:none;background:transparent;transform:translate(-50%,-50%);
+ filter:drop-shadow(0 2px 8px rgba(0,0,0,.55))}
+.rlogo.off{display:none!important}
+.editing .rlogo{pointer-events:auto;cursor:grab;outline:1px dashed rgba(var(--acid-rgb),.7);outline-offset:6px}
+.editing .rlogo:active{cursor:grabbing}
+.rbar{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:none;z-index:51;
+ align-items:center;gap:8px;background:rgba(6,8,6,.95);border:1px solid var(--acid);
+ padding:8px 12px;flex-wrap:wrap;max-width:96vw;white-space:normal}
+.editing .rbar{display:flex}
+.rbar .etag{font:800 11px/1 Chakra,monospace;letter-spacing:.18em;color:var(--acid);margin-right:6px}
+.rbar .lbl{color:#9AA69A;font-size:11px;letter-spacing:.05em}
+.rbar button{width:32px;height:32px;border:0;background:var(--acid);color:#060806;
+ font:700 17px/32px monospace;cursor:pointer;padding:0}
+.rbar button.rst{width:auto;padding:0 12px;font:700 11px/32px monospace;letter-spacing:.1em}
+.rbar button.off{background:transparent;color:var(--acid);border:1px solid var(--acid)}
+.rbar input[type=range]{width:140px;accent-color:var(--acid);cursor:pointer}
+.rbar .val{color:var(--acid);font:600 13px/1 monospace;min-width:44px;text-align:center}
+
 .editing .head{cursor:grab;outline:2px dashed rgba(var(--acid-rgb),.9);outline-offset:4px;animation:none}
 .editing .head:active{cursor:grabbing}
 .mbar{position:fixed;top:12px;left:50%;transform:translateX(-50%);display:none;z-index:50;
@@ -145,6 +165,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-fam
 <div class="edge ef-neon" id="edge"></div>
 <div class="head hb-comet" id="head">
   <div class="hin"><div class="name tx-shine" id="hname"><span class="n1">EXORISERVICE</span><span class="hsep"></span><span class="n2">LUIZ</span></div></div>
+</div>
+<img class="rlogo" id="rlogo" alt="RubinOT" src="rubinot-logo.png" draggable="false">
+<div class="rbar" id="rbar">
+  <span class="etag">LOGO RUBINOT</span>
+  <button type="button" class="rst" id="rton">LIGADA</button>
+  <span class="lbl">TAMANHO</span>
+  <button id="rsub" type="button">−</button><input id="rrng" type="range" min="6" max="40" step="1" value="16"><button id="radd" type="button">+</button>
+  <span class="val" id="rval">16vw</span>
+  <span class="lbl">OPACIDADE</span>
+  <button id="rasub" type="button">−</button><input id="rarng" type="range" min="10" max="100" step="5" value="100"><button id="raadd" type="button">+</button>
+  <span class="val" id="raval">100%</span>
+  <span class="lbl">POS X</span>
+  <input id="rxrng" type="range" min="0" max="100" step="1" value="82">
+  <span class="val" id="rxval">82%</span>
+  <span class="lbl">POS Y</span>
+  <input id="ryrng" type="range" min="0" max="100" step="1" value="10">
+  <span class="val" id="ryval">10%</span>
+  <span class="lbl">· arraste a logo = mover</span>
 </div>
 <div class="mbar">
   <span class="lbl">TAMANHO</span>
@@ -257,7 +295,7 @@ function sc(){return parseFloat(getComputedStyle(h).getPropertyValue('--ms'))||1
 function apply(){if(!S)return;h.style.left=S.x+'%';h.style.top=S.y+'%';h.style.bottom='auto';
  h.style.setProperty('--ms',S.s);applyEdge();applyHb()}
 function pct(){return{x:h.offsetLeft/innerWidth*100,y:h.offsetTop/innerHeight*100}}
-function save(){S={x:pct().x,y:pct().y,s:sc(),edge:EDGE,ew:EW,theme:THEME,badgetheme:BADGETHEME,txttheme:TXTHEME,hbedge:HBEDGE,label:LABEL,txfx:TXFX};try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function save(){S={x:pct().x,y:pct().y,s:sc(),edge:EDGE,ew:EW,theme:THEME,badgetheme:BADGETHEME,txttheme:TXTHEME,hbedge:HBEDGE,label:LABEL,txfx:TXFX,logoOn:LOGO.on,logoS:LOGO.s,logoA:LOGO.a,logoX:LOGO.x,logoY:LOGO.y};try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function syncUI(){var p=Math.round(sc()*100);rng.value=p;val.textContent=p+'%'}
 function setS(v){v=Math.min(200,Math.max(60,v));h.style.setProperty('--ms',(v/100).toFixed(2));syncUI();save()}
 
@@ -365,6 +403,68 @@ function hold(id,fn){var b=document.getElementById(id),iv=null;
  ['pointerup','pointerleave','pointercancel'].forEach(function(ev){b.addEventListener(ev,stop)})}
 hold('msub',function(){setS(sc()*100-5)});
 hold('madd',function(){setS(sc()*100+5)});
+
+var LOGO={on:true,s:16,a:100,x:82,y:10};
+if(S){
+  if(typeof S.logoOn==='boolean') LOGO.on=S.logoOn;
+  if(S.logoS) LOGO.s=+S.logoS;
+  if(S.logoA) LOGO.a=+S.logoA;
+  if(S.logoX!=null) LOGO.x=+S.logoX;
+  if(S.logoY!=null) LOGO.y=+S.logoY;
+}
+var rlogo=document.getElementById('rlogo');
+function applyLogo(){
+  if(!rlogo)return;
+  rlogo.classList.toggle('off', !LOGO.on);
+  rlogo.style.left=LOGO.x+'%';
+  rlogo.style.top=LOGO.y+'%';
+  rlogo.style.width=LOGO.s+'vw';
+  rlogo.style.opacity=(LOGO.a/100).toFixed(2);
+  var ton=document.getElementById('rton');
+  if(ton){ ton.textContent=LOGO.on?'LIGADA':'DESLIGADA'; ton.classList.toggle('off', !LOGO.on); }
+  var el;
+  el=document.getElementById('rrng'); if(el) el.value=LOGO.s;
+  el=document.getElementById('rval'); if(el) el.textContent=LOGO.s+'vw';
+  el=document.getElementById('rarng'); if(el) el.value=LOGO.a;
+  el=document.getElementById('raval'); if(el) el.textContent=LOGO.a+'%';
+  el=document.getElementById('rxrng'); if(el) el.value=LOGO.x;
+  el=document.getElementById('rxval'); if(el) el.textContent=Math.round(LOGO.x)+'%';
+  el=document.getElementById('ryrng'); if(el) el.value=LOGO.y;
+  el=document.getElementById('ryval'); if(el) el.textContent=Math.round(LOGO.y)+'%';
+}
+function setLogoS(v){LOGO.s=Math.max(6,Math.min(40,+v));applyLogo();save()}
+function setLogoA(v){LOGO.a=Math.max(10,Math.min(100,+v));applyLogo();save()}
+function setLogoX(v){LOGO.x=Math.max(0,Math.min(100,+v));applyLogo();save()}
+function setLogoY(v){LOGO.y=Math.max(0,Math.min(100,+v));applyLogo();save()}
+document.getElementById('rton').onclick=function(){LOGO.on=!LOGO.on;applyLogo();save()};
+document.getElementById('rrng').addEventListener('input',function(){setLogoS(+this.value)});
+document.getElementById('rarng').addEventListener('input',function(){setLogoA(+this.value)});
+document.getElementById('rxrng').addEventListener('input',function(){setLogoX(+this.value)});
+document.getElementById('ryrng').addEventListener('input',function(){setLogoY(+this.value)});
+hold('rsub',function(){setLogoS(LOGO.s-1)});
+hold('radd',function(){setLogoS(LOGO.s+1)});
+hold('rasub',function(){setLogoA(LOGO.a-5)});
+hold('raadd',function(){setLogoA(LOGO.a+5)});
+if(rlogo){
+  rlogo.addEventListener('pointerdown',function(e){
+    if(!edit)return;e.preventDefault();e.stopPropagation();
+    try{rlogo.setPointerCapture(e.pointerId)}catch(x){}
+    var sx=e.clientX,sy=e.clientY,ox=LOGO.x,oy=LOGO.y;
+    function mv(e2){
+      LOGO.x=Math.max(0,Math.min(100, ox+(e2.clientX-sx)/innerWidth*100));
+      LOGO.y=Math.max(0,Math.min(100, oy+(e2.clientY-sy)/innerHeight*100));
+      applyLogo();
+    }
+    function up(){save();removeEventListener('pointermove',mv);removeEventListener('pointerup',up)}
+    addEventListener('pointermove',mv);addEventListener('pointerup',up);
+  });
+  rlogo.addEventListener('wheel',function(e){
+    if(!edit)return;e.preventDefault();
+    setLogoS(LOGO.s+(e.deltaY<0?1:-1));
+  },{passive:false});
+}
+applyLogo();
+
 document.getElementById('mrst').onclick=function(){try{localStorage.removeItem(KEY)}catch(x){}location.reload()};
 h.addEventListener('pointerdown',function(e){
  if(!edit)return;e.preventDefault();try{h.setPointerCapture(e.pointerId)}catch(x){}
